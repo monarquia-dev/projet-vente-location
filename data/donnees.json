@@ -30,7 +30,7 @@
       "titre": "Appartement Moderne 3 pièces",
       "categorie": "location",
       "prix": 30000,
-      "image": "images/appartement-paris.jpg",
+      "image": "https://th.bing.com/th/id/OIP.KlKCUrEmQA3gSzETGiHuswHaEK?w=326&h=183&c=7&r=0&o=7&pid=1.7&rm=3",
       "description": "Appartement neuf au cœur de Paris",
       "caracteristiques": ["80m²", "3 chambres", "Balcon", "Ascenseur"],
       "disponible": true,
@@ -54,5 +54,6 @@
   "lastUpdate": "2024-01-01T10:00:00.000Z"
 
 }
+
 
 
