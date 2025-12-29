@@ -17,7 +17,7 @@
       "titre": "Mercedes",
       "categorie": "location",
       "prix": 80000000,
-      "image": "https://www.carscoops.com/wp-content/uploads/2023/02/Next-Gen-Toyota-Corolla-Render-main.jpg",
+      "image": "https://tse1.mm.bing.net/th/id/OIP.vmagHfgIczsTWNvEWcvGPAHaEo?rs=1&pid=ImgDetMain&o=7&rm=3",
       "description": "Location mensuelle avec option d'achat.",
       "caracteristiques": ["Diesel", "Automatique", "Toit ouvrant"],
       "disponible": true,
@@ -54,6 +54,7 @@
   "lastUpdate": "2024-01-01T10:00:00.000Z"
 
 }
+
 
 
 
