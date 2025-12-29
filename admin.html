@@ -1162,13 +1162,6 @@
             const container = document.getElementById('vehicules-list');
             if (!container) return;
             
-            // Données de démo
-            const vehicules = [
-                { id: 1, titre: 'Mercedes GLE 53', prix: 80000000, type: 'SUV', disponible: true, image: 'https://images.unsplash.com/photo-1555212697-194d092e3b8f' },
-                { id: 2, titre: 'Toyota RAV4', prix: 35000000, type: 'SUV', disponible: true, image: 'https://images.unsplash.com/photo-1553440569-bcc63803a83d' },
-                { id: 3, titre: 'BMW X5', prix: 65000000, type: 'SUV', disponible: false, image: 'https://images.unsplash.com/photo-1555215695-3004980ad54e' }
-            ];
-            
             container.innerHTML = vehicules.map(v => `
                 <div class="item-card">
                     <div style="display: flex; align-items: center; gap: 20px; flex: 1;">
@@ -1200,12 +1193,6 @@
         function loadLocationsAdmin() {
             const container = document.getElementById('locations-list');
             if (!container) return;
-            
-            // Données de démo
-            const locations = [
-                { id: 4, titre: 'Range Rover Velar', prix: 50000, type: 'SUV', disponible: true, image: 'https://images.unsplash.com/photo-1544636331-e26879cd4d9b' },
-                { id: 5, titre: 'Audi Q7', prix: 45000, type: 'SUV', disponible: true, image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70' }
-            ];
             
             container.innerHTML = locations.map(l => `
                 <div class="item-card">
@@ -1239,11 +1226,6 @@
             const container = document.getElementById('residences-list');
             if (!container) return;
             
-            // Données de démo
-            const residences = [
-                { id: 6, titre: 'Appartement moderne', prix: 25000, localisation: 'Cocody', disponible: true, image: 'https://images.unsplash.com/photo-1518780664697-55e3ad937233' },
-                { id: 7, titre: 'Villa avec piscine', prix: 75000, localisation: 'Riviera', disponible: false, image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750' }
-            ];
             
             container.innerHTML = residences.map(r => `
                 <div class="item-card">
@@ -1481,3 +1463,4 @@
     </script>
 </body>
 </html>
+
