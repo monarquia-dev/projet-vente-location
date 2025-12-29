@@ -1,0 +1,1595 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil - Vente & Location</title>
+  
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Styles CSS pour le footer */
+        .site-footer {
+            background: var(--dark, #1a1a2e);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--accent, #00b4d8);
+        }
+
+        .footer-col p {
+            color: #b3b3cc;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            background: var(--accent, #00b4d8);
+            color: var(--dark, #1a1a2e);
+            transform: translateY(-3px);
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #b3b3cc;
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent, #00b4d8);
+        }
+
+        .footer-links i {
+            width: 20px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #b3b3cc;
+            font-size: 0.9rem;
+        }
+
+        /* WhatsApp Float */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 1000;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+        }
+        
+        /* Services Grid - Mise à jour pour ressembler à l'image */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 8px;
+            padding: 30px 25px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            border: 1px solid #eaeaea;
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border-color: var(--primary, #00b4d8);
+        }
+
+        .service-icon {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            color: var(--primary, #00b4d8);
+        }
+
+        .service-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .service-card p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* Featured Sections - Mise à jour */
+        .featured-section {
+            background: #f8f9fa;
+            padding: 60px 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+
+        .featured-section h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #333;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .bg-light {
+            background: white;
+        }
+
+        .text-center {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        /* Hero Section - Mise à jour */
+        .hero {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .business-hours {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 30px auto;
+            max-width: 500px;
+        }
+
+        .business-hours p {
+            margin: 5px 0;
+            font-size: 1rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--primary, #00b4d8);
+            color: white;
+            border: 2px solid var(--primary, #00b4d8);
+        }
+
+        .btn-primary:hover {
+            background: transparent;
+            color: var(--primary, #00b4d8);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #1a1a2e;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary, #00b4d8);
+            border: 2px solid var(--primary, #00b4d8);
+            padding: 10px 25px;
+        }
+
+        .btn-outline:hover {
+            background: var(--primary, #00b4d8);
+            color: white;
+        }
+
+        /* Statistiques */
+        .stats-section {
+            padding: 60px 0;
+            background: white;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 30px 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card i {
+            font-size: 2.5rem;
+            color: var(--primary, #00b4d8);
+            margin-bottom: 15px;
+        }
+
+        .stat-card h3 {
+            font-size: 2.5rem;
+            margin: 10px 0;
+            color: #333;
+        }
+
+        .stat-card p {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        /* Items Grid pour véhicules et résidences */
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .item-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .item-image {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .item-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 5px 15px;
+            border-radius: 4px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .item-badge.vente {
+            background: #28a745;
+        }
+
+        .item-badge.location {
+            background: #007bff;
+        }
+
+        .item-content {
+            padding: 20px;
+        }
+
+        .item-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .item-price {
+            font-size: 1.5rem;
+            color: var(--primary, #00b4d8);
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .item-desc {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 10px 0;
+        }
+
+        .item-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .item-features span {
+            background: #f8f9fa;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: #555;
+        }
+
+        .btn-small {
+            padding: 8px 20px;
+            font-size: 0.9rem;
+            background: var(--primary, #00b4d8);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .btn-small:hover {
+            background: #0099c7;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary, #00b4d8);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: var(--primary, #00b4d8);
+        }
+
+        .admin-btn {
+            background: #f8f9fa;
+            padding: 8px 15px;
+            border-radius: 6px;
+            color: #666;
+        }
+
+        .admin-btn:hover {
+            background: var(--primary, #00b4d8);
+            color: white;
+        }
+
+        /* Section Title */
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .section-title p {
+            color: #666;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section {
+            padding: 80px 0;
+        }
+        /* Variables CSS */
+        :root {
+            --primary: #1a3a8f;
+            --secondary: #2a5caa;
+            --accent: #ffcc00;
+            --dark: #0a0f2b;
+            --light: #f8f9fa;
+            --success: #28a745;
+            --danger: #dc3545;
+            --shadow: 0 5px 15px rgba(0,0,0,0.1);
+            --radius: 10px;
+        }
+
+        /* Reset et base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .site-header {
+            background: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .logo-text p {
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+
+        .main-nav ul {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .main-nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            padding: 8px 0;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .main-nav a:hover,
+        .main-nav a.active {
+            color: var(--accent);
+        }
+
+        .main-nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent);
+        }
+
+        /* Hero Banner */
+        .hero-banner {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 60px 20px;
+            margin-bottom: 50px;
+        }
+
+        .hero-banner h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        .hero-banner p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+
+        .business-hours {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: var(--radius);
+            display: inline-block;
+            margin: 30px auto;
+        }
+
+        .business-hours p {
+            margin: 5px 0;
+            font-size: 1rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 30px;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--dark);
+        }
+
+        .btn-primary:hover {
+            background: #ffd633;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 204, 0, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-outline:hover {
+            background: white;
+            color: var(--dark);
+            transform: translateY(-3px);
+        }
+
+        /* Sections */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            color: #666;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        .service-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .service-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Featured Sections */
+        .featured-section {
+            background: #f9f9f9;
+            padding: 80px 0;
+        }
+
+        .text-center {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        /* Items Grid */
+        .vehicles-grid,
+        .residences-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        /* Item Cards */
+        .vehicle-card,
+        .residence-card {
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .vehicle-card:hover,
+        .residence-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .vehicle-image,
+        .residence-image {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .vehicle-image img,
+        .residence-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .vehicle-card:hover .vehicle-image img,
+        .residence-card:hover .residence-image img {
+            transform: scale(1.1);
+        }
+
+        .vehicle-badge,
+        .residence-badge,
+        .vehicle-status,
+        .residence-status {
+            position: absolute;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .vehicle-badge,
+        .residence-badge {
+            top: 15px;
+            left: 15px;
+            background: var(--primary);
+            color: white;
+        }
+
+        .vehicle-status,
+        .residence-status {
+            top: 15px;
+            right: 15px;
+            background: var(--accent);
+            color: var(--dark);
+        }
+
+        .vehicle-info,
+        .residence-info {
+            padding: 20px;
+        }
+
+        .vehicle-info h3,
+        .residence-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .vehicle-details,
+        .residence-details {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .vehicle-details i,
+        .residence-details i {
+            margin-right: 5px;
+            color: var(--primary);
+        }
+
+        .vehicle-price,
+        .residence-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 10px 0;
+        }
+
+        .vehicle-description {
+            color: #666;
+            font-size: 0.95rem;
+            margin: 10px 0;
+            line-height: 1.5;
+        }
+
+        .residence-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin: 10px 0;
+        }
+
+        .feature-tag {
+            background: #f0f0f0;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            color: #555;
+        }
+
+        .vehicle-actions,
+        .residence-actions {
+            padding: 0 20px 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .vehicle-actions .btn,
+        .residence-actions .btn {
+            flex: 1;
+            justify-content: center;
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        /* Insurance Section */
+        .insurance-section {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .insurance-section .section-title h2,
+        .insurance-section .section-title p {
+            color: white;
+        }
+
+        .insurance-section .btn {
+            background: white;
+            color: var(--primary);
+            margin-top: 20px;
+        }
+
+        .insurance-section .btn:hover {
+            background: #f0f0f0;
+        }
+
+        /* Footer */
+        .site-footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+
+        .footer-col p {
+            color: #b3b3cc;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            background: var(--accent);
+            color: var(--dark);
+            transform: translateY(-3px);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #b3b3cc;
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links i {
+            width: 20px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #b3b3cc;
+            font-size: 0.9rem;
+        }
+
+        /* WhatsApp Float */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 1000;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            grid-column: 1 / -1;
+        }
+
+        .loading i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .loading p {
+            color: #666;
+        }
+
+        .no-items {
+            text-align: center;
+            padding: 60px 20px;
+            grid-column: 1 / -1;
+        }
+
+        .no-items i {
+            font-size: 3rem;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+
+        .no-items h3 {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .no-items p {
+            color: #999;
+        }
+
+        /* Animation */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .main-nav ul {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero-banner h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero-banner p {
+                font-size: 1rem;
+            }
+            
+            .hero-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .vehicles-grid,
+            .residences-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-banner {
+                padding: 40px 20px;
+                min-height: 60vh;
+            }
+            
+            .section {
+                padding: 50px 0;
+            }
+            
+            .vehicle-actions,
+            .residence-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+   <!-- Header -->
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">🚗🏠</div>
+                    <div class="logo-text">
+                        <h1 id="siteName">GRÂCE AUTO SERVICE-CI-BKT</h1>
+                        <p>Vente • Location • Assurance</p>
+                    </div>
+                </div>
+                
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="index.html" class="active">Accueil</a></li>
+                        <li><a href="vehicules.html">Véhicules</a></li>
+                        <li><a href="residences.html">Résidences</a></li>
+                        <li><a href="location.html">Location</a></li>
+                        <li><a href="reservation.html">Réservation</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="hero-banner" id="heroBanner">
+        <div class="container">
+            <h1 id="heroTitle">Vente et location de voitures • Conseiller automobile • Vente d'assurance voyage • Résidence meublée • Et divers</h1>
+            <p id="heroSubtitle">Découvrez notre sélection exclusive de véhicules et résidences pour tous vos besoins. Qualité, confort et service premium.</p>
+            
+            <div class="business-hours">
+                <p id="businessHours1">Ouvert du Lundi au Vendredi de 8h à 18h</p>
+                <p id="businessHours2">Samedi de 8h à 13h</p>
+            </div>
+            
+            <div class="hero-actions">
+                <a href="#services" class="btn btn-primary">
+                    <i class="fas fa-arrow-down"></i> Découvrir nos  
+                </a>
+                <a href="reservation.html" class="btn btn-outline">
+                    <i class="fas fa-calendar-check"></i> Réserver maintenant
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistiques -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-car"></i>
+                    <h3 id="count-vehicules">0</h3>
+                    <p>Véhicules en vente</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-car-side"></i>
+                    <h3 id="count-locations">0</h3>
+                    <p>Véhicules en location</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-home"></i>
+                    <h3 id="count-residences">0</h3>
+                    <p>Résidences disponibles</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>100%</h3>
+                    <p>Satisfaction client</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nos Services Premium</h2>
+                <p>Des solutions complètes pour tous vos besoins</p>
+            </div>
+            
+            <div class="services-grid">
+                <a href="vehicules.html" class="service-card">
+                    <div class="service-icon">🚗</div>
+                    <h3>Vente de Véhicules</h3>
+                    <p>Large choix de véhicules neufs et d'occasion de qualité premium</p>
+                </a>
+                
+                <a href="location.html" class="service-card">
+                    <div class="service-icon">🔑</div>
+                    <h3>Location de Véhicules</h3>
+                    <p>Location courte et longue durée avec ou sans chauffeur</p>
+                </a>
+                
+                <a href="residences.html" class="service-card">
+                    <div class="service-icon">🏠</div>
+                    <h3>Location de Résidences</h3>
+                    <p>Appartements et villas meublés pour vos séjours à Abidjan</p>
+                </a>
+                
+                <a href="#insurance" class="service-card">
+                    <div class="service-icon">✈️</div>
+                    <h3>Assurance Voyage</h3>
+                    <p>Couvertures adaptées à tous vos déplacements</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Véhicules en vedette -->
+    <section class="featured-section">
+        <div class="container">
+            <h2>Véhicules en Vedette</h2>
+            <div class="items-grid" id="featured-vehicules">
+                <!-- Chargé dynamiquement -->
+            </div>
+            <div class="text-center">
+                <a href="vehicules.html" class="btn btn-outline">Voir tous les véhicules</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Résidences en vedette -->
+    <section class="featured-section bg-light">
+        <div class="container">
+            <h2>Résidences en Vedette</h2>
+            <div class="items-grid" id="featured-residences">
+                <!-- Chargé dynamiquement -->
+            </div>
+            <div class="text-center">
+                <a href="residences.html" class="btn btn-outline">Voir toutes les résidences</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Assurance -->
+    <section id="insurance" class="insurance-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Assurance Voyage</h2>
+                <p>Protégez vos déplacements avec nos solutions adaptées</p>
+            </div>
+            
+            <div class="text-center">
+                <p style="max-width: 600px; margin: 0 auto 30px;">
+                    Nous proposons des assurances voyage complètes pour couvrir tous vos déplacements, 
+                    que ce soit pour le travail ou les loisirs.
+                </p>
+                
+                <a href="reservation.html" class="btn" style="background: white; color: var(--primary);">
+                    <i class="fas fa-shield-alt"></i> Demander un devis
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3 id="footerSiteName">GRÂCE AUTO SERVICE</h3>
+                    <p id="footerDescription">Votre partenaire de confiance pour la vente et location de véhicules, résidences et assurance voyage en Côte d'Ivoire.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://wa.me/2250748735115" class="social-link" target="_blank">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="mailto:graceautoservice88@gmail.com" class="social-link">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li>
+                            <a href="#">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Abidjan, Côte d'Ivoire</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="tel:+2250748735115" id="footerPhone1">
+                                <i class="fas fa-phone"></i>
+                                <span>+225 0748735115</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="tel:+2250141941694" id="footerPhone2">
+                                <i class="fas fa-phone"></i>
+                                <span>+225 0141941694</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="mailto:graceautoservice88@gmail.com" id="footerEmail">
+                                <i class="fas fa-envelope"></i>
+                                <span>graceautoservice88@gmail.com</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Liens Rapides</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Accueil</a></li>
+                        <li><a href="vehicules.html"><i class="fas fa-chevron-right"></i> Véhicules</a></li>
+                        <li><a href="residences.html"><i class="fas fa-chevron-right"></i> Résidences</a></li>
+                        <li><a href="location.html"><i class="fas fa-chevron-right"></i> Location</a></li>
+                        <li><a href="reservation.html"><i class="fas fa-chevron-right"></i> Réservation</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Horaires</h3>
+                    <ul class="footer-links">
+                        <li>
+                            <a href="#">
+                                <i class="fas fa-clock"></i>
+                                <span id="footerHours1">Lun-Ven: 8h-18h</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fas fa-clock"></i>
+                                <span id="footerHours2">Samedi: 8h-13h</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fas fa-clock"></i>
+                                <span>Dimanche: Fermé</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; <span id="currentYear">2025</span> <span id="copyrightSiteName">GRÂCE AUTO SERVICE-CI-BRT</span></p>
+            </div>
+        </div>
+    </footer>
+
+ <!-- Dans index.html -->
+<script src="js/database.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🚀 Initialisation de la page d\'accueil...');
+    
+    // Mettre à jour l'année en cours
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+    
+    // Initialiser les paramètres du site
+    initializeSiteSettings();
+    
+    // Fonction pour initialiser les paramètres
+    function initializeSiteSettings() {
+        const settings = dataManager.getSettings();
+        console.log('🔧 Paramètres chargés:', settings);
+        
+        // Mettre à jour le nom du site
+        const siteNameElements = document.querySelectorAll('#siteName, #footerSiteName, #copyrightSiteName');
+        siteNameElements.forEach(el => {
+            if (el) el.textContent = settings.name || 'GRÂCE AUTO SERVICE-CI-BKT';
+        });
+        
+        // Mettre à jour la description
+        const descElements = document.querySelectorAll('#footerDescription, #pageDescription');
+        descElements.forEach(el => {
+            if (el) el.textContent = settings.description || 'Vente • Location • Assurance';
+        });
+        
+        // Mettre à jour les téléphones
+        const phone1 = document.getElementById('footerPhone1');
+        const phone2 = document.getElementById('footerPhone2');
+        
+        if (phone1 && settings.contactPhone) {
+            phone1.href = `tel:${settings.contactPhone.replace(/\s+/g, '')}`;
+            const span = phone1.querySelector('span');
+            if (span) span.textContent = settings.contactPhone;
+        }
+        
+        if (phone2 && settings.otherPhones && settings.otherPhones[0]) {
+            phone2.href = `tel:${settings.otherPhones[0].replace(/\s+/g, '')}`;
+            const span = phone2.querySelector('span');
+            if (span) span.textContent = settings.otherPhones[0];
+        }
+        
+        // Mettre à jour l'email
+        const email = document.getElementById('footerEmail');
+        if (email && settings.contactEmail) {
+            email.href = `mailto:${settings.contactEmail}`;
+            const span = email.querySelector('span');
+            if (span) span.textContent = settings.contactEmail;
+        }
+        
+        // Mettre à jour les horaires
+        const hours1 = document.getElementById('footerHours1');
+        const hours2 = document.getElementById('footerHours2');
+        
+        if (hours1 && settings.businessHours && settings.businessHours.weekday) {
+            hours1.textContent = settings.businessHours.weekday;
+        }
+        
+        if (hours2 && settings.businessHours && settings.businessHours.saturday) {
+            hours2.textContent = settings.businessHours.saturday;
+        }
+    }
+    
+    // Fonction pour charger les données de la page d'accueil
+    function loadHomePageData() {
+        console.log('📊 Chargement des données de la page d\'accueil...');
+        
+        // Afficher 3 véhicules en vedette
+        const vehicules = dataManager.getVehicules().slice(0, 3);
+        const grid1 = document.getElementById('featured-vehicules');
+        if (grid1) {
+            console.log(`🚗 ${vehicules.length} véhicules à afficher`);
+            grid1.innerHTML = vehicules.map(createVehiculeCard).join('');
+        }
+
+        // Afficher 3 résidences en vedette
+        const residences = dataManager.getResidences().slice(0, 3);
+        const grid2 = document.getElementById('featured-residences');
+        if (grid2) {
+            console.log(`🏠 ${residences.length} résidences à afficher`);
+            grid2.innerHTML = residences.map(createResidenceCard).join('');
+        }
+
+        // Mettre à jour les compteurs
+        document.getElementById('count-vehicules').textContent = dataManager.getVehicules().length;
+        document.getElementById('count-locations').textContent = dataManager.getLocations().length;
+        document.getElementById('count-residences').textContent = dataManager.getResidences().length;
+        
+        console.log('✅ Page d\'accueil chargée avec succès');
+    }
+    
+    // Fonction pour créer une carte véhicule
+    function createVehiculeCard(item) {
+        return `
+            <div class="item-card">
+                <div class="item-image">
+                    <img src="${item.image || 'images/default-car.jpg'}" 
+                         alt="${item.titre}" 
+                         onerror="this.src='images/default-car.jpg'">
+                    <span class="item-badge ${item.categorie}">
+                        ${item.categorie === 'vente' ? 'À vendre' : 'À louer'}
+                    </span>
+                </div>
+                <div class="item-content">
+                    <h3>${item.titre}</h3>
+                    <p class="item-price">${formatPrice(item.prix, item.categorie === 'location')}</p>
+                    <p class="item-desc">${item.description?.substring(0, 100) || 'Description non disponible'}...</p>
+                    <div class="item-features">
+                        ${(item.caracteristiques || []).slice(0, 3).map(f => `<span>${f}</span>`).join('')}
+                    </div>
+                    <a href="reservation.html?item=${item.id}" class="btn btn-small">Réserver</a>
+                </div>
+            </div>
+        `;
+    }
+    
+    // Fonction pour créer une carte résidence
+    function createResidenceCard(item) {
+        return `
+            <div class="item-card">
+                <div class="item-image">
+                    <img src="${item.image || 'images/default-house.jpg'}" 
+                         alt="${item.titre}"
+                         onerror="this.src='images/default-house.jpg'">
+                    <span class="item-badge location">À louer</span>
+                </div>
+                <div class="item-content">
+                    <h3>${item.titre}</h3>
+                    <p class="item-location"><i class="fas fa-map-marker-alt"></i> ${item.localisation || 'Non spécifiée'}</p>
+                    <p class="item-price">${formatPrice(item.prix, true)}</p>
+                    <p class="item-desc">${item.description?.substring(0, 100) || 'Résidence de qualité...'}...</p>
+                    <div class="item-features">
+                        ${(item.caracteristiques || []).slice(0, 3).map(f => `<span>${f}</span>`).join('')}
+                    </div>
+                    <a href="reservation.html?item=${item.id}" class="btn btn-small">Réserver</a>
+                </div>
+            </div>
+        `;
+    }
+    
+    // Gestionnaire d'événements pour les données
+    window.addEventListener('dataLoaded', function() {
+        console.log('🔄 Données chargées, mise à jour de la page...');
+        loadHomePageData();
+        initializeSiteSettings();
+    });
+    
+    // Si les données sont déjà chargées
+    if (dataManager.data) {
+        console.log('📦 Données déjà disponibles');
+        loadHomePageData();
+    } else {
+        console.log('⏳ Attente des données...');
+    }
+    
+    // Rafraîchir périodiquement (optionnel)
+    setInterval(() => {
+        dataManager.refresh();
+    }, 30000); // Rafraîchir toutes les 30 secondes
+});
+</script>
+</body>
+</html>

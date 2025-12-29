@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location de Véhicules - GRÂCE AUTO SERVICE-CI-BKT</title>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+<style>
+    /* Variables CSS - Mêmes que l'accueil */
+    :root {
+        --primary: #1a3a8f;
+        --secondary: #2a5caa;
+        --accent: #ffcc00;
+        --dark: #0a0f2b;
+        --light: #f8f9fa;
+        --success: #28a745;
+        --danger: #dc3545;
+        --shadow: 0 5px 15px rgba(0,0,0,0.1);
+        --radius: 10px;
+    }
+
+    /* Reset et base */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background-color: #fff;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    /* Header */
+    .site-header {
+        background: white;
+        box-shadow: var(--shadow);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 0;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .logo-icon {
+        font-size: 2.5rem;
+    }
+
+    .logo-text h1 {
+        font-size: 1.5rem;
+        color: var(--primary);
+        margin-bottom: 5px;
+    }
+
+    .logo-text p {
+        color: var(--secondary);
+        font-size: 0.9rem;
+    }
+
+    .main-nav ul {
+        display: flex;
+        gap: 30px;
+        list-style: none;
+    }
+
+    .main-nav a {
+        text-decoration: none;
+        color: var(--dark);
+        font-weight: 500;
+        padding: 8px 0;
+        position: relative;
+        transition: color 0.3s;
+    }
+
+    .main-nav a:hover,
+    .main-nav a.active {
+        color: var(--accent);
+    }
+
+    .main-nav a.active::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: var(--accent);
+    }
+
+    /* Hero Page */
+    .page-hero {
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1549399542-7e3f8b79c341?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+        background-size: cover;
+        background-position: center;
+        color: white;
+        text-align: center;
+        padding: 80px 20px;
+        margin-bottom: 50px;
+    }
+
+    .page-hero h1 {
+        font-size: 2.8rem;
+        margin-bottom: 20px;
+    }
+
+    .page-hero p {
+        font-size: 1.2rem;
+        max-width: 700px;
+        margin: 0 auto 30px;
+        opacity: 0.9;
+    }
+
+    /* Buttons */
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 30px;
+        border-radius: var(--radius);
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+    }
+
+    .btn-primary {
+        background: var(--accent);
+        color: var(--dark);
+    }
+
+    .btn-primary:hover {
+        background: #ffd633;
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(255, 204, 0, 0.3);
+    }
+
+    .btn-secondary {
+        background: #f0f0f0;
+        color: #333;
+    }
+
+    .btn-secondary:hover {
+        background: #e0e0e0;
+    }
+
+    .btn-sync {
+        background: var(--primary);
+        color: white;
+        margin-left: 10px;
+    }
+
+    .btn-sync:hover {
+        background: var(--secondary);
+        transform: translateY(-3px);
+    }
+
+    .btn-sync.syncing {
+        background: var(--accent);
+        color: var(--dark);
+    }
+
+    /* Sections */
+    .section {
+        padding: 60px 0;
+    }
+
+    .section-title {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .section-title h2 {
+        font-size: 2.2rem;
+        color: var(--primary);
+        margin-bottom: 15px;
+    }
+
+    .section-title p {
+        color: #666;
+        font-size: 1.1rem;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    /* Filtres */
+    .filters-section {
+        background: #f8f9fa;
+        padding: 30px;
+        border-radius: var(--radius);
+        margin-bottom: 40px;
+    }
+
+    .filters-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+    }
+
+    .filter-group {
+        margin-bottom: 15px;
+    }
+
+    .filter-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: var(--dark);
+    }
+
+    .filter-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: var(--radius);
+        font-size: 1rem;
+        background: white;
+        transition: border-color 0.3s;
+    }
+
+    .filter-control:focus {
+        border-color: var(--accent);
+        outline: none;
+    }
+
+    .filter-actions {
+        display: flex;
+        gap: 15px;
+        align-items: flex-end;
+    }
+
+    /* Styles pour les filtres */
+    .active-filters {
+        background: #f0f8ff;
+        padding: 15px;
+        border-radius: var(--radius);
+        border-left: 4px solid var(--primary);
+        margin-top: 20px;
+    }
+    
+    .filters-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .filter-tag {
+        background: var(--primary);
+        color: white;
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .filter-tag .remove-filter {
+        background: none;
+        border: none;
+        color: white;
+        cursor: pointer;
+        padding: 0;
+        font-size: 0.8rem;
+        opacity: 0.8;
+        transition: opacity 0.3s;
+    }
+    
+    .filter-tag .remove-filter:hover {
+        opacity: 1;
+    }
+    
+    /* Résultats */
+    .results-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 30px 0;
+        padding-bottom: 20px;
+        border-bottom: 2px solid #eee;
+    }
+
+    .results-header h3 {
+        font-size: 1.5rem;
+        color: var(--dark);
+    }
+
+    .results-header p {
+        color: #666;
+    }
+
+    .view-options {
+        display: flex;
+        gap: 10px;
+    }
+
+    .view-btn {
+        padding: 10px 15px;
+        border: 1px solid #ddd;
+        background: white;
+        border-radius: var(--radius);
+        cursor: pointer;
+        color: #666;
+        transition: all 0.3s;
+    }
+
+    .view-btn:hover {
+        border-color: var(--accent);
+        color: var(--dark);
+    }
+
+    .view-btn.active {
+        background: var(--accent);
+        color: var(--dark);
+        border-color: var(--accent);
+    }
+
+    /* Grille des véhicules en location */
+    .rental-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 30px;
+        margin: 40px 0;
+    }
+
+    .rental-card {
+        background: white;
+        border-radius: var(--radius);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: all 0.3s ease;
+    }
+
+    .rental-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+
+    .rental-image {
+        position: relative;
+        height: 200px;
+        overflow: hidden;
+    }
+
+    .rental-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s;
+    }
+
+    .rental-card:hover .rental-image img {
+        transform: scale(1.1);
+    }
+
+    .rental-badge,
+    .rental-status {
+        position: absolute;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+
+    .rental-badge {
+        top: 15px;
+        left: 15px;
+        background: var(--primary);
+        color: white;
+    }
+
+    .rental-status {
+        top: 15px;
+        right: 15px;
+        background: var(--accent);
+        color: var(--dark);
+    }
+
+    .rental-info {
+        padding: 20px;
+    }
+
+    .rental-info h3 {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+        color: var(--dark);
+    }
+
+    .rental-details {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 10px;
+        font-size: 0.9rem;
+        color: #666;
+        flex-wrap: wrap;
+    }
+
+    .rental-details i {
+        margin-right: 5px;
+        color: var(--primary);
+    }
+
+    .rental-price {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin: 10px 0;
+    }
+
+    .rental-price small {
+        font-size: 0.9rem;
+        color: #666;
+        font-weight: normal;
+    }
+
+    .rental-description {
+        color: #666;
+        font-size: 0.95rem;
+        margin: 10px 0;
+        line-height: 1.5;
+    }
+
+    .rental-features {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        margin: 10px 0;
+    }
+
+    .feature-tag {
+        background: #f0f0f0;
+        padding: 3px 10px;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        color: #555;
+    }
+
+    .rental-actions {
+        padding: 0 20px 20px;
+        display: flex;
+        gap: 10px;
+    }
+
+    .rental-actions .btn {
+        flex: 1;
+        justify-content: center;
+    }
+
+    /* Vue liste */
+    .rental-list-item {
+        display: grid;
+        grid-template-columns: 200px 1fr auto;
+        gap: 20px;
+        background: white;
+        border-radius: var(--radius);
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: var(--shadow);
+        align-items: center;
+    }
+
+    .item-image img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        border-radius: var(--radius);
+    }
+
+    .item-content h3 {
+        font-size: 1.3rem;
+        color: var(--dark);
+        margin-bottom: 10px;
+    }
+
+    .item-details {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 10px;
+        color: #666;
+        font-size: 0.9rem;
+    }
+
+    .item-price {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary);
+        text-align: right;
+        margin-bottom: 10px;
+    }
+
+    .item-price small {
+        font-size: 0.9rem;
+        color: #666;
+        font-weight: normal;
+    }
+
+    /* Status et colonne prix */
+    .item-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 5px 10px;
+        border-radius: 15px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-top: 10px;
+    }
+    
+    .item-status.available {
+        background: rgba(40, 167, 69, 0.1);
+        color: var(--success);
+    }
+    
+    .item-status.available i {
+        color: var(--success);
+    }
+    
+    .item-status.soon {
+        background: rgba(255, 193, 7, 0.1);
+        color: #ffc107;
+    }
+    
+    .item-status.soon i {
+        color: #ffc107;
+    }
+    
+    .item-price-column {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: center;
+    }
+
+    /* Prix info */
+    .price-info-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin: 20px 0;
+        background: #f9f9f9;
+        padding: 20px;
+        border-radius: var(--radius);
+    }
+
+    .price-item {
+        text-align: center;
+        padding: 15px;
+        background: white;
+        border-radius: var(--radius);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .price-label {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 8px;
+    }
+
+    .price-value {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--primary);
+    }
+
+    /* Pagination */
+    .pagination {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin: 40px 0;
+    }
+
+    .pagination-btn {
+        padding: 10px 15px;
+        border: 1px solid #ddd;
+        background: white;
+        border-radius: var(--radius);
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .pagination-btn:hover {
+        border-color: var(--accent);
+    }
+
+    .pagination-btn.active {
+        background: var(--accent);
+        color: var(--dark);
+        border-color: var(--accent);
+    }
+
+    /* Services Grid */
+    .featured-section {
+        background: #f9f9f9;
+        padding: 80px 0;
+    }
+
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+    }
+
+    .service-card {
+        background: white;
+        border-radius: var(--radius);
+        padding: 30px;
+        text-align: center;
+        box-shadow: var(--shadow);
+        transition: all 0.3s ease;
+    }
+
+    .service-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .service-card i {
+        font-size: 2.5rem;
+        color: var(--primary);
+        margin-bottom: 20px;
+    }
+
+    .service-card h3 {
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+        color: var(--dark);
+    }
+
+    .service-card p {
+        color: #666;
+        line-height: 1.6;
+    }
+
+    /* Footer */
+    .site-footer {
+        background: var(--dark);
+        color: white;
+        padding: 60px 0 30px;
+    }
+
+    .footer-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 40px;
+        margin-bottom: 40px;
+    }
+
+    .footer-col h3 {
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+        color: var(--accent);
+    }
+
+    .footer-col p {
+        color: #b3b3cc;
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+
+    .social-links {
+        display: flex;
+        gap: 15px;
+    }
+
+    .social-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        color: white;
+        text-decoration: none;
+        transition: all 0.3s;
+    }
+
+    .social-link:hover {
+        background: var(--accent);
+        color: var(--dark);
+        transform: translateY(-3px);
+    }
+
+    .footer-links {
+        list-style: none;
+    }
+
+    .footer-links li {
+        margin-bottom: 12px;
+    }
+
+    .footer-links a {
+        color: #b3b3cc;
+        text-decoration: none;
+        transition: color 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .footer-links a:hover {
+        color: var(--accent);
+    }
+
+    .footer-links i {
+        width: 20px;
+    }
+
+    .copyright {
+        text-align: center;
+        padding-top: 30px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: #b3b3cc;
+        font-size: 0.9rem;
+    }
+
+    /* Loading */
+    .loading {
+        text-align: center;
+        padding: 60px 20px;
+        grid-column: 1 / -1;
+    }
+
+    .loading i {
+        font-size: 3rem;
+        color: var(--primary);
+        margin-bottom: 20px;
+    }
+
+    .loading p {
+        color: #666;
+        font-size: 1.1rem;
+    }
+
+    .no-items {
+        text-align: center;
+        padding: 80px 20px;
+        grid-column: 1 / -1;
+    }
+
+    .no-items i {
+        font-size: 4rem;
+        color: #ddd;
+        margin-bottom: 20px;
+    }
+
+    .no-items h3 {
+        font-size: 1.5rem;
+        color: #666;
+        margin-bottom: 10px;
+    }
+
+    .no-items p {
+        color: #999;
+        margin-bottom: 20px;
+    }
+
+    /* Info synchronisation */
+    .sync-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 15px;
+        background: rgba(26, 58, 143, 0.1);
+        border: 1px solid rgba(26, 58, 143, 0.3);
+        border-radius: var(--radius);
+        margin: 10px 0 20px;
+        font-size: 0.9rem;
+    }
+
+    .sync-info i {
+        color: var(--primary);
+    }
+
+    .sync-info .btn-sync {
+        margin-left: auto;
+        padding: 5px 15px;
+        font-size: 0.8rem;
+    }
+
+    /* Animation */
+    .fade-in {
+        animation: fadeIn 0.5s ease-in forwards;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* WhatsApp Float */
+    .whatsapp-float {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background: #25D366;
+        color: white;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        z-index: 1000;
+        text-decoration: none;
+        transition: all 0.3s;
+    }
+
+    .whatsapp-float:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .header-content {
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .main-nav ul {
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .page-hero h1 {
+            font-size: 2rem;
+        }
+        
+        .page-hero p {
+            font-size: 1rem;
+        }
+        
+        .rental-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .rental-list-item {
+            grid-template-columns: 1fr;
+        }
+        
+        .filters-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .filter-actions {
+            flex-direction: column;
+        }
+        
+        .results-header {
+            flex-direction: column;
+            gap: 20px;
+            text-align: center;
+        }
+        
+        .price-info-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .footer-grid {
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .page-hero {
+            padding: 50px 20px;
+        }
+        
+        .rental-actions {
+            flex-direction: column;
+        }
+        
+        .section {
+            padding: 40px 0;
+        }
+    }
+
+    /* Notification de synchronisation */
+    .sync-notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--success);
+        color: white;
+        padding: 12px 20px;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        display: flex;
+            align-items: center;
+        gap: 10px;
+        z-index: 2000;
+        animation: slideInRight 0.3s ease, slideOutRight 0.3s ease 2.7s forwards;
+    }
+
+    @keyframes slideInRight {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes slideOutRight {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+    }
+</style>
+</head>
+<body>
+   <!-- Header -->
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">🚗🏠</div>
+                    <div class="logo-text">
+                        <h1 id="siteName">GRÂCE AUTO SERVICE-CI-BKT</h1>
+                        <p>Vente • Location • Assurance</p>
+                    </div>
+                </div>
+                
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="vehicules.html">Véhicules</a></li>
+                        <li><a href="residences.html">Résidences</a></li>
+                        <li><a href="location.html" class="active">Location</a></li>
+                        <li><a href="reservation.html">Réservation</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="page-hero">
+        <div class="container">
+            <h1 id="pageTitle">Location de Véhicules</h1>
+            <p id="pageDescription">Louez le véhicule de votre choix pour vos déplacements professionnels ou personnels</p>
+            <a href="#location" class="btn btn-primary">
+                <i class="fas fa-key"></i> Explorer les véhicules en location
+            </a>
+        </div>
+    </section>
+    
+    <!-- Section de filtres -->
+    <section class="filters-section" id="filtersSection">
+        <div class="container">
+            <div class="section-title">
+                <h2>Filtrer les véhicules</h2>
+                <p>Trouvez le véhicule parfait selon vos critères</p>
+            </div>
+            
+            <div class="filters-grid">
+                <!-- Filtre par type de véhicule -->
+                <div class="filter-group">
+                    <label for="filterType"><i class="fas fa-car"></i> Type de véhicule</label>
+                    <select id="filterType" class="filter-control">
+                        <option value="all">Tous les types</option>
+                        <option value="berline">Berline</option>
+                        <option value="suv">SUV / 4x4</option>
+                        <option value="compacte">Compacte</option>
+                        <option value="familiale">Familiale</option>
+                        <option value="luxe">Véhicule de luxe</option>
+                        <option value="utilitaire">Utilitaire</option>
+                    </select>
+                </div>
+                
+                <!-- Filtre par prix -->
+                <div class="filter-group">
+                    <label for="filterPrice"><i class="fas fa-tag"></i> Prix mensuel</label>
+                    <select id="filterPrice" class="filter-control">
+                        <option value="all">Toutes les gammes</option>
+                        <option value="0-500">Moins de 500FCFA</option>
+                        <option value="500-1000">500FCFA - 1000FCFA</option>
+                        <option value="1000-2000">1000FCFA - 2000FCFA</option>
+                        <option value="2000+">Plus de 2000FCFA</option>
+                    </select>
+                </div>
+                
+                <!-- Filtre par disponibilité -->
+                <div class="filter-group">
+                    <label for="filterAvailability"><i class="fas fa-calendar-check"></i> Disponibilité</label>
+                    <select id="filterAvailability" class="filter-control">
+                        <option value="all">Tous les statuts</option>
+                        <option value="available">Disponible maintenant</option>
+                        <option value="soon">Disponible prochainement</option>
+                    </select>
+                </div>
+                
+                <!-- Filtre par caractéristiques -->
+                <div class="filter-group">
+                    <label for="filterFeatures"><i class="fas fa-cogs"></i> Caractéristiques</label>
+                    <select id="filterFeatures" class="filter-control">
+                        <option value="all">Toutes caractéristiques</option>
+                        <option value="automatique">Transmission automatique</option>
+                        <option value="climatisation">Climatisation</option>
+                        <option value="gps">GPS intégré</option>
+                        <option value="siege-enfant">Siège enfant</option>
+                    </select>
+                </div>
+                
+                <!-- Actions des filtres -->
+                <div class="filter-actions">
+                    <button id="applyFilters" class="btn btn-primary">
+                        <i class="fas fa-filter"></i> Appliquer les filtres
+                    </button>
+                    <button id="resetFilters" class="btn btn-secondary">
+                        <i class="fas fa-redo"></i> Réinitialiser
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Indicateur de filtres actifs -->
+            <div id="activeFilters" class="active-filters" style="display: none;">
+                <h4 style="margin-bottom: 10px;">Filtres actifs :</h4>
+                <div id="filtersTags" class="filters-tags"></div>
+            </div>
+        </div>
+    </section>
+
+    <main class="container">
+        <!-- Contrôles d'affichage -->
+        <div class="results-header" id="resultsHeader">
+            <div>
+                <h3 id="filteredResultsTitle">Véhicules en location</h3>
+                <p id="filteredCount">Chargement...</p>
+            </div>
+            
+            <div class="view-options">
+                <button class="view-btn active" data-view="grid" title="Vue grille">
+                    <i class="fas fa-th-large"></i>
+                </button>
+                <button class="view-btn" data-view="list" title="Vue liste">
+                    <i class="fas fa-list"></i>
+                </button>
+                <button class="view-btn" data-view="map" title="Vue carte" disabled>
+                    <i class="fas fa-map"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="page-header">
+            <h1>Véhicules en Location</h1>
+            <p id="locations-count">Chargement...</p>
+        </div>
+
+        <div class="items-grid rental-grid" id="locations-grid">
+            <!-- Chargé dynamiquement -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3 id="footerSiteName">GRÂCE AUTO SERVICE</h3>
+                    <p id="footerDescription">Votre partenaire de confiance pour la vente et location de véhicules, résidences et assurance voyage en Côte d'Ivoire.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://wa.me/2250748735115" class="social-link" target="_blank">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="mailto:graceautoservice88@gmail.com" class="social-link">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li>
+                            <a href="#">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Abidjan, Côte d'Ivoire</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="tel:+2250748735115" id="footerPhone1">
+                                <i class="fas fa-phone"></i>
+                                <span>+225 0748735115</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="tel:+2250141941694" id="footerPhone2">
+                                <i class="fas fa-phone"></i>
+                                <span>+225 0141941694</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="mailto:graceautoservice88@gmail.com" id="footerEmail">
+                                <i class="fas fa-envelope"></i>
+                                <span>graceautoservice88@gmail.com</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Liens Rapides</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Accueil</a></li>
+                        <li><a href="vehicules.html"><i class="fas fa-chevron-right"></i> Véhicules</a></li>
+                        <li><a href="residences.html"><i class="fas fa-chevron-right"></i> Résidences</a></li>
+                        <li><a href="location.html"><i class="fas fa-chevron-right"></i> Location</a></li>
+                        <li><a href="reservation.html"><i class="fas fa-chevron-right"></i> Réservation</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Horaires</h3>
+                    <ul class="footer-links">
+                        <li>
+                            <a href="#">
+                                <i class="fas fa-clock"></i>
+                                <span id="footerHours1">Lun-Ven: 8h-18h</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fas fa-clock"></i>
+                                <span id="footerHours2">Samedi: 8h-13h</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fas fa-clock"></i>
+                                <span>Dimanche: Fermé</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; <span id="currentYear">2025</span> <span id="copyrightSiteName">GRÂCE AUTO SERVICE-CI-BKT</span>. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+   <!-- Dans location.html -->
+<script src="js/database.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🚗 Initialisation de la page location...');
+    
+    // Mettre à jour l'année en cours
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+    
+    // Variables pour les filtres
+    let currentFilters = {
+        type: 'all',
+        price: 'all',
+        availability: 'all',
+        features: 'all'
+    };
+    
+    let currentView = 'grid';
+    let allLocations = [];
+    
+    // Initialiser les paramètres du site
+    function initializeSiteSettings() {
+        const settings = dataManager.getSettings();
+        
+        // Mettre à jour le nom du site
+        document.getElementById('siteName').textContent = settings.name || 'GRÂCE AUTO SERVICE-CI-BKT';
+        document.getElementById('footerSiteName').textContent = settings.name?.split('-')[0] || 'GRÂCE AUTO SERVICE';
+        document.getElementById('copyrightSiteName').textContent = settings.name || 'GRÂCE AUTO SERVICE-CI-BKT';
+        
+        // Mettre à jour la description
+        document.getElementById('footerDescription').textContent = settings.description || 'Vente • Location • Assurance';
+        
+        // Mettre à jour les contacts
+        if (settings.contactPhone) {
+            const phone1 = document.getElementById('footerPhone1');
+            phone1.href = `tel:${settings.contactPhone.replace(/\s+/g, '')}`;
+            phone1.querySelector('span').textContent = settings.contactPhone;
+        }
+        
+        if (settings.otherPhones?.[0]) {
+            const phone2 = document.getElementById('footerPhone2');
+            phone2.href = `tel:${settings.otherPhones[0].replace(/\s+/g, '')}`;
+            phone2.querySelector('span').textContent = settings.otherPhones[0];
+        }
+        
+        if (settings.contactEmail) {
+            const email = document.getElementById('footerEmail');
+            email.href = `mailto:${settings.contactEmail}`;
+            email.querySelector('span').textContent = settings.contactEmail;
+        }
+    }
+    
+    // Fonction pour charger et afficher les locations
+    function loadLocations() {
+        console.log('📋 Chargement des véhicules en location...');
+        
+        allLocations = dataManager.getLocations();
+        console.log(`📍 ${allLocations.length} véhicules en location trouvés`);
+        
+        applyFilters();
+        initializePageSettings();
+    }
+    
+    function initializePageSettings() {
+        const settings = dataManager.getSettings();
+        
+        // Titre de la page
+        document.getElementById('pageTitle').textContent = 'Location de Véhicules';
+        document.getElementById('pageDescription').textContent = 'Louez le véhicule de votre choix pour vos déplacements professionnels ou personnels';
+        
+        // Section title
+        document.getElementById('sectionTitle').textContent = 'Toutes nos Locations';
+        document.getElementById('sectionSubtitle').textContent = 'Choisissez le véhicule qui correspond à vos besoins';
+    }
+    
+    function applyFilters() {
+        const filtered = filterLocations(allLocations);
+        renderLocations(filtered);
+        updateResultsCount(filtered.length);
+    }
+    
+    function filterLocations(locations) {
+        return locations.filter(location => {
+            // Filtre par type
+            if (currentFilters.type !== 'all' && location.type !== currentFilters.type) {
+                return false;
+            }
+            
+            // Filtre par prix
+            if (currentFilters.price !== 'all') {
+                const priceRange = currentFilters.price;
+                const locationPrice = location.prix || 0;
+                
+                if (priceRange === '0-500' && locationPrice > 500) return false;
+                if (priceRange === '500-1000' && (locationPrice < 500 || locationPrice > 1000)) return false;
+                if (priceRange === '1000-2000' && (locationPrice < 1000 || locationPrice > 2000)) return false;
+                if (priceRange === '2000+' && locationPrice < 2000) return false;
+            }
+            
+            // Filtre par disponibilité
+            if (currentFilters.availability !== 'all') {
+                const isAvailable = location.disponible !== false;
+                if (currentFilters.availability === 'available' && !isAvailable) return false;
+                if (currentFilters.availability === 'soon' && isAvailable) return false;
+            }
+            
+            return true;
+        });
+    }
+    
+    function renderLocations(locations) {
+        const grid = document.getElementById('locations-grid');
+        const countElement = document.getElementById('locations-count');
+        
+        if (!grid) return;
+        
+        countElement.textContent = `${locations.length} véhicule${locations.length !== 1 ? 's' : ''} en location`;
+        
+        if (locations.length === 0) {
+            grid.innerHTML = `
+                <div class="no-items" style="grid-column: 1 / -1;">
+                    <i class="fas fa-car-crash"></i>
+                    <h3>Aucun véhicule trouvé</h3>
+                    <p>Aucun véhicule ne correspond à vos critères de recherche.</p>
+                    <button onclick="resetFilters()" class="btn btn-primary">
+                        <i class="fas fa-redo"></i> Réinitialiser les filtres
+                    </button>
+                </div>
+            `;
+            return;
+        }
+        
+        // Vue grille par défaut
+        grid.innerHTML = locations.map(createLocationCard).join('');
+    }
+    
+    function createLocationCard(location) {
+        return `
+            <div class="item-card">
+                <div class="item-image">
+                    <img src="${location.image || 'images/default-car.jpg'}" 
+                         alt="${location.titre}"
+                         onerror="this.src='images/default-car.jpg'">
+                    <span class="item-badge location">À louer</span>
+                </div>
+                <div class="item-content">
+                    <h3>${location.titre}</h3>
+                    <p class="item-price">${formatPrice(location.prix, true)}</p>
+                    <p class="item-type">${location.type || 'Non spécifié'}</p>
+                    <p class="item-desc">${location.description?.substring(0, 100) || 'Véhicule de location de qualité...'}...</p>
+                    <div class="item-features">
+                        ${(location.caracteristiques || []).slice(0, 3).map(f => `<span>${f}</span>`).join('')}
+                    </div>
+                    <div class="item-actions">
+                        <a href="reservation.html?item=${location.id}" class="btn btn-primary">Réserver</a>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
+    function updateResultsCount(count) {
+        const countElement = document.getElementById('filteredCount');
+        const titleElement = document.getElementById('filteredResultsTitle');
+        
+        countElement.textContent = `${count} véhicule${count !== 1 ? 's' : ''} trouvé${count !== 1 ? 's' : ''}`;
+        titleElement.textContent = count === 0 ? "Aucun résultat" : "Véhicules en location";
+    }
+    
+    function resetFilters() {
+        currentFilters = {
+            type: 'all',
+            price: 'all',
+            availability: 'all',
+            features: 'all'
+        };
+        
+        document.getElementById('filterType').value = 'all';
+        document.getElementById('filterPrice').value = 'all';
+        document.getElementById('filterAvailability').value = 'all';
+        document.getElementById('filterFeatures').value = 'all';
+        
+        applyFilters();
+    }
+    
+    // Initialiser les événements
+    function initEventListeners() {
+        // Filtres
+        document.getElementById('filterType')?.addEventListener('change', function() {
+            currentFilters.type = this.value;
+            applyFilters();
+        });
+        
+        document.getElementById('filterPrice')?.addEventListener('change', function() {
+            currentFilters.price = this.value;
+            applyFilters();
+        });
+        
+        document.getElementById('filterAvailability')?.addEventListener('change', function() {
+            currentFilters.availability = this.value;
+            applyFilters();
+        });
+        
+        document.getElementById('filterFeatures')?.addEventListener('change', function() {
+            currentFilters.features = this.value;
+            applyFilters();
+        });
+        
+        // Boutons
+        document.getElementById('applyFilters')?.addEventListener('click', applyFilters);
+        document.getElementById('resetFilters')?.addEventListener('click', resetFilters);
+        
+        // Vue
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentView = this.getAttribute('data-view');
+                applyFilters();
+            });
+        });
+    }
+    
+    // Gestionnaire d'événements pour les données
+    window.addEventListener('dataLoaded', function() {
+        console.log('🔄 Données chargées pour location.html');
+        loadLocations();
+        initializePageSettings();
+        initializeSiteSettings();
+        initEventListeners();
+    });
+    
+    // Si les données sont déjà chargées
+    if (dataManager.data) {
+        console.log('📦 Données déjà disponibles pour location.html');
+        loadLocations();
+        initializePageSettings();
+        initializeSiteSettings();
+        initEventListeners();
+    }
+    
+    // Exposer resetFilters globalement
+    window.resetFilters = resetFilters;
+});
+</script>
+</body>
+</html>

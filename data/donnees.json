@@ -1,0 +1,55 @@
+{
+  "vehicules": [
+    {
+      "id": 1,
+      "titre": "Toyota RAV4 2023",
+      "categorie": "vente",
+      "prix": 32000,
+      "image": "images/télécharger.webp",
+      "description": "SUV familial en excellent état, parfait pour les familles.",
+      "caracteristiques": ["4x4", "Automatique", "Climatisation", "Camera de recul"],
+      "disponible": true,
+      "type": "SUV",
+      "createdAt": "2024-01-01T10:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "titre": "Mercedes Classe A",
+      "categorie": "location",
+      "prix": 450,
+      "image": "images/télécharger.webp",
+      "description": "Location mensuelle avec option d'achat.",
+      "caracteristiques": ["Diesel", "Automatique", "Toit ouvrant"],
+      "disponible": true,
+      "type": "Berline"
+    }
+  ],
+  "residences": [
+    {
+      "id": 1,
+      "titre": "Appartement Moderne 3 pièces",
+      "categorie": "location",
+      "prix": 850,
+      "image": "images/appartement-paris.jpg",
+      "description": "Appartement neuf au cœur de Paris",
+      "caracteristiques": ["80m²", "3 chambres", "Balcon", "Ascenseur"],
+      "disponible": true,
+      "localisation": "Paris 15ème",
+      "rooms": 3
+    }
+  ],
+  "reservations": [],
+  "settings": {
+    "name": "GRÂCE AUTO SERVICE-CI-BKT",
+    "description": "Vente • Location • Assurance",
+    "contactPhone": "+225 0748735115",
+    "otherPhones": ["+225 0141941694", "+225 0544604246"],
+    "contactEmail": "graceautoservice88@gmail.com",
+    "businessHours": {
+      "weekday": "Lun-Ven: 8h-18h",
+      "saturday": "Samedi: 8h-13h",
+      "sunday": "Dimanche: Fermé"
+    }
+  },
+  "lastUpdate": "2024-01-01T10:00:00.000Z"
+}

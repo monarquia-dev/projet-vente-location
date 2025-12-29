@@ -1,0 +1,19 @@
+projet-vente-location/
+├── index.html
+├── vehicules.html
+├── location.html
+├── residences.html
+├── reservation.html
+├── admin.html
+├── css/
+│   └── style.css
+├── js/
+│   ├── database.js     (NOUVEAU - gestion fichier JSON)
+│   ├── main.js         (lecture des données pour les pages publiques)
+│   ├── admin.js        (écriture des données - admin uniquement)
+│   └── reservation.js
+├── data/
+│   ├── donnees.json    (fichier de données principal)
+│   └── enregistrement.json (copie de sauvegarde)
+└── api/
+    └── update.php      (optionnel - pour serveur PHP)

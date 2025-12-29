@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nos Résidences - GRÂCE AUTO SERVICE-CI-BKT</title>
+   
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variables CSS - Mêmes que l'accueil */
+        :root {
+            --primary: #1a3a8f;
+            --secondary: #2a5caa;
+            --accent: #ffcc00;
+            --dark: #0a0f2b;
+            --light: #f8f9fa;
+            --success: #28a745;
+            --danger: #dc3545;
+            --shadow: 0 5px 15px rgba(0,0,0,0.1);
+            --radius: 10px;
+        }
+
+        /* Reset et base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .site-header {
+            background: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .logo-text p {
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+
+        .main-nav ul {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .main-nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            padding: 8px 0;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .main-nav a:hover,
+        .main-nav a.active {
+            color: var(--accent);
+        }
+
+        .main-nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent);
+        }
+
+        /* Hero Page */
+        .page-hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+            margin-bottom: 50px;
+        }
+
+        .page-hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+        }
+
+        .page-hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 30px;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--dark);
+        }
+
+        .btn-primary:hover {
+            background: #ffd633;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 204, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        /* Sections */
+        .section {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            color: #666;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Filtres */
+        .filters-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: var(--radius);
+            margin-bottom: 40px;
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .filter-group {
+            margin-bottom: 15px;
+        }
+
+        .filter-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .filter-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            background: white;
+            transition: border-color 0.3s;
+        }
+
+        .filter-control:focus {
+            border-color: var(--accent);
+            outline: none;
+        }
+
+        .price-range {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .price-range input[type="range"] {
+            flex: 1;
+            height: 6px;
+            background: #ddd;
+            border-radius: 3px;
+            outline: none;
+        }
+
+        .price-range input[type="range"]::-webkit-slider-thumb {
+            width: 20px;
+            height: 20px;
+            background: var(--accent);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 15px;
+            align-items: flex-end;
+        }
+
+        /* Résultats */
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 30px 0;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .results-header h3 {
+            font-size: 1.5rem;
+            color: var(--dark);
+        }
+
+        .results-header p {
+            color: #666;
+        }
+
+        .view-options {
+            display: flex;
+            gap: 10px;
+        }
+
+        .view-btn {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: var(--radius);
+            cursor: pointer;
+            color: #666;
+            transition: all 0.3s;
+        }
+
+        .view-btn:hover {
+            border-color: var(--accent);
+            color: var(--dark);
+        }
+
+        .view-btn.active {
+            background: var(--accent);
+            color: var(--dark);
+            border-color: var(--accent);
+        }
+
+        /* Grille des résidences */
+        .residences-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .residence-card {
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .residence-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .residence-image {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .residence-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .residence-card:hover .residence-image img {
+            transform: scale(1.1);
+        }
+
+        .residence-badge,
+        .residence-status {
+            position: absolute;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .residence-badge {
+            top: 15px;
+            left: 15px;
+            background: var(--primary);
+            color: white;
+        }
+
+        .residence-status {
+            top: 15px;
+            right: 15px;
+            background: var(--accent);
+            color: var(--dark);
+        }
+
+        .residence-info {
+            padding: 20px;
+        }
+
+        .residence-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .residence-details {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: #666;
+            flex-wrap: wrap;
+        }
+
+        .residence-details i {
+            margin-right: 5px;
+            color: var(--primary);
+        }
+
+        .residence-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 10px 0;
+        }
+
+        .residence-price small {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: normal;
+        }
+
+        .residence-description {
+            color: #666;
+            font-size: 0.95rem;
+            margin: 10px 0;
+            line-height: 1.5;
+        }
+
+        .residence-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin: 10px 0;
+        }
+
+        .feature-tag {
+            background: #f0f0f0;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            color: #555;
+        }
+
+        .residence-actions {
+            padding: 0 20px 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .residence-actions .btn {
+            flex: 1;
+            justify-content: center;
+        }
+
+        /* Vue liste */
+        .residence-list-item {
+            display: grid;
+            grid-template-columns: 200px 1fr auto;
+            gap: 20px;
+            background: white;
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            align-items: center;
+        }
+
+        .item-image img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: var(--radius);
+        }
+
+        .item-content h3 {
+            font-size: 1.3rem;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .item-details {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 10px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .item-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-align: right;
+            margin-bottom: 10px;
+        }
+
+        .item-price small {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: normal;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 40px 0;
+        }
+
+        .pagination-btn {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .pagination-btn:hover {
+            border-color: var(--accent);
+        }
+
+        .pagination-btn.active {
+            background: var(--accent);
+            color: var(--dark);
+            border-color: var(--accent);
+        }
+
+        /* Services Grid */
+        .featured-section {
+            background: #f9f9f9;
+            padding: 80px 0;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 30px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .service-card i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .service-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .service-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .site-footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+
+        .footer-col p {
+            color: #b3b3cc;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            background: var(--accent);
+            color: var(--dark);
+            transform: translateY(-3px);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #b3b3cc;
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links i {
+            width: 20px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #b3b3cc;
+            font-size: 0.9rem;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            grid-column: 1 / -1;
+        }
+
+        .loading i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .loading p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .no-items {
+            text-align: center;
+            padding: 80px 20px;
+            grid-column: 1 / -1;
+        }
+
+        .no-items i {
+            font-size: 4rem;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+
+        .no-items h3 {
+            font-size: 1.5rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .no-items p {
+            color: #999;
+            margin-bottom: 20px;
+        }
+
+        /* Animation */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* WhatsApp Float */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 1000;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+        }
+
+        /* Système de Synchronisation */
+        .sync-indicator {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 8px 12px;
+            border-radius: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .sync-pulse {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .sync-pulse.inactive {
+            background: var(--danger);
+            animation: none;
+        }
+
+        .sync-notification {
+            position: fixed;
+            top: 120px;
+            right: 20px;
+            background: var(--accent);
+            color: var(--dark);
+            padding: 10px 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 999;
+            animation: slideIn 0.3s ease;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            max-width: 300px;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .sync-notification button {
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .main-nav ul {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .page-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .page-hero p {
+                font-size: 1rem;
+            }
+            
+            .residences-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .residence-list-item {
+                grid-template-columns: 1fr;
+            }
+            
+            .filters-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-actions {
+                flex-direction: column;
+            }
+            
+            .results-header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .sync-indicator {
+                top: 120px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-hero {
+                padding: 50px 20px;
+            }
+            
+            .residence-actions {
+                flex-direction: column;
+            }
+            
+            .section {
+                padding: 40px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">🚗🏠</div>
+                    <div class="logo-text">
+                        <h1 id="siteName">GRÂCE AUTO SERVICE-CI-BKT</h1>
+                        <p>Vente • Location • Assurance</p>
+                    </div>
+                </div>
+                
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="vehicules.html">Véhicules</a></li>
+                        <li><a href="residences.html" class="active">Résidences</a></li>
+                        <li><a href="location.html">Location</a></li>
+                        <li><a href="reservation.html">Réservation</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Indicateur de synchronisation -->
+    <div class="sync-indicator" id="syncIndicator">
+        <div class="sync-pulse" id="syncPulse"></div>
+        <span id="syncStatus">Connecté</span>
+        <span id="lastUpdateTime"></span>
+    </div>
+
+    <!-- Notification de synchronisation -->
+    <div class="sync-notification" id="syncNotification">
+        <i class="fas fa-sync-alt"></i>
+        <span id="syncNotificationText">Synchronisation...</span>
+        <button onclick="this.parentElement.style.display='none'">&times;</button>
+    </div>
+
+    <!-- Hero -->
+    <section class="page-hero">
+        <div class="container">
+            <h1 id="pageTitle">Nos Résidences Exclusives</h1>
+            <p id="pageDescription">Découvrez nos appartements et studios meublés de standing, idéals pour vos séjours à Abidjan</p>
+            <a href="#residences" class="btn btn-primary">
+                <i class="fas fa-home"></i> Explorer les résidences
+            </a>
+        </div>
+    </section>
+
+    <!-- Section principale -->
+    <section id="residences" class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2 id="sectionTitle">Toutes nos Résidences</h2>
+                <p id="sectionSubtitle">Choisissez la résidence qui correspond à vos besoins</p>
+            </div>
+
+            <!-- Filtres -->
+            <div class="filters-section">
+                <div class="filters-grid">
+                    <div class="filter-group">
+                        <label>Type de résidence</label>
+                        <select id="typeFilter" class="filter-control">
+                            <option value="all">Tous les types</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>Prix maximum (FCFA/jour)</label>
+                        <div class="price-range">
+                            <input type="range" id="priceRange" min="0" max="500000" value="500000" step="10000">
+                            <span id="priceValue">500 000 FCFA/jour</span>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>Nombre de pièces</label>
+                        <select id="roomsFilter" class="filter-control">
+                            <option value="all">Toutes</option>
+                            <option value="1">1 pièce</option>
+                            <option value="2">2 pièces</option>
+                            <option value="3">3 pièces ou plus</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>Statut</label>
+                        <select id="statusFilter" class="filter-control">
+                            <option value="available">Disponible</option>
+                            <option value="all">Tous les statuts</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-actions">
+                        <button id="applyFilters" class="btn btn-primary">
+                            <i class="fas fa-filter"></i> Appliquer les filtres
+                        </button>
+                        <button id="resetFilters" class="btn btn-secondary">
+                            <i class="fas fa-redo"></i> Réinitialiser
+                        </button>
+                        <button id="forceSyncBtn" class="btn btn-primary" onclick="residencesPageManager.syncManager.requestSync()">
+                            <i class="fas fa-sync-alt"></i> Rafraîchir
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Résultats -->
+            <div class="results-header">
+                <div>
+                    <h3 id="resultsCount">Chargement des résidences...</h3>
+                    <p id="resultsInfo">Filtrez selon vos besoins</p>
+                    <small id="syncInfo" style="color: #888; font-size: 0.9rem;">
+                        Dernière mise à jour: <span id="lastSyncInfo">-</span>
+                    </small>
+                </div>
+                
+                <div class="view-options">
+                    <button class="view-btn active" data-view="grid">
+                        <i class="fas fa-th-large"></i>
+                    </button>
+                    <button class="view-btn" data-view="list">
+                        <i class="fas fa-list"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Grille des résidences -->
+            <div class="residences-grid" id="residencesContainer">
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Chargement des résidences...</p>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination" id="pagination">
+                <!-- Générée dynamiquement -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section class="featured-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Pourquoi Choisir Nos Résidences ?</h2>
+                <p>Le confort et la sécurité au cœur de notre service</p>
+            </div>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Sécurité Garantie</h3>
+                    <p>Toutes nos résidences sont situées dans des zones sécurisées avec surveillance 24h/24</p>
+                </div>
+                
+                <div class="service-card">
+                    <i class="fas fa-wifi"></i>
+                    <h3>Confort Moderne</h3>
+                    <p>WiFi haut débit, climatisation, équipements modernes pour un séjour agréable</p>
+                </div>
+                
+                <div class="service-card">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h3>Emplacements Privilégiés</h3>
+                    <p>Des résidences stratégiquement situées près des centres d'affaires et commodités</p>
+                </div>
+                
+                <div class="service-card">
+                    <i class="fas fa-concierge-bell"></i>
+                    <h3>Service Personnalisé</h3>
+                    <p>Notre équipe dédiée vous accompagne tout au long de votre séjour</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3 id="footerSiteName">GRÂCE AUTO SERVICE</h3>
+                    <p id="footerDescription">Votre partenaire de confiance pour la vente et location de véhicules, résidences et assurance voyage en Côte d'Ivoire.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://wa.me/2250748735115" class="social-link" target="_blank">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="mailto:graceautoservice88@gmail.com" class="social-link">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li>
+                            <a href="#">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Abidjan, Côte d'Ivoire</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="tel:+2250748735115" id="footerPhone1">
+                                <i class="fas fa-phone"></i>
+                                <span>+225 0748735115</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="tel:+2250141941694" id="footerPhone2">
+                                <i class="fas fa-phone"></i>
+                                <span>+225 0141941694</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="mailto:graceautoservice88@gmail.com" id="footerEmail">
+                                <i class="fas fa-envelope"></i>
+                                <span>graceautoservice88@gmail.com</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Liens Rapides</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Accueil</a></li>
+                        <li><a href="vehicules.html"><i class="fas fa-chevron-right"></i> Véhicules</a></li>
+                        <li><a href="residences.html"><i class="fas fa-chevron-right"></i> Résidences</a></li>
+                        <li><a href="location.html"><i class="fas fa-chevron-right"></i> Location</a></li>
+                        <li><a href="reservation.html"><i class="fas fa-chevron-right"></i> Réservation</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Horaires</h3>
+                    <ul class="footer-links">
+                        <li>
+                            <a href="#">
+                                <i class="fas fa-clock"></i>
+                                <span id="footerHours1">Lun-Ven: 8h-18h</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fas fa-clock"></i>
+                                <span id="footerHours2">Samedi: 8h-13h</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fas fa-clock"></i>
+                                <span>Dimanche: Fermé</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; <span id="currentYear">2025</span> <span id="copyrightSiteName">GRÂCE AUTO SERVICE-CI-BKT</span>. Tous droits réservés.</p>
+                <small style="color: #999; margin-top: 10px; display: block;">
+                    Sync: <span id="syncVersion">v2.0</span> • 
+                    Dernière mise à jour: <span id="footerLastUpdate">-</span>
+                </small>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bouton WhatsApp -->
+    <a href="https://wa.me/2250748735115" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Dans residences.html -->
+<script src="js/database.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🏠 Initialisation de la page résidences...');
+    
+    // Mettre à jour l'année en cours
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+    
+    // Variables pour les filtres
+    let currentFilters = {
+        type: 'all',
+        maxPrice: 500000,
+        rooms: 'all',
+        status: 'available'
+    };
+    
+    let currentView = 'grid';
+    let allResidences = [];
+    
+    // Initialiser les paramètres du site
+    function initializeSiteSettings() {
+        const settings = dataManager.getSettings();
+        
+        // Mettre à jour le nom du site
+        document.getElementById('siteName').textContent = settings.name || 'GRÂCE AUTO SERVICE-CI-BKT';
+        document.getElementById('footerSiteName').textContent = settings.name?.split('-')[0] || 'GRÂCE AUTO SERVICE';
+        document.getElementById('copyrightSiteName').textContent = settings.name || 'GRÂCE AUTO SERVICE-CI-BKT';
+        
+        // Mettre à jour la description
+        document.getElementById('footerDescription').textContent = settings.description || 'Vente • Location • Assurance';
+        
+        // Mettre à jour les contacts
+        if (settings.contactPhone) {
+            const phone1 = document.getElementById('footerPhone1');
+            phone1.href = `tel:${settings.contactPhone.replace(/\s+/g, '')}`;
+            phone1.querySelector('span').textContent = settings.contactPhone;
+        }
+        
+        if (settings.otherPhones?.[0]) {
+            const phone2 = document.getElementById('footerPhone2');
+            phone2.href = `tel:${settings.otherPhones[0].replace(/\s+/g, '')}`;
+            phone2.querySelector('span').textContent = settings.otherPhones[0];
+        }
+        
+        if (settings.contactEmail) {
+            const email = document.getElementById('footerEmail');
+            email.href = `mailto:${settings.contactEmail}`;
+            email.querySelector('span').textContent = settings.contactEmail;
+        }
+    }
+    
+    // Fonction pour charger et afficher les résidences
+    function loadResidences() {
+        console.log('📋 Chargement des résidences...');
+        
+        allResidences = dataManager.getResidences();
+        console.log(`🏠 ${allResidences.length} résidences trouvées`);
+        
+        applyFilters();
+        initializePageSettings();
+        populateTypeFilter();
+    }
+    
+    function initializePageSettings() {
+        const settings = dataManager.getSettings();
+        
+        // Titre de la page
+        document.getElementById('pageTitle').textContent = 'Nos Résidences Exclusives';
+        document.getElementById('pageDescription').textContent = 'Découvrez nos appartements et studios meublés de standing, idéals pour vos séjours';
+        
+        // Section title
+        document.getElementById('sectionTitle').textContent = 'Toutes nos Résidences';
+        document.getElementById('sectionSubtitle').textContent = 'Choisissez la résidence qui correspond à vos besoins';
+    }
+    
+    function populateTypeFilter() {
+        const types = getResidenceTypes();
+        const typeSelect = document.getElementById('typeFilter');
+        
+        if (!typeSelect) return;
+        
+        // Vider les options existantes (sauf "Tous les types")
+        while (typeSelect.options.length > 1) {
+            typeSelect.remove(1);
+        }
+        
+        // Ajouter les types de résidences disponibles
+        types.forEach(type => {
+            const option = document.createElement('option');
+            option.value = type;
+            option.textContent = type;
+            typeSelect.appendChild(option);
+        });
+    }
+    
+    function getResidenceTypes() {
+        const residences = dataManager.getResidences();
+        const types = [...new Set(residences.map(r => r.type).filter(Boolean))];
+        return types.sort();
+    }
+    
+    function applyFilters() {
+        const filtered = filterResidences(allResidences);
+        renderResidences(filtered);
+        updateResultsCount(filtered.length);
+    }
+    
+    function filterResidences(residences) {
+        return residences.filter(residence => {
+            // Filtre par type
+            if (currentFilters.type !== 'all' && residence.type !== currentFilters.type) {
+                return false;
+            }
+            
+            // Filtre par prix maximum
+            if (residence.prix > currentFilters.maxPrice) {
+                return false;
+            }
+            
+            // Filtre par nombre de pièces
+            if (currentFilters.rooms !== 'all') {
+                const rooms = parseInt(currentFilters.rooms);
+                if (rooms === 3) {
+                    if (residence.rooms < 3) return false;
+                } else {
+                    if (residence.rooms !== rooms) return false;
+                }
+            }
+            
+            // Filtre par statut
+            if (currentFilters.status === 'available') {
+                if (residence.disponible === false) return false;
+            }
+            
+            return true;
+        });
+    }
+    
+    function renderResidences(residences) {
+        const container = document.getElementById('residencesContainer');
+        const resultsCount = document.getElementById('resultsCount');
+        const resultsInfo = document.getElementById('resultsInfo');
+        
+        if (!container) return;
+        
+        resultsCount.textContent = `${residences.length} résidence${residences.length > 1 ? 's' : ''} trouvée${residences.length > 1 ? 's' : ''}`;
+        resultsInfo.textContent = getActiveFiltersText();
+        
+        // Mettre à jour le timestamp
+        const now = new Date();
+        document.getElementById('lastSyncInfo').textContent = now.toLocaleTimeString();
+        document.getElementById('footerLastUpdate').textContent = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
+        
+        if (residences.length === 0) {
+            container.innerHTML = getNoResidencesHTML();
+            return;
+        }
+        
+        // Vue grille par défaut
+        container.innerHTML = residences.map(createResidenceCard).join('');
+    }
+    
+    function createResidenceCard(residence) {
+        return `
+            <div class="residence-card fade-in">
+                <div class="residence-image">
+                    <img src="${residence.image || 'images/default-house.jpg'}" 
+                         alt="${residence.titre || 'Résidence'}"
+                         onerror="this.src='images/default-house.jpg'">
+                    <span class="residence-badge">${residence.type || 'Résidence'}</span>
+                    <span class="residence-status">${residence.disponible !== false ? 'Disponible' : 'Louée'}</span>
+                </div>
+                <div class="residence-info">
+                    <h3>${residence.titre || 'Résidence'}</h3>
+                    <div class="residence-details">
+                        <span><i class="fas fa-bed"></i> ${residence.rooms || 1} pièce${(residence.rooms || 1) > 1 ? 's' : ''}</span>
+                        <span><i class="fas fa-map-marker-alt"></i> ${residence.localisation || 'Abidjan'}</span>
+                    </div>
+                    <div class="residence-price">
+                        ${formatPrice(residence.prix, true)}
+                    </div>
+                    <p class="residence-description">
+                        ${residence.description?.substring(0, 100) || 'Résidence de qualité avec équipements premium...'}
+                        ${residence.description?.length > 100 ? '...' : ''}
+                    </p>
+                    <div class="residence-features">
+                        ${(residence.caracteristiques || []).slice(0, 4).map(feature => 
+                            `<span class="feature-tag">${feature}</span>`
+                        ).join('')}
+                    </div>
+                </div>
+                <div class="residence-actions">
+                    <a href="reservation.html?item=${residence.id}" class="btn btn-primary">
+                        Réserver maintenant
+                    </a>
+                    <button class="btn btn-secondary" onclick="showResidenceDetails(${residence.id})">
+                        <i class="fas fa-info-circle"></i> Détails
+                    </button>
+                </div>
+            </div>
+        `;
+    }
+    
+    function getNoResidencesHTML() {
+        return `
+            <div class="no-items">
+                <i class="fas fa-search"></i>
+                <h3>Aucune résidence trouvée</h3>
+                <p>Aucune résidence ne correspond à vos critères de recherche.</p>
+                <button onclick="resetResidenceFilters()" class="btn btn-primary">
+                    <i class="fas fa-redo"></i> Réinitialiser les filtres
+                </button>
+            </div>
+        `;
+    }
+    
+    function getActiveFiltersText() {
+        const activeFilters = [];
+        
+        if (currentFilters.type !== 'all') {
+            activeFilters.push(`Type: ${currentFilters.type}`);
+        }
+        
+        if (currentFilters.rooms !== 'all') {
+            const roomsText = currentFilters.rooms === '3' ? '3 pièces ou plus' : `${currentFilters.rooms} pièce${currentFilters.rooms > 1 ? 's' : ''}`;
+            activeFilters.push(`Pièces: ${roomsText}`);
+        }
+        
+        if (currentFilters.maxPrice < 500000) {
+            activeFilters.push(`Prix max: ${formatPrice(currentFilters.maxPrice, true)}`);
+        }
+        
+        if (currentFilters.status !== 'available') {
+            activeFilters.push('Tous statuts');
+        }
+        
+        return activeFilters.length > 0 
+            ? `Filtres actifs: ${activeFilters.join(', ')}` 
+            : 'Filtres: Disponibles uniquement';
+    }
+    
+    function updateResultsCount(count) {
+        const resultsCount = document.getElementById('resultsCount');
+        if (resultsCount) {
+            resultsCount.textContent = `${count} résidence${count > 1 ? 's' : ''} trouvée${count > 1 ? 's' : ''}`;
+        }
+    }
+    
+    function resetResidenceFilters() {
+        currentFilters = {
+            type: 'all',
+            maxPrice: 500000,
+            rooms: 'all',
+            status: 'available'
+        };
+        
+        document.getElementById('typeFilter').value = 'all';
+        document.getElementById('roomsFilter').value = 'all';
+        document.getElementById('statusFilter').value = 'available';
+        document.getElementById('priceRange').value = 500000;
+        document.getElementById('priceValue').textContent = '500 000 FCFA/jour';
+        
+        applyFilters();
+    }
+    
+    // Fonction pour afficher les détails d'une résidence
+    function showResidenceDetails(id) {
+        const residence = dataManager.getItemById(id);
+        if (residence) {
+            const details = `
+                <div style="text-align: left;">
+                    <h3>${residence.titre}</h3>
+                    <p><strong>Prix:</strong> ${formatPrice(residence.prix, true)}</p>
+                    <p><strong>Pièces:</strong> ${residence.rooms || 1}</p>
+                    <p><strong>Localisation:</strong> ${residence.localisation || 'Non spécifiée'}</p>
+                    <p><strong>Statut:</strong> ${residence.disponible !== false ? 'Disponible' : 'Louée'}</p>
+                    <p><strong>Équipements:</strong> ${(residence.caracteristiques || []).join(', ') || 'Aucun'}</p>
+                    <p><strong>Description:</strong> ${residence.description || 'Aucune description disponible'}</p>
+                </div>
+            `;
+            
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    title: 'Détails',
+                    html: details,
+                    icon: 'info',
+                    confirmButtonText: 'Fermer'
+                });
+            } else {
+                alert(details);
+            }
+        }
+    }
+    
+    // Initialiser les événements
+    function initEventListeners() {
+        // Slider prix
+        const priceRange = document.getElementById('priceRange');
+        const priceValue = document.getElementById('priceValue');
+        
+        if (priceRange && priceValue) {
+            priceRange.addEventListener('input', () => {
+                const value = parseInt(priceRange.value);
+                priceValue.textContent = formatPrice(value) + '/jour';
+                currentFilters.maxPrice = value;
+            });
+        }
+        
+        // Filtres
+        document.getElementById('typeFilter')?.addEventListener('change', function() {
+            currentFilters.type = this.value;
+            applyFilters();
+        });
+        
+        document.getElementById('roomsFilter')?.addEventListener('change', function() {
+            currentFilters.rooms = this.value;
+            applyFilters();
+        });
+        
+        document.getElementById('statusFilter')?.addEventListener('change', function() {
+            currentFilters.status = this.value;
+            applyFilters();
+        });
+        
+        // Boutons
+        document.getElementById('applyFilters')?.addEventListener('click', applyFilters);
+        document.getElementById('resetFilters')?.addEventListener('click', resetResidenceFilters);
+        document.getElementById('forceSyncBtn')?.addEventListener('click', () => {
+            dataManager.refresh();
+        });
+        
+        // Vue
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentView = this.getAttribute('data-view');
+                applyFilters();
+            });
+        });
+    }
+    
+    // Gestionnaire d'événements pour les données
+    window.addEventListener('dataLoaded', function() {
+        console.log('🔄 Données chargées pour residences.html');
+        loadResidences();
+        initializePageSettings();
+        initializeSiteSettings();
+        initEventListeners();
+    });
+    
+    // Si les données sont déjà chargées
+    if (dataManager.data) {
+        console.log('📦 Données déjà disponibles pour residences.html');
+        loadResidences();
+        initializePageSettings();
+        initializeSiteSettings();
+        initEventListeners();
+    }
+    
+    // Exposer les fonctions globalement
+    window.resetResidenceFilters = resetResidenceFilters;
+    window.showResidenceDetails = showResidenceDetails;
+});
+</script>
+</body>
+</html>
