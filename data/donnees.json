@@ -4,7 +4,7 @@
       "id": 1,
       "titre": "Toyota RAVé 4",
       "categorie": "vente",
-      "prix": 32000,
+      "prix": 80000000,
       "image": "images/télécharger.webp",
       "description": "SUV familial en excellent état, parfait pour les familles.",
       "caracteristiques": ["4x4", "Automatique", "Climatisation", "Camera de recul"],
@@ -16,7 +16,7 @@
       "id": 2,
       "titre": "Mercedes",
       "categorie": "location",
-      "prix": 450,
+      "prix": 80000000,
       "image": "images/télécharger.webp",
       "description": "Location mensuelle avec option d'achat.",
       "caracteristiques": ["Diesel", "Automatique", "Toit ouvrant"],
@@ -29,7 +29,7 @@
       "id": 1,
       "titre": "Appartement Moderne 3 pièces",
       "categorie": "location",
-      "prix": 25000,
+      "prix": 30000,
       "image": "images/appartement-paris.jpg",
       "description": "Appartement neuf au cœur de Paris",
       "caracteristiques": ["80m²", "3 chambres", "Balcon", "Ascenseur"],
@@ -54,3 +54,4 @@
   "lastUpdate": "2024-01-01T10:00:00.000Z"
 
 }
+
