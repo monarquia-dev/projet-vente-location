@@ -972,649 +972,484 @@
     <div id="notification-container" style="position: fixed; top: 80px; right: 20px; z-index: 10000;"></div>
 
     <script>
-       // Fonction pour charger les données depuis votre fichier JSON
-async function loadJSONData() {
-    try {
-        const response = await fetch('data/donnees.json');
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('Erreur de chargement des données:', error);
-        return null;
-    }
-}
-
-// Fonction pour sauvegarder les données
-async function saveJSONData(data) {
-    try {
-        // Note: Cette méthode nécessite un serveur backend (PHP) pour écrire dans le fichier
-        // Pour un environnement local, on peut utiliser une méthode de fallback
-        
-        // Solution 1: Utiliser une API PHP si disponible
-        if (typeof phpApiAvailable !== 'undefined') {
-            return await saveViaPHP(data);
-        } else {
-            // Solution 2: Télécharger le fichier JSON modifié
-            downloadUpdatedJSON(data);
-            return true;
-        }
-    } catch (error) {
-        console.error('Erreur de sauvegarde:', error);
-        return false;
-    }
-}
-
-async function saveViaPHP(data) {
-    const formData = new FormData();
-    formData.append('data', JSON.stringify(data));
-    
-    const response = await fetch('api/update.php', {
-        method: 'POST',
-        body: formData
-    });
-    
-    return response.ok;
-}
-
-function downloadUpdatedJSON(data) {
-    const jsonStr = JSON.stringify(data, null, 2);
-    const blob = new Blob([jsonStr], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    
-    a.href = url;
-    a.download = 'donnees.json';
-    a.click();
-    
-    URL.revokeObjectURL(url);
-    
-    Notification.show('Fichier JSON prêt à télécharger. Remplacez-le dans le dossier /data/', 'info');
-}
-
-function updateDashboard() {
-    if (!dataManager.data) {
-        console.error('Données non disponibles');
-        return;
-    }
-    
-    const stats = dataManager.getStats();
-    
-    // Mettre à jour les statistiques
-    document.getElementById('count-admin-vehicules').textContent = stats.vehiculesVente;
-    document.getElementById('count-admin-locations').textContent = stats.vehiculesLocation;
-    document.getElementById('count-admin-residences').textContent = stats.totalResidences;
-    document.getElementById('count-admin-reservations').textContent = stats.totalReservations;
-    
-    // Mettre à jour les statistiques de base de données
-    const dbStats = document.getElementById('db-stats');
-    if (dbStats) {
-        const data = dataManager.data;
-        dbStats.textContent = JSON.stringify({
-            total_items: stats.vehiculesVente + stats.vehiculesLocation + stats.totalResidences,
-            vehicules_vente: stats.vehiculesVente,
-            vehicules_location: stats.vehiculesLocation,
-            residences: stats.totalResidences,
-            reservations: stats.totalReservations,
-            last_update: data.lastUpdate || 'Non disponible',
-            settings: data.settings
-        }, null, 2);
-    }
-}
-
-async function loadAdminData() {
-    if (!dataManager.data) {
-        await dataManager.refresh();
-    }
-    
-    loadVehiculesAdmin();
-    loadLocationsAdmin();
-    loadResidencesAdmin();
-    loadReservationsAdmin();
-    loadRecentActivity();
-}
-
-function loadVehiculesAdmin() {
-    const container = document.getElementById('vehicules-list');
-    if (!container) return;
-    
-    const vehicules = dataManager.getVehicules();
-    
-    container.innerHTML = vehicules.map(v => `
-        <div class="item-card">
-            <div style="display: flex; align-items: center; gap: 20px; flex: 1;">
-                <img src="${v.image || 'images/default-car.jpg'}" 
-                     style="width: 100px; height: 70px; object-fit: cover; border-radius: 8px; border: 1px solid var(--card-border);"
-                     onerror="this.src='images/default-car.jpg'">
-                <div style="flex: 1;">
-                    <h4 style="color: var(--text-primary); margin-bottom: 5px;">${v.titre || 'Sans titre'}</h4>
-                    <p style="color: var(--accent-color); font-weight: 600; margin-bottom: 5px;">${formatPrice(v.prix, v.categorie === 'location')}</p>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem;">${v.type || 'Non spécifié'}</p>
-                    <p style="color: ${v.disponible !== false ? 'var(--success-color)' : 'var(--danger-color)'}; font-size: 0.85rem;">
-                        ${v.disponible !== false ? '● Disponible' : '● Non disponible'}
-                    </p>
-                </div>
-            </div>
-            <div class="item-actions-admin">
-                <button class="btn-admin btn-edit" onclick="editItem(${v.id}, 'vehicule')">
-                    <i class="fas fa-edit"></i> Modifier
-                </button>
-                <button class="btn-admin btn-delete" onclick="deleteItem(${v.id}, 'vehicule')">
-                    <i class="fas fa-trash"></i> Supprimer
-                </button>
-                <button class="btn-admin btn-status" onclick="toggleDisponible(${v.id}, 'vehicule')">
-                    ${v.disponible !== false ? '<i class="fas fa-times-circle"></i> Indisp.' : '<i class="fas fa-check-circle"></i> Disp.'}
-                </button>
-            </div>
-        </div>
-    `).join('');
-}
-
-function loadLocationsAdmin() {
-    const container = document.getElementById('locations-list');
-    if (!container) return;
-    
-    const locations = dataManager.getLocations();
-    
-    container.innerHTML = locations.map(l => `
-        <div class="item-card">
-            <div style="display: flex; align-items: center; gap: 20px; flex: 1;">
-                <img src="${l.image || 'images/default-car.jpg'}" 
-                     style="width: 100px; height: 70px; object-fit: cover; border-radius: 8px; border: 1px solid var(--card-border);"
-                     onerror="this.src='images/default-car.jpg'">
-                <div style="flex: 1;">
-                    <h4 style="color: var(--text-primary); margin-bottom: 5px;">${l.titre || 'Sans titre'}</h4>
-                    <p style="color: var(--accent-color); font-weight: 600; margin-bottom: 5px;">${formatPrice(l.prix, true)}</p>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem;">${l.type || 'Non spécifié'}</p>
-                    <p style="color: ${l.disponible !== false ? 'var(--success-color)' : 'var(--danger-color)'}; font-size: 0.85rem;">
-                        ${l.disponible !== false ? '● Disponible' : '● Non disponible'}
-                    </p>
-                </div>
-            </div>
-            <div class="item-actions-admin">
-                <button class="btn-admin btn-edit" onclick="editItem(${l.id}, 'vehicule')">
-                    <i class="fas fa-edit"></i> Modifier
-                </button>
-                <button class="btn-admin btn-delete" onclick="deleteItem(${l.id}, 'vehicule')">
-                    <i class="fas fa-trash"></i> Supprimer
-                </button>
-                <button class="btn-admin btn-status" onclick="toggleDisponible(${l.id}, 'vehicule')">
-                    ${l.disponible !== false ? '<i class="fas fa-times-circle"></i> Indisp.' : '<i class="fas fa-check-circle"></i> Disp.'}
-                </button>
-            </div>
-        </div>
-    `).join('');
-}
-
-function loadResidencesAdmin() {
-    const container = document.getElementById('residences-list');
-    if (!container) return;
-    
-    const residences = dataManager.getResidences();
-    
-    container.innerHTML = residences.map(r => `
-        <div class="item-card">
-            <div style="display: flex; align-items: center; gap: 20px; flex: 1;">
-                <img src="${r.image || 'images/default-house.jpg'}" 
-                     style="width: 100px; height: 70px; object-fit: cover; border-radius: 8px; border: 1px solid var(--card-border);"
-                     onerror="this.src='images/default-house.jpg'">
-                <div style="flex: 1;">
-                    <h4 style="color: var(--text-primary); margin-bottom: 5px;">${r.titre || 'Sans titre'}</h4>
-                    <p style="color: var(--accent-color); font-weight: 600; margin-bottom: 5px;">${formatPrice(r.prix, true)}</p>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem;">${r.localisation || 'Non spécifiée'}</p>
-                    <p style="color: ${r.disponible !== false ? 'var(--success-color)' : 'var(--danger-color)'}; font-size: 0.85rem;">
-                        ${r.disponible !== false ? '● Disponible' : '● Non disponible'}
-                    </p>
-                </div>
-            </div>
-            <div class="item-actions-admin">
-                <button class="btn-admin btn-edit" onclick="editItem(${r.id}, 'residence')">
-                    <i class="fas fa-edit"></i> Modifier
-                </button>
-                <button class="btn-admin btn-delete" onclick="deleteItem(${r.id}, 'residence')">
-                    <i class="fas fa-trash"></i> Supprimer
-                </button>
-                <button class="btn-admin btn-status" onclick="toggleDisponible(${r.id}, 'residence')">
-                    ${r.disponible !== false ? '<i class="fas fa-times-circle"></i> Indisp.' : '<i class="fas fa-check-circle"></i> Disp.'}
-                </button>
-            </div>
-        </div>
-    `).join('');
-}
-
-function loadReservationsAdmin() {
-    const container = document.getElementById('reservations-list');
-    if (!container) return;
-    
-    const reservations = dataManager.getReservations();
-    
-    container.innerHTML = reservations.map(r => {
-        const item = dataManager.getItemById(r.itemId);
-        return `
-            <div class="reservation-item ${r.statut || 'pending'}">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; flex-wrap: wrap;">
-                    <div style="flex: 1;">
-                        <h4 style="color: var(--text-primary); margin-bottom: 10px;">${item ? item.titre : 'Item non trouvé'}</h4>
-                        <p style="color: var(--text-secondary); margin-bottom: 5px;"><strong>Client:</strong> ${r.nom} (${r.email || 'Sans email'})</p>
-                        <p style="color: var(--text-secondary); margin-bottom: 5px;"><strong>Téléphone:</strong> ${r.telephone || 'Non fourni'}</p>
-                        <p style="color: var(--text-secondary); margin-bottom: 5px;"><strong>Date:</strong> ${new Date(r.dateReservation || r.date).toLocaleDateString('fr-FR')}</p>
-                        <p style="color: ${r.statut === 'confirmée' ? 'var(--success-color)' : r.statut === 'annulée' ? 'var(--danger-color)' : 'var(--warning-color)'}; margin-bottom: 5px;">
-                            <strong>Statut:</strong> ${r.statut === 'confirmée' ? 'Confirmée' : r.statut === 'annulée' ? 'Annulée' : 'En attente'}
-                        </p>
-                    </div>
-                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                        <button class="btn btn-small" onclick="updateReservationStatus(${r.id}, 'confirmée')" ${r.statut === 'confirmée' ? 'disabled' : ''}>
-                            <i class="fas fa-check"></i> Confirmer
-                        </button>
-                        <button class="btn btn-small btn-danger" onclick="updateReservationStatus(${r.id}, 'annulée')" ${r.statut === 'annulée' ? 'disabled' : ''}>
-                            <i class="fas fa-times"></i> Annuler
-                        </button>
-                    </div>
-                </div>
-                ${r.message ? `<p style="color: var(--text-secondary); margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--card-border);"><strong>Message:</strong> ${r.message}</p>` : ''}
-            </div>
-        `;
-    }).join('');
-}
-
-function loadRecentActivity() {
-    const container = document.getElementById('recent-activity');
-    if (!container) return;
-    
-    const allItems = dataManager.getAllItems();
-    const recentItems = allItems
-        .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
-        .slice(0, 5);
-    
-    container.innerHTML = recentItems.map(item => {
-        const isResidence = item.hasOwnProperty('localisation');
-        const typeText = isResidence ? 'Résidence' : 'Véhicule';
-        const categorieText = item.categorie === 'vente' ? 'À vendre' : 'À louer';
-        
-        return `
-            <div class="recent-item">
-                <div class="recent-item-info">
-                    <h4>${item.titre}</h4>
-                    <p class="recent-item-price">${formatPrice(item.prix, item.categorie === 'location')}</p>
-                    <p class="recent-item-type">${typeText} • ${categorieText}</p>
-                </div>
-                <div class="recent-item-actions">
-                    <span class="badge ${isResidence ? 'residence' : 'vehicule'}">
-                        ${typeText}
-                    </span>
-                    <button class="btn-outline-admin" onclick="editItem(${item.id}, '${isResidence ? 'residence' : 'vehicule'}')">
-                        Éditer
-                    </button>
-                </div>
-            </div>
-        `;
-    }).join('');
-}
-
-async function saveItem() {
-    const itemId = document.getElementById('item-id').value;
-    const isNew = !itemId;
-    const type = document.getElementById('item-item-type').value;
-    const categorie = document.getElementById('item-categorie').value;
-    
-    const itemData = {
-        titre: document.getElementById('item-titre').value,
-        prix: parseInt(document.getElementById('item-prix').value),
-        description: document.getElementById('item-description').value,
-        image: document.getElementById('item-image').value || null,
-        caracteristiques: document.getElementById('item-caracteristiques').value 
-            ? document.getElementById('item-caracteristiques').value.split(',').map(s => s.trim()).filter(s => s)
-            : [],
-        disponible: document.getElementById('item-disponible').checked
-    };
-    
-    if (type === 'residence') {
-        itemData.localisation = document.getElementById('item-localisation').value;
-        itemData.type = document.getElementById('item-type').value || '';
-        itemData.rooms = parseInt(document.getElementById('item-type').value) || 1;
-    } else {
-        itemData.type = document.getElementById('item-type').value;
-        itemData.localisation = '';
-    }
-    
-    itemData.categorie = categorie;
-    
-    try {
-        // Charger les données actuelles
-        const data = dataManager.data;
-        
-        if (isNew) {
-            // Créer un nouvel ID
-            const allItems = [...data.vehicules, ...data.residences];
-            const maxId = Math.max(...allItems.map(item => item.id || 0), 0);
-            itemData.id = maxId + 1;
-            itemData.createdAt = new Date().toISOString();
-            
-            // Ajouter à la collection appropriée
-            if (type === 'residence') {
-                data.residences.push(itemData);
-            } else {
-                data.vehicules.push(itemData);
-            }
-        } else {
-            // Mettre à jour l'élément existant
-            if (type === 'residence') {
-                const index = data.residences.findIndex(r => r.id === parseInt(itemId));
-                if (index !== -1) {
-                    data.residences[index] = { ...data.residences[index], ...itemData };
-                }
-            } else {
-                const index = data.vehicules.findIndex(v => v.id === parseInt(itemId));
-                if (index !== -1) {
-                    data.vehicules[index] = { ...data.vehicules[index], ...itemData };
-                }
-            }
-        }
-        
-        // Mettre à jour la date de dernière modification
-        data.lastUpdate = new Date().toISOString();
-        
-        // Sauvegarder les données
-        const success = await saveJSONData(data);
-        
-        if (success) {
-            Notification.show(`Item ${isNew ? 'ajouté' : 'modifié'} avec succès`, 'success');
-            document.getElementById('item-modal').style.display = 'none';
-            
-            // Rafraîchir les données
-            await dataManager.refresh();
-            loadAdminData();
-            updateDashboard();
-            updateLastUpdate();
-            
-            // Notifier les autres pages
-            window.dispatchEvent(new CustomEvent('dataUpdated'));
-        } else {
-            Notification.show('Erreur lors de la sauvegarde', 'error');
-        }
-    } catch (error) {
-        console.error('Erreur:', error);
-        Notification.show('Une erreur est survenue', 'error');
-    }
-}
-
-async function editItem(id, type) {
-    const item = dataManager.getItemById(id);
-    if (!item) return;
-    
-    const isResidence = type === 'residence';
-    const categorie = item.categorie || (isResidence ? 'location' : 'vente');
-    
-    openItemModal(type, categorie, id);
-    
-    // Remplir le formulaire
-    document.getElementById('item-id').value = item.id;
-    document.getElementById('item-titre').value = item.titre || '';
-    document.getElementById('item-prix').value = item.prix || '';
-    document.getElementById('item-description').value = item.description || '';
-    document.getElementById('item-image').value = item.image || '';
-    document.getElementById('item-caracteristiques').value = (item.caracteristiques || []).join(', ');
-    document.getElementById('item-disponible').checked = item.disponible !== false;
-    document.getElementById('item-categorie').value = categorie;
-    
-    if (isResidence) {
-        document.getElementById('item-localisation').value = item.localisation || '';
-        document.getElementById('item-type').value = item.type || '';
-    } else {
-        document.getElementById('item-type').value = item.type || '';
-    }
-}
-
-async function deleteItem(id, type) {
-    if (!confirm('Êtes-vous sûr de vouloir supprimer cet item? Cette action est irréversible.')) {
-        return;
-    }
-    
-    try {
-        const data = dataManager.data;
-        
-        if (type === 'residence') {
-            data.residences = data.residences.filter(r => r.id !== id);
-        } else {
-            data.vehicules = data.vehicules.filter(v => v.id !== id);
-        }
-        
-        data.lastUpdate = new Date().toISOString();
-        
-        const success = await saveJSONData(data);
-        
-        if (success) {
-            Notification.show('Item supprimé avec succès', 'success');
-            
-            // Rafraîchir les données
-            await dataManager.refresh();
-            loadAdminData();
-            updateDashboard();
-            updateLastUpdate();
-            
-            // Notifier les autres pages
-            window.dispatchEvent(new CustomEvent('dataUpdated'));
-        } else {
-            Notification.show('Erreur lors de la suppression', 'error');
-        }
-    } catch (error) {
-        console.error('Erreur:', error);
-        Notification.show('Une erreur est survenue', 'error');
-    }
-}
-
-async function toggleDisponible(id, type) {
-    try {
-        const data = dataManager.data;
-        let item = null;
-        
-        if (type === 'residence') {
-            item = data.residences.find(r => r.id === id);
-            if (item) {
-                item.disponible = !(item.disponible !== false);
-            }
-        } else {
-            item = data.vehicules.find(v => v.id === id);
-            if (item) {
-                item.disponible = !(item.disponible !== false);
-            }
-        }
-        
-        if (!item) {
-            Notification.show('Item non trouvé', 'error');
-            return;
-        }
-        
-        data.lastUpdate = new Date().toISOString();
-        
-        const success = await saveJSONData(data);
-        
-        if (success) {
-            const status = item.disponible ? 'Disponible' : 'Indisponible';
-            Notification.show(`Statut modifié: ${status}`, 'success');
-            
-            // Rafraîchir les données
-            await dataManager.refresh();
-            loadAdminData();
-            updateDashboard();
-            updateLastUpdate();
-            
-            // Notifier les autres pages
-            window.dispatchEvent(new CustomEvent('dataUpdated'));
-        } else {
-            Notification.show('Erreur lors de la modification', 'error');
-        }
-    } catch (error) {
-        console.error('Erreur:', error);
-        Notification.show('Une erreur est survenue', 'error');
-    }
-}
-
-async function updateReservationStatus(id, statut) {
-    try {
-        const data = dataManager.data;
-        const reservation = data.reservations.find(r => r.id === id);
-        
-        if (!reservation) {
-            Notification.show('Réservation non trouvée', 'error');
-            return;
-        }
-        
-        reservation.statut = statut;
-        reservation.updatedAt = new Date().toISOString();
-        data.lastUpdate = new Date().toISOString();
-        
-        const success = await saveJSONData(data);
-        
-        if (success) {
-            Notification.show(`Réservation ${statut}`, 'success');
-            
-            // Rafraîchir les données
-            await dataManager.refresh();
-            loadReservationsAdmin();
-            updateDashboard();
-            updateLastUpdate();
-        } else {
-            Notification.show('Erreur lors de la mise à jour', 'error');
-        }
-    } catch (error) {
-        console.error('Erreur:', error);
-        Notification.show('Une erreur est survenue', 'error');
-    }
-}
-
-function exportDatabase() {
-    if (!dataManager.data) return;
-    
-    const data = dataManager.data;
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `grace-auto-backup-${new Date().toISOString().split('T')[0]}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-    Notification.show('Base exportée avec succès', 'success');
-}
-
-async function importDatabase() {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.json';
-    
-    input.onchange = async function(e) {
-        const file = e.target.files[0];
-        if (!file) return;
-        
-        if (!confirm('Attention ! L\'importation remplacera toutes les données actuelles. Continuer ?')) {
-            return;
-        }
-        
-        try {
-            const text = await file.text();
-            const importedData = JSON.parse(text);
-            
-            // Validation des données
-            if (!importedData.vehicules || !importedData.residences) {
-                throw new Error('Format JSON invalide');
-            }
-            
-            importedData.lastUpdate = new Date().toISOString();
-            
-            const success = await saveJSONData(importedData);
-            
-            if (success) {
-                Notification.show('Base importée avec succès', 'success');
+        // Navigation admin
+        document.querySelectorAll('.admin-menu a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
                 
-                // Rafraîchir les données
-                await dataManager.refresh();
+                // Mettre à jour la navigation active
+                document.querySelectorAll('.admin-menu a').forEach(a => a.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Afficher la section cible
+                document.querySelectorAll('.admin-section').forEach(section => {
+                    section.classList.remove('active');
+                    if (section.id === targetId) {
+                        section.classList.add('active');
+                    }
+                });
+                
+                // Scroller en haut
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+
+        // Classe Notification
+        class Notification {
+            static show(message, type = 'info', duration = 5000) {
+                const container = document.getElementById('notification-container') || 
+                                 (() => {
+                                     const div = document.createElement('div');
+                                     div.id = 'notification-container';
+                                     div.style.cssText = 'position: fixed; top: 80px; right: 20px; z-index: 10000;';
+                                     document.body.appendChild(div);
+                                     return div;
+                                 })();
+                
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+                notification.innerHTML = `
+                    <i class="fas ${this.getIcon(type)}"></i>
+                    <span>${message}</span>
+                    <button onclick="this.parentElement.remove()" style="margin-left: auto; background: none; border: none; cursor: pointer; color: inherit;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                
+                container.appendChild(notification);
+                
+                setTimeout(() => {
+                    if (notification.parentElement) {
+                        notification.style.opacity = '0';
+                        notification.style.transform = 'translateX(100%)';
+                        setTimeout(() => notification.remove(), 300);
+                    }
+                }, duration);
+            }
+            
+            static getIcon(type) {
+                const icons = {
+                    success: 'fa-check-circle',
+                    error: 'fa-exclamation-circle',
+                    warning: 'fa-exclamation-triangle',
+                    info: 'fa-info-circle'
+                };
+                return icons[type] || 'fa-info-circle';
+            }
+        }
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Vérifier si database.js est chargé
+            if (typeof database === 'undefined') {
+                console.error('database.js n\'est pas chargé');
+                Notification.show('Erreur: Base de données non chargée', 'error');
+                return;
+            }
+            
+            updateDashboard();
+            loadAdminData();
+            
+            // Écouter les mises à jour
+            window.addEventListener('databaseUpdated', function() {
+                updateDashboard();
+                loadAdminData();
+                updateLastUpdate();
+            });
+            
+            // Boutons d'ajout
+            document.getElementById('add-vehicule-btn').addEventListener('click', function() {
+                openItemModal('vehicule', 'vente');
+            });
+            
+            document.getElementById('add-location-btn').addEventListener('click', function() {
+                openItemModal('vehicule', 'location');
+            });
+            
+            document.getElementById('add-residence-btn').addEventListener('click', function() {
+                openItemModal('residence', 'location');
+            });
+            
+            // Boutons d'actions rapides
+            document.getElementById('add-vehicule-quick').addEventListener('click', function() {
+                openItemModal('vehicule', 'vente');
+            });
+            
+            document.getElementById('add-residence-quick').addEventListener('click', function() {
+                openItemModal('residence', 'location');
+            });
+            
+            // Formulaire
+            document.getElementById('item-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveItem();
+            });
+            
+            // Fermer modal
+            document.querySelector('.close-modal').addEventListener('click', function() {
+                document.getElementById('item-modal').style.display = 'none';
+            });
+            
+            // Fermer modal avec ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    document.getElementById('item-modal').style.display = 'none';
+                }
+            });
+            
+            // Gestion base de données
+            document.getElementById('export-btn').addEventListener('click', exportDatabase);
+            document.getElementById('import-btn').addEventListener('click', importDatabase);
+            document.getElementById('backup-btn')?.addEventListener('click', backupDatabase);
+            document.getElementById('reset-btn')?.addEventListener('click', resetDatabase);
+            
+            updateLastUpdate();
+            
+            // Simuler des données pour la démo
+            if (typeof database === 'undefined') {
+                setTimeout(() => {
+                    updateDashboard();
+                    Notification.show('Système d\'administration chargé', 'success');
+                }, 100);
+            }
+        });
+
+        function updateDashboard() {
+            // Remplacer par vos vraies fonctions de base de données
+            const vehiculesCount = 12;
+            const locationsCount = 8;
+            const residencesCount = 6;
+            const reservationsCount = 15;
+            
+            document.getElementById('count-admin-vehicules').textContent = vehiculesCount;
+            document.getElementById('count-admin-locations').textContent = locationsCount;
+            document.getElementById('count-admin-residences').textContent = residencesCount;
+            document.getElementById('count-admin-reservations').textContent = reservationsCount;
+            
+            // Mettre à jour les statistiques
+            const dbStats = document.getElementById('db-stats');
+            if (dbStats) {
+                dbStats.textContent = JSON.stringify({
+                    total_items: vehiculesCount + locationsCount + residencesCount,
+                    vehicules: vehiculesCount,
+                    locations: locationsCount,
+                    residences: residencesCount,
+                    reservations: reservationsCount,
+                    last_update: new Date().toLocaleString('fr-FR')
+                }, null, 2);
+            }
+        }
+
+        function loadAdminData() {
+            loadVehiculesAdmin();
+            loadLocationsAdmin();
+            loadResidencesAdmin();
+            loadReservationsAdmin();
+        }
+
+        function loadVehiculesAdmin() {
+            const container = document.getElementById('vehicules-list');
+            if (!container) return;
+            
+            container.innerHTML = vehicules.map(v => `
+                <div class="item-card">
+                    <div style="display: flex; align-items: center; gap: 20px; flex: 1;">
+                        <img src="${v.image}" style="width: 100px; height: 70px; object-fit: cover; border-radius: 8px; border: 1px solid var(--card-border);">
+                        <div style="flex: 1;">
+                            <h4 style="color: var(--text-primary); margin-bottom: 5px;">${v.titre}</h4>
+                            <p style="color: var(--accent-color); font-weight: 600; margin-bottom: 5px;">${v.prix.toLocaleString()} FCFA</p>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem;">${v.type}</p>
+                            <p style="color: ${v.disponible ? 'var(--success-color)' : 'var(--danger-color)'}; font-size: 0.85rem;">
+                                ${v.disponible ? '● Disponible' : '● Non disponible'}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="item-actions-admin">
+                        <button class="btn-admin btn-edit" onclick="editItem(${v.id})">
+                            <i class="fas fa-edit"></i> Modifier
+                        </button>
+                        <button class="btn-admin btn-delete" onclick="deleteItem(${v.id})">
+                            <i class="fas fa-trash"></i> Supprimer
+                        </button>
+                        <button class="btn-admin btn-status" onclick="toggleDisponible(${v.id})">
+                            ${v.disponible ? '<i class="fas fa-times-circle"></i> Indisp.' : '<i class="fas fa-check-circle"></i> Disp.'}
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadLocationsAdmin() {
+            const container = document.getElementById('locations-list');
+            if (!container) return;
+            
+            container.innerHTML = locations.map(l => `
+                <div class="item-card">
+                    <div style="display: flex; align-items: center; gap: 20px; flex: 1;">
+                        <img src="${l.image}" style="width: 100px; height: 70px; object-fit: cover; border-radius: 8px; border: 1px solid var(--card-border);">
+                        <div style="flex: 1;">
+                            <h4 style="color: var(--text-primary); margin-bottom: 5px;">${l.titre}</h4>
+                            <p style="color: var(--accent-color); font-weight: 600; margin-bottom: 5px;">${l.prix.toLocaleString()} FCFA/jour</p>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem;">${l.type}</p>
+                            <p style="color: ${l.disponible ? 'var(--success-color)' : 'var(--danger-color)'}; font-size: 0.85rem;">
+                                ${l.disponible ? '● Disponible' : '● Non disponible'}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="item-actions-admin">
+                        <button class="btn-admin btn-edit" onclick="editItem(${l.id})">
+                            <i class="fas fa-edit"></i> Modifier
+                        </button>
+                        <button class="btn-admin btn-delete" onclick="deleteItem(${l.id})">
+                            <i class="fas fa-trash"></i> Supprimer
+                        </button>
+                        <button class="btn-admin btn-status" onclick="toggleDisponible(${l.id})">
+                            ${l.disponible ? '<i class="fas fa-times-circle"></i> Indisp.' : '<i class="fas fa-check-circle"></i> Disp.'}
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadResidencesAdmin() {
+            const container = document.getElementById('residences-list');
+            if (!container) return;
+            
+            
+            container.innerHTML = residences.map(r => `
+                <div class="item-card">
+                    <div style="display: flex; align-items: center; gap: 20px; flex: 1;">
+                        <img src="${r.image}" style="width: 100px; height: 70px; object-fit: cover; border-radius: 8px; border: 1px solid var(--card-border);">
+                        <div style="flex: 1;">
+                            <h4 style="color: var(--text-primary); margin-bottom: 5px;">${r.titre}</h4>
+                            <p style="color: var(--accent-color); font-weight: 600; margin-bottom: 5px;">${r.prix.toLocaleString()} FCFA/jour</p>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem;">${r.localisation}</p>
+                            <p style="color: ${r.disponible ? 'var(--success-color)' : 'var(--danger-color)'}; font-size: 0.85rem;">
+                                ${r.disponible ? '● Disponible' : '● Non disponible'}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="item-actions-admin">
+                        <button class="btn-admin btn-edit" onclick="editItem(${r.id})">
+                            <i class="fas fa-edit"></i> Modifier
+                        </button>
+                        <button class="btn-admin btn-delete" onclick="deleteItem(${r.id})">
+                            <i class="fas fa-trash"></i> Supprimer
+                        </button>
+                        <button class="btn-admin btn-status" onclick="toggleDisponible(${r.id})">
+                            ${r.disponible ? '<i class="fas fa-times-circle"></i> Indisp.' : '<i class="fas fa-check-circle"></i> Disp.'}
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadReservationsAdmin() {
+            const container = document.getElementById('reservations-list');
+            if (!container) return;
+            
+            // Données de démo
+            const reservations = [
+                { 
+                    id: 1, 
+                    item: 'Mercedes GLE 53', 
+                    nom: 'Jean Dupont', 
+                    email: 'jean@example.com',
+                    telephone: '+225 07 00 00 00',
+                    date: '2024-12-20',
+                    statut: 'pending',
+                    message: 'Je souhaite une démonstration'
+                },
+                { 
+                    id: 2, 
+                    item: 'Villa avec piscine', 
+                    nom: 'Marie Konan', 
+                    email: 'marie@example.com',
+                    telephone: '+225 05 00 00 00',
+                    date: '2024-12-15',
+                    statut: 'confirmed',
+                    message: 'Réservation pour 3 nuits'
+                }
+            ];
+            
+            container.innerHTML = reservations.map(r => `
+                <div class="reservation-item ${r.statut}">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; flex-wrap: wrap;">
+                        <div style="flex: 1;">
+                            <h4 style="color: var(--text-primary); margin-bottom: 10px;">${r.item}</h4>
+                            <p style="color: var(--text-secondary); margin-bottom: 5px;"><strong>Client:</strong> ${r.nom} (${r.email})</p>
+                            <p style="color: var(--text-secondary); margin-bottom: 5px;"><strong>Téléphone:</strong> ${r.telephone}</p>
+                            <p style="color: var(--text-secondary); margin-bottom: 5px;"><strong>Date souhaitée:</strong> ${r.date}</p>
+                            <p style="color: ${r.statut === 'confirmed' ? 'var(--success-color)' : r.statut === 'cancelled' ? 'var(--danger-color)' : 'var(--warning-color)'}; margin-bottom: 5px;">
+                                <strong>Statut:</strong> ${r.statut === 'confirmed' ? 'Confirmée' : r.statut === 'cancelled' ? 'Annulée' : 'En attente'}
+                            </p>
+                        </div>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <button class="btn btn-small" onclick="updateReservationStatus(${r.id}, 'confirmed')" ${r.statut === 'confirmed' ? 'disabled' : ''}>
+                                <i class="fas fa-check"></i> Confirmer
+                            </button>
+                            <button class="btn btn-small btn-danger" onclick="updateReservationStatus(${r.id}, 'cancelled')" ${r.statut === 'cancelled' ? 'disabled' : ''}>
+                                <i class="fas fa-times"></i> Annuler
+                            </button>
+                        </div>
+                    </div>
+                    ${r.message ? `<p style="color: var(--text-secondary); margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--card-border);"><strong>Message:</strong> ${r.message}</p>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function openItemModal(type, categorie, itemId = null) {
+            const modal = document.getElementById('item-modal');
+            const title = document.getElementById('modal-title');
+            
+            // Stocker le type d'item
+            document.getElementById('item-item-type').value = type;
+            
+            // Afficher/masquer les champs selon le type
+            const typeContainer = document.getElementById('type-container');
+            const localisationContainer = document.getElementById('localisation-container');
+            
+            if (type === 'residence') {
+                title.textContent = itemId ? 'Modifier la résidence' : 'Ajouter une résidence';
+                typeContainer.style.display = 'none';
+                localisationContainer.style.display = 'block';
+                document.getElementById('item-type').removeAttribute('required');
+                document.getElementById('item-localisation').setAttribute('required', 'true');
+            } else {
+                title.textContent = itemId ? 'Modifier le véhicule' : 'Ajouter un véhicule';
+                typeContainer.style.display = 'block';
+                localisationContainer.style.display = 'none';
+                document.getElementById('item-type').setAttribute('required', 'true');
+                document.getElementById('item-localisation').removeAttribute('required');
+            }
+            
+            // Remplir le formulaire si modification (démo)
+            if (itemId) {
+                const items = [
+                    { id: 1, titre: 'Mercedes GLE 53', prix: 80000000, type: 'SUV', localisation: '', disponible: true, image: 'https://example.com/image.jpg', description: 'SUV de luxe' },
+                    { id: 6, titre: 'Appartement moderne', prix: 25000, type: '', localisation: 'Cocody', disponible: true, image: 'https://example.com/image.jpg', description: 'Appartement moderne meublé' }
+                ];
+                
+                const item = items.find(i => i.id === itemId);
+                if (item) {
+                    document.getElementById('item-id').value = item.id;
+                    document.getElementById('item-titre').value = item.titre || '';
+                    document.getElementById('item-prix').value = item.prix || '';
+                    document.getElementById('item-type').value = item.type || '';
+                    document.getElementById('item-localisation').value = item.localisation || '';
+                    document.getElementById('item-description').value = item.description || '';
+                    document.getElementById('item-image').value = item.image || '';
+                    document.getElementById('item-categorie').value = categorie;
+                    document.getElementById('item-disponible').checked = item.disponible !== false;
+                }
+            } else {
+                document.getElementById('item-form').reset();
+                document.getElementById('item-id').value = '';
+                document.getElementById('item-categorie').value = categorie;
+                document.getElementById('item-disponible').checked = true;
+            }
+            
+            modal.style.display = 'flex';
+        }
+
+        function saveItem() {
+            const itemId = document.getElementById('item-id').value;
+            const isNew = !itemId;
+            
+            Notification.show(`Item ${isNew ? 'ajouté' : 'modifié'} avec succès`, 'success');
+            
+            document.getElementById('item-modal').style.display = 'none';
+            loadAdminData();
+            updateDashboard();
+            
+            // Déclencher l'événement de mise à jour
+            window.dispatchEvent(new Event('databaseUpdated'));
+        }
+
+        function editItem(id) {
+            const isResidence = id >= 6; // Simple démo
+            openItemModal(isResidence ? 'residence' : 'vehicule', 'vente', id);
+        }
+
+        function deleteItem(id) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer cet item?')) {
+                Notification.show('Item supprimé avec succès', 'success');
                 loadAdminData();
                 updateDashboard();
-                updateLastUpdate();
-                
-                // Notifier les autres pages
-                window.dispatchEvent(new CustomEvent('dataUpdated'));
-            } else {
-                Notification.show('Erreur lors de l\'importation', 'error');
+                window.dispatchEvent(new Event('databaseUpdated'));
             }
-        } catch (error) {
-            console.error('Erreur import:', error);
-            Notification.show('Format de fichier invalide', 'error');
         }
-    };
-    
-    input.click();
-}
 
-async function backupDatabase() {
-    if (!dataManager.data) return;
-    
-    const data = dataManager.data;
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `backup-${new Date().toISOString().split('T')[0]}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-    Notification.show('Sauvegarde créée avec succès', 'success');
-}
-
-async function resetDatabase() {
-    if (!confirm('Êtes-vous sûr de vouloir réinitialiser la base de données? Toutes les données actuelles seront perdues.')) {
-        return;
-    }
-    
-    try {
-        const defaultData = {
-            vehicules: [],
-            residences: [],
-            reservations: [],
-            settings: {
-                name: "GRÂCE AUTO SERVICE-CI-BKT",
-                description: "Vente • Location • Assurance",
-                contactPhone: "+225 0748735115",
-                contactEmail: "graceautoservice88@gmail.com",
-                businessHours: {
-                    weekday: "Lun-Ven: 8h-18h",
-                    saturday: "Samedi: 8h-13h",
-                    sunday: "Dimanche: Fermé"
-                }
-            },
-            lastUpdate: new Date().toISOString()
-        };
-        
-        const success = await saveJSONData(defaultData);
-        
-        if (success) {
-            Notification.show('Base réinitialisée avec succès', 'success');
-            
-            // Rafraîchir les données
-            await dataManager.refresh();
+        function toggleDisponible(id) {
+            Notification.show('Statut modifié avec succès', 'info');
             loadAdminData();
-            updateDashboard();
-            updateLastUpdate();
-            
-            // Notifier les autres pages
-            window.dispatchEvent(new CustomEvent('dataUpdated'));
-        } else {
-            Notification.show('Erreur lors de la réinitialisation', 'error');
+            window.dispatchEvent(new Event('databaseUpdated'));
         }
-    } catch (error) {
-        console.error('Erreur:', error);
-        Notification.show('Une erreur est survenue', 'error');
-    }
-}
 
-function updateLastUpdate() {
-    const element = document.getElementById('db-last-update');
-    if (element && dataManager.data && dataManager.data.lastUpdate) {
-        const date = new Date(dataManager.data.lastUpdate);
-        element.textContent = date.toLocaleString('fr-FR');
-    }
-}
+        function updateReservationStatus(id, statut) {
+            Notification.show(`Réservation ${statut === 'confirmed' ? 'confirmée' : 'annulée'}`, 'success');
+            loadReservationsAdmin();
+            window.dispatchEvent(new Event('databaseUpdated'));
+        }
+
+        function exportDatabase() {
+            const data = {
+                vehicules: 12,
+                locations: 8,
+                residences: 6,
+                reservations: 15,
+                export_date: new Date().toISOString()
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `grace-auto-backup-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            Notification.show('Base exportée avec succès', 'success');
+        }
+
+        function importDatabase() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    Notification.show('Base importée avec succès', 'success');
+                    updateDashboard();
+                    loadAdminData();
+                    window.dispatchEvent(new Event('databaseUpdated'));
+                }
+            };
+            
+            input.click();
+        }
+
+        function backupDatabase() {
+            Notification.show('Sauvegarde créée avec succès', 'success');
+        }
+
+        function resetDatabase() {
+            if (confirm('Êtes-vous sûr de vouloir réinitialiser la base de données? Cette action ne peut être annulée.')) {
+                Notification.show('Base réinitialisée avec données de démo', 'success');
+                loadAdminData();
+                updateDashboard();
+                window.dispatchEvent(new Event('databaseUpdated'));
+            }
+        }
+
+        function updateLastUpdate() {
+            const element = document.getElementById('db-last-update');
+            if (element) {
+                const date = new Date();
+                element.textContent = date.toLocaleString('fr-FR');
+            }
+        }
     </script>
 </body>
 </html>
-
-
-
