@@ -2,40 +2,104 @@
   "vehicules": [
     {
       "id": 1,
-      "titre": "Toyota RAVé 4",
+      "titre": "Toyota RAV4 2023",
       "categorie": "vente",
       "prix": 80000000,
-      "image": "https://www.carscoops.com/wp-content/uploads/2023/02/Next-Gen-Toyota-Corolla-Render-main.jpg",
-      "description": "SUV familial en excellent état, parfait pour les familles.",
-      "caracteristiques": ["4x4", "Automatique", "Climatisation", "Camera de recul"],
+      "image": "images/télécharger.webp",
+      "description": "SUV familial en excellent état, parfait pour les familles. Faible consommation, intérieur spacieux.",
+      "caracteristiques": ["4x4", "Automatique", "Climatisation", "Camera de recul", "GPS"],
       "disponible": true,
       "type": "SUV",
       "createdAt": "2024-01-01T10:00:00.000Z"
     },
     {
       "id": 2,
-      "titre": "Mercedes",
+      "titre": "BMW Série 3",
+      "categorie": "vente",
+      "prix": 80000000,
+      "image": "images/télécharger.webp",
+      "description": "Berline allemande de luxe, performances exceptionnelles. Intérieur cuir, équipements haut de gamme.",
+      "caracteristiques": ["Berline", "Automatique", "Toit ouvrant", "Cuir", "Système audio premium"],
+      "disponible": true,
+      "type": "Berline",
+      "createdAt": "2024-01-01T10:00:00.000Z"
+    },
+    {
+      "id": 3,
+      "titre": "Peugeot 208",
+      "categorie": "vente",
+      "prix": 80000000,
+      "image": "images/télécharger.webp",
+      "description": "Citadine économique et moderne. Idéale pour la ville avec une consommation réduite.",
+      "caracteristiques": ["Compacte", "Manuelle", "Climatisation", "Connectivité Bluetooth"],
+      "disponible": true,
+      "type": "Compacte",
+      "createdAt": "2024-01-01T10:00:00.000Z"
+    },
+    {
+      "id": 4,
+      "titre": "Mercedes Classe A",
       "categorie": "location",
       "prix": 80000000,
-      "image": "https://tse1.mm.bing.net/th/id/OIP.vmagHfgIczsTWNvEWcvGPAHaEo?rs=1&pid=ImgDetMain&o=7&rm=3",
-      "description": "Location mensuelle avec option d'achat.",
-      "caracteristiques": ["Diesel", "Automatique", "Toit ouvrant"],
+      "image": "images/télécharger.webp",
+      "description": "Location mensuelle avec option d'achat. Confort et technologie de pointe.",
+      "caracteristiques": ["Berline", "Automatique", "Toit ouvrant", "Écran tactile", "Assistance conduite"],
       "disponible": true,
-      "type": "Berline"
+      "type": "Berline",
+      "createdAt": "2024-01-01T10:00:00.000Z"
+    },
+    {
+      "id": 5,
+      "titre": "Renault Kangoo",
+      "categorie": "location",
+      "prix": 80000000,
+      "image": "images/télécharger.webp",
+      "description": "Utilitaire polyvalent pour professionnels. Grand volume de chargement.",
+      "caracteristiques": ["Utilitaire", "Manuelle", "Climatisation", "Grand volume", "Sièges rabattables"],
+      "disponible": true,
+      "type": "Utilitaire",
+      "createdAt": "2024-01-01T10:00:00.000Z"
     }
   ],
   "residences": [
     {
-      "id": 1,
+      "id": 6,
       "titre": "Appartement Moderne 3 pièces",
       "categorie": "location",
-      "prix": 30000,
-      "image": "https://th.bing.com/th/id/OIP.KlKCUrEmQA3gSzETGiHuswHaEK?w=326&h=183&c=7&r=0&o=7&pid=1.7&rm=3",
-      "description": "Appartement neuf au cœur de Paris",
-      "caracteristiques": ["80m²", "3 chambres", "Balcon", "Ascenseur"],
+      "prix":30000,
+      "image": "images/appartement-paris.jpg",
+      "description": "Appartement neuf au cœur de Paris, proche de tous les commerces et transports.",
+      "caracteristiques": ["80m²", "3 chambres", "Balcon", "Ascenseur", "Cuisine équipée"],
       "disponible": true,
       "localisation": "Paris 15ème",
-      "rooms": 3
+      "rooms": 3,
+      "createdAt": "2024-01-01T10:00:00.000Z"
+    },
+    {
+      "id": 7,
+      "titre": "Studio étudiant Lyon",
+      "categorie": "location",
+      "prix": 25000,
+      "image": "images/studio-lyon.jpg",
+      "description": "Studio meublé idéal pour étudiant, proche universités et métro.",
+      "caracteristiques": ["25m²", "Meublé", "Internet", "Lave-linge", "Proche transports"],
+      "disponible": true,
+      "localisation": "Lyon Centre",
+      "rooms": 1,
+      "createdAt": "2024-01-01T10:00:00.000Z"
+    },
+    {
+      "id": 8,
+      "titre": "Maison avec jardin",
+      "categorie": "location",
+      "prix": 25000,
+      "image": "images/maison-jardin.jpg",
+      "description": "Maison familiale avec grand jardin, quartier calme, proche écoles.",
+      "caracteristiques": ["120m²", "4 chambres", "Jardin", "Garage", "Terrasse"],
+      "disponible": true,
+      "localisation": "Bordeaux",
+      "rooms": 4,
+      "createdAt": "2024-01-01T10:00:00.000Z"
     }
   ],
   "reservations": [],
@@ -54,7 +118,3 @@
   "lastUpdate": "2024-01-01T10:00:00.000Z"
 
 }
-
-
-
-
