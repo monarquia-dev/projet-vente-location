@@ -5,7 +5,7 @@
       "titre": "Toyota RAVé 4",
       "categorie": "vente",
       "prix": 80000000,
-      "image": "images/télécharger.webp",
+      "image": "https://www.carscoops.com/wp-content/uploads/2023/02/Next-Gen-Toyota-Corolla-Render-main.jpg",
       "description": "SUV familial en excellent état, parfait pour les familles.",
       "caracteristiques": ["4x4", "Automatique", "Climatisation", "Camera de recul"],
       "disponible": true,
@@ -17,7 +17,7 @@
       "titre": "Mercedes",
       "categorie": "location",
       "prix": 80000000,
-      "image": "images/télécharger.webp",
+      "image": "https://www.carscoops.com/wp-content/uploads/2023/02/Next-Gen-Toyota-Corolla-Render-main.jpg",
       "description": "Location mensuelle avec option d'achat.",
       "caracteristiques": ["Diesel", "Automatique", "Toit ouvrant"],
       "disponible": true,
@@ -54,4 +54,5 @@
   "lastUpdate": "2024-01-01T10:00:00.000Z"
 
 }
+
 
