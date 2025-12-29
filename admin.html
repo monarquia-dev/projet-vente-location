@@ -972,6 +972,403 @@
     <div id="notification-container" style="position: fixed; top: 80px; right: 20px; z-index: 10000;"></div>
 
     <script>
+        // ========== SHARED DATABASE MANAGER ==========
+class SharedDatabaseManager {
+    constructor() {
+        this.data = null;
+        this.listeners = [];
+        this.isInitialized = false;
+        this.adminKey = 'grace_auto_central_database';
+        this.broadcastChannel = null;
+        this.init();
+    }
+
+    init() {
+        console.log('🔧 Initializing shared database manager...');
+        
+        // Load from localStorage (admin database) or fallback to default
+        this.loadData();
+        
+        // Setup broadcast channel
+        this.setupBroadcastChannel();
+        
+        // Setup storage listener
+        this.setupStorageListener();
+        
+        this.isInitialized = true;
+        console.log('✅ Shared database manager ready');
+    }
+
+    loadData() {
+        // Try to load from admin database in localStorage
+        const adminData = localStorage.getItem(this.adminKey);
+        if (adminData) {
+            try {
+                const parsed = JSON.parse(adminData);
+                if (this.validateData(parsed)) {
+                    this.data = parsed;
+                    console.log('✅ Loaded data from admin database');
+                    return;
+                }
+            } catch (error) {
+                console.error('❌ Error loading admin data:', error);
+            }
+        }
+        
+        // Fallback to external JSON file
+        this.loadFromJSON();
+    }
+
+    async loadFromJSON() {
+        try {
+            const response = await fetch('data/donnees.json');
+            if (response.ok) {
+                this.data = await response.json();
+                console.log('✅ Loaded data from donnees.json');
+            } else {
+                throw new Error('Failed to load JSON');
+            }
+        } catch (error) {
+            console.error('❌ Error loading JSON:', error);
+            // Fallback to empty data
+            this.data = this.getDefaultData();
+        }
+    }
+
+    validateData(data) {
+        return data && 
+               Array.isArray(data.vehicules) && 
+               Array.isArray(data.residences);
+    }
+
+    getDefaultData() {
+        return {
+            settings: {
+                name: "GRÂCE AUTO SERVICE-CI-BKT",
+                description: "Vente et location de véhicules, résidences meublées et assurance voyage en Côte d'Ivoire.",
+                contactEmail: "graceautoservice88@gmail.com",
+                contactPhone: "+225 0748735115",
+                otherPhones: ["+225 0141941694", "+225 0544604246"],
+                businessHours: "Ouvert du Lundi au Vendredi de 8h à 18h\nSamedi de 8h à 13h"
+            },
+            pages: {},
+            vehicules: [],
+            residences: [],
+            reservations: [],
+            meta: { version: "1.0" }
+        };
+    }
+
+    setupBroadcastChannel() {
+        if (typeof BroadcastChannel !== 'undefined') {
+            this.broadcastChannel = new BroadcastChannel('grace_auto_sync_channel');
+            this.broadcastChannel.onmessage = (event) => {
+                this.handleBroadcastMessage(event.data);
+            };
+        }
+    }
+
+    setupStorageListener() {
+        window.addEventListener('storage', (event) => {
+            if (event.key === this.adminKey) {
+                this.loadData();
+                this.notifyListeners('database-updated');
+            }
+        });
+    }
+
+    handleBroadcastMessage(message) {
+        if (message.type === 'DATABASE_UPDATED') {
+            this.loadData();
+            this.notifyListeners('database-updated');
+        }
+    }
+
+    // Data access methods
+    getAllData() {
+        return this.data;
+    }
+
+    getSettings() {
+        return this.data?.settings || {};
+    }
+
+    getVehicules() {
+        return this.data?.vehicules || [];
+    }
+
+    getVehiculesVente() {
+        return this.data?.vehicules?.filter(v => v.categorie === "vente") || [];
+    }
+
+    getVehiculesLocation() {
+        return this.data?.vehicules?.filter(v => v.categorie === "location") || [];
+    }
+
+    getResidences() {
+        return this.data?.residences || [];
+    }
+
+    getReservations() {
+        return this.data?.reservations || [];
+    }
+
+    getItemById(id) {
+        const allItems = [
+            ...(this.data?.vehicules || []),
+            ...(this.data?.residences || [])
+        ];
+        return allItems.find(item => item.id == id);
+    }
+
+    // Data modification methods
+    async saveData(newData) {
+        try {
+            this.data = newData;
+            this.data.lastUpdate = new Date().toISOString();
+            
+            // Save to localStorage for admin
+            localStorage.setItem(this.adminKey, JSON.stringify(this.data));
+            
+            // Broadcast update to other tabs
+            if (this.broadcastChannel) {
+                this.broadcastChannel.postMessage({
+                    type: 'DATABASE_UPDATED',
+                    timestamp: Date.now()
+                });
+            }
+            
+            // Also save to donnees.json (using PHP or download method)
+            await this.saveToJSON(newData);
+            
+            this.notifyListeners('database-saved');
+            return true;
+        } catch (error) {
+            console.error('❌ Error saving data:', error);
+            return false;
+        }
+    }
+
+    async saveToJSON(data) {
+        // Method 1: Using PHP API (if available)
+        if (window.phpSaveAvailable) {
+            return await this.saveViaPHP(data);
+        }
+        
+        // Method 2: Download JSON file
+        this.downloadJSON(data);
+        return true;
+    }
+
+    async saveViaPHP(data) {
+        try {
+            const response = await fetch('api/update.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ action: 'save', data: data })
+            });
+            return response.ok;
+        } catch (error) {
+            console.error('PHP save error:', error);
+            return false;
+        }
+    }
+
+    downloadJSON(data) {
+        const jsonStr = JSON.stringify(data, null, 2);
+        const blob = new Blob([jsonStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        
+        a.href = url;
+        a.download = 'donnees.json';
+        a.click();
+        
+        URL.revokeObjectURL(url);
+        
+        Notification.show('Fichier JSON téléchargé. Veuillez le copier dans le dossier /data/', 'info');
+    }
+
+    // CRUD operations
+    async addItem(type, itemData) {
+        const data = { ...this.data };
+        
+        if (type === 'vehicule') {
+            const newId = Math.max(...data.vehicules.map(v => v.id || 0), 0) + 1;
+            data.vehicules.push({
+                id: newId,
+                ...itemData,
+                disponible: true,
+                createdAt: new Date().toISOString()
+            });
+        } else if (type === 'residence') {
+            const newId = Math.max(...data.residences.map(r => r.id || 0), 0) + 1;
+            data.residences.push({
+                id: newId,
+                categorie: "location",
+                ...itemData,
+                disponible: true,
+                createdAt: new Date().toISOString()
+            });
+        } else if (type === 'reservation') {
+            const newId = Math.max(...data.reservations.map(r => r.id || 0), 0) + 1;
+            data.reservations.push({
+                id: newId,
+                ...itemData,
+                dateReservation: new Date().toISOString(),
+                statut: "en attente"
+            });
+        }
+        
+        const success = await this.saveData(data);
+        if (success) {
+            this.notifyListeners('item-added', { type, item: itemData });
+        }
+        return success;
+    }
+
+    async updateItem(id, updatedData) {
+        const data = { ...this.data };
+        let updated = false;
+        
+        // Update vehicules
+        const vehiculeIndex = data.vehicules.findIndex(v => v.id === id);
+        if (vehiculeIndex !== -1) {
+            data.vehicules[vehiculeIndex] = {
+                ...data.vehicules[vehiculeIndex],
+                ...updatedData
+            };
+            updated = true;
+        }
+        
+        // Update residences
+        const residenceIndex = data.residences.findIndex(r => r.id === id);
+        if (residenceIndex !== -1) {
+            data.residences[residenceIndex] = {
+                ...data.residences[residenceIndex],
+                ...updatedData
+            };
+            updated = true;
+        }
+        
+        if (updated) {
+            const success = await this.saveData(data);
+            if (success) {
+                this.notifyListeners('item-updated', { id, data: updatedData });
+            }
+            return success;
+        }
+        return false;
+    }
+
+    async deleteItem(id) {
+        const data = { ...this.data };
+        
+        // Delete from vehicules
+        const vehiculeIndex = data.vehicules.findIndex(v => v.id === id);
+        if (vehiculeIndex !== -1) {
+            data.vehicules.splice(vehiculeIndex, 1);
+        } else {
+            // Delete from residences
+            const residenceIndex = data.residences.findIndex(r => r.id === id);
+            if (residenceIndex !== -1) {
+                data.residences.splice(residenceIndex, 1);
+            } else {
+                return false;
+            }
+        }
+        
+        const success = await this.saveData(data);
+        if (success) {
+            this.notifyListeners('item-deleted', { id });
+        }
+        return success;
+    }
+
+    // Listener management
+    addListener(callback) {
+        this.listeners.push(callback);
+    }
+
+    removeListener(callback) {
+        const index = this.listeners.indexOf(callback);
+        if (index > -1) this.listeners.splice(index, 1);
+    }
+
+    notifyListeners(event, data = null) {
+        this.listeners.forEach(callback => {
+            try {
+                callback(event, data);
+            } catch (error) {
+                console.error('Error in listener:', error);
+            }
+        });
+    }
+}
+
+// Create global instance
+const sharedDB = new SharedDatabaseManager();
+window.sharedDB = sharedDB;
+
+// Initialize data manager for public pages
+const dataManager = {
+    data: null,
+    
+    async init() {
+        await this.loadData();
+    },
+    
+    async loadData() {
+        try {
+            const response = await fetch('data/donnees.json');
+            this.data = await response.json();
+            console.log('✅ Public data loaded');
+        } catch (error) {
+            console.error('❌ Error loading public data:', error);
+            this.data = sharedDB.data || sharedDB.getDefaultData();
+        }
+    },
+    
+    // Public read-only methods
+    getVehicules() {
+        return this.data?.vehicules || [];
+    },
+    
+    getVehiculesVente() {
+        return this.data?.vehicules?.filter(v => v.categorie === "vente") || [];
+    },
+    
+    getVehiculesLocation() {
+        return this.data?.vehicules?.filter(v => v.categorie === "location") || [];
+    },
+    
+    getResidences() {
+        return this.data?.residences || [];
+    },
+    
+    getReservations() {
+        return this.data?.reservations || [];
+    },
+    
+    getSettings() {
+        return this.data?.settings || {};
+    },
+    
+    getItemById(id) {
+        const allItems = [
+            ...(this.data?.vehicules || []),
+            ...(this.data?.residences || [])
+        ];
+        return allItems.find(item => item.id == id);
+    }
+};
+
+// Initialize public data manager
+dataManager.init();
+window.dataManager = dataManager;
+        
         // Navigation admin
         document.querySelectorAll('.admin-menu a').forEach(link => {
             link.addEventListener('click', function(e) {
@@ -1046,16 +1443,73 @@
                 console.error('database.js n\'est pas chargé');
                 Notification.show('Erreur: Base de données non chargée', 'error');
                 return;
-            }
-            
+                // Ajoutez ceci à la fin de votre DOMContentLoaded
+sharedDB.addListener((event, data) => {
+    console.log('Database event:', event);
+    
+    switch(event) {
+        case 'database-updated':
             updateDashboard();
             loadAdminData();
+            updateLastUpdate();
+            break;
             
-            // Écouter les mises à jour
-            window.addEventListener('databaseUpdated', function() {
-                updateDashboard();
-                loadAdminData();
-                updateLastUpdate();
+        case 'item-added':
+        case 'item-updated':
+        case 'item-deleted':
+            loadAdminData();
+            updateDashboard();
+            break;
+    }
+});
+
+// Mettre à jour la date de dernière modification
+function updateLastUpdate() {
+    const element = document.getElementById('db-last-update');
+    if (element && sharedDB.data?.lastUpdate) {
+        const date = new Date(sharedDB.data.lastUpdate);
+        element.textContent = date.toLocaleString('fr-FR');
+    }
+}
+            }
+            
+            function updateDashboard() {
+    // Utiliser les données de la base de données partagée
+    const allVehicules = dataManager.getVehicules();
+    const allLocations = dataManager.getLocations();
+    const allResidences = dataManager.getResidences();
+    const allReservations = dataManager.getReservations();
+    
+    // Statistiques
+    const vehiculesVente = allVehicules.filter(v => v.categorie === "vente").length;
+    const vehiculesLocation = allVehicules.filter(v => v.categorie === "location").length;
+    const residencesCount = allResidences.length;
+    const reservationsCount = allReservations.length;
+    
+    // Mettre à jour l'interface
+    document.getElementById('count-admin-vehicules').textContent = vehiculesVente;
+    document.getElementById('count-admin-locations').textContent = vehiculesLocation;
+    document.getElementById('count-admin-residences').textContent = residencesCount;
+    document.getElementById('count-admin-reservations').textContent = reservationsCount;
+    
+    // Mettre à jour les statistiques de la base de données
+    const dbStats = document.getElementById('db-stats');
+    if (dbStats) {
+        const stats = {
+            total_items: vehiculesVente + vehiculesLocation + residencesCount,
+            vehicules_vente: vehiculesVente,
+            vehicules_location: vehiculesLocation,
+            residences: residencesCount,
+            reservations: reservationsCount,
+            reservations_pending: allReservations.filter(r => r.statut === "en attente").length,
+            reservations_confirmed: allReservations.filter(r => r.statut === "confirmée").length,
+            last_update: dataManager.data?.lastUpdate ? 
+                new Date(dataManager.data.lastUpdate).toLocaleString('fr-FR') : 
+                new Date().toLocaleString('fr-FR')
+        };
+        dbStats.textContent = JSON.stringify(stats, null, 2);
+    }
+}
             });
             
             // Boutons d'ajout
@@ -1148,130 +1602,74 @@
             loadReservationsAdmin();
         }
 
-        function loadVehiculesAdmin() {
-            const container = document.getElementById('vehicules-list');
-            if (!container) return;
-            
-            container.innerHTML = vehicules.map(v => `
-                <div class="item-card">
-                    <div style="display: flex; align-items: center; gap: 20px; flex: 1;">
-                        <img src="${v.image}" style="width: 100px; height: 70px; object-fit: cover; border-radius: 8px; border: 1px solid var(--card-border);">
-                        <div style="flex: 1;">
-                            <h4 style="color: var(--text-primary); margin-bottom: 5px;">${v.titre}</h4>
-                            <p style="color: var(--accent-color); font-weight: 600; margin-bottom: 5px;">${v.prix.toLocaleString()} FCFA</p>
-                            <p style="color: var(--text-secondary); font-size: 0.9rem;">${v.type}</p>
-                            <p style="color: ${v.disponible ? 'var(--success-color)' : 'var(--danger-color)'}; font-size: 0.85rem;">
-                                ${v.disponible ? '● Disponible' : '● Non disponible'}
-                            </p>
-                        </div>
-                    </div>
-                    <div class="item-actions-admin">
-                        <button class="btn-admin btn-edit" onclick="editItem(${v.id})">
-                            <i class="fas fa-edit"></i> Modifier
-                        </button>
-                        <button class="btn-admin btn-delete" onclick="deleteItem(${v.id})">
-                            <i class="fas fa-trash"></i> Supprimer
-                        </button>
-                        <button class="btn-admin btn-status" onclick="toggleDisponible(${v.id})">
-                            ${v.disponible ? '<i class="fas fa-times-circle"></i> Indisp.' : '<i class="fas fa-check-circle"></i> Disp.'}
-                        </button>
-                    </div>
-                </div>
-            `).join('');
-        }
+    function loadVehiculesAdmin() {
+    const container = document.getElementById('vehicules-list');
+    if (!container) return;
+    
+    const vehicules = sharedDB.getVehiculesVente();
+    
+    container.innerHTML = vehicules.map(v => createAdminItemCard(v, 'vehicule')).join('');
+}
 
-        function loadLocationsAdmin() {
-            const container = document.getElementById('locations-list');
-            if (!container) return;
-            
-            container.innerHTML = locations.map(l => `
-                <div class="item-card">
-                    <div style="display: flex; align-items: center; gap: 20px; flex: 1;">
-                        <img src="${l.image}" style="width: 100px; height: 70px; object-fit: cover; border-radius: 8px; border: 1px solid var(--card-border);">
-                        <div style="flex: 1;">
-                            <h4 style="color: var(--text-primary); margin-bottom: 5px;">${l.titre}</h4>
-                            <p style="color: var(--accent-color); font-weight: 600; margin-bottom: 5px;">${l.prix.toLocaleString()} FCFA/jour</p>
-                            <p style="color: var(--text-secondary); font-size: 0.9rem;">${l.type}</p>
-                            <p style="color: ${l.disponible ? 'var(--success-color)' : 'var(--danger-color)'}; font-size: 0.85rem;">
-                                ${l.disponible ? '● Disponible' : '● Non disponible'}
-                            </p>
-                        </div>
-                    </div>
-                    <div class="item-actions-admin">
-                        <button class="btn-admin btn-edit" onclick="editItem(${l.id})">
-                            <i class="fas fa-edit"></i> Modifier
-                        </button>
-                        <button class="btn-admin btn-delete" onclick="deleteItem(${l.id})">
-                            <i class="fas fa-trash"></i> Supprimer
-                        </button>
-                        <button class="btn-admin btn-status" onclick="toggleDisponible(${l.id})">
-                            ${l.disponible ? '<i class="fas fa-times-circle"></i> Indisp.' : '<i class="fas fa-check-circle"></i> Disp.'}
-                        </button>
-                    </div>
-                </div>
-            `).join('');
-        }
+       function loadLocationsAdmin() {
+    const container = document.getElementById('locations-list');
+    if (!container) return;
+    
+    const locations = sharedDB.getVehiculesLocation();
+    
+    container.innerHTML = locations.map(l => createAdminItemCard(l, 'location')).join('');
+}
 
         function loadResidencesAdmin() {
-            const container = document.getElementById('residences-list');
-            if (!container) return;
-            
-            
-            container.innerHTML = residences.map(r => `
-                <div class="item-card">
-                    <div style="display: flex; align-items: center; gap: 20px; flex: 1;">
-                        <img src="${r.image}" style="width: 100px; height: 70px; object-fit: cover; border-radius: 8px; border: 1px solid var(--card-border);">
-                        <div style="flex: 1;">
-                            <h4 style="color: var(--text-primary); margin-bottom: 5px;">${r.titre}</h4>
-                            <p style="color: var(--accent-color); font-weight: 600; margin-bottom: 5px;">${r.prix.toLocaleString()} FCFA/jour</p>
-                            <p style="color: var(--text-secondary); font-size: 0.9rem;">${r.localisation}</p>
-                            <p style="color: ${r.disponible ? 'var(--success-color)' : 'var(--danger-color)'}; font-size: 0.85rem;">
-                                ${r.disponible ? '● Disponible' : '● Non disponible'}
-                            </p>
-                        </div>
-                    </div>
-                    <div class="item-actions-admin">
-                        <button class="btn-admin btn-edit" onclick="editItem(${r.id})">
-                            <i class="fas fa-edit"></i> Modifier
-                        </button>
-                        <button class="btn-admin btn-delete" onclick="deleteItem(${r.id})">
-                            <i class="fas fa-trash"></i> Supprimer
-                        </button>
-                        <button class="btn-admin btn-status" onclick="toggleDisponible(${r.id})">
-                            ${r.disponible ? '<i class="fas fa-times-circle"></i> Indisp.' : '<i class="fas fa-check-circle"></i> Disp.'}
-                        </button>
-                    </div>
+    const container = document.getElementById('residences-list');
+    if (!container) return;
+    
+    const residences = sharedDB.getResidences();
+    
+    container.innerHTML = residences.map(r => createAdminItemCard(r, 'residence')).join('');
+}
+        function createAdminItemCard(item, type) {
+    const isResidence = type === 'residence';
+    const isLocation = type === 'location';
+    
+    return `
+        <div class="item-card" style="margin-bottom: 15px; padding: 15px; border: 1px solid var(--card-border); border-radius: 8px; background: var(--card-bg);">
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <img src="${item.image || (isResidence ? 'images/default-house.jpg' : 'images/default-car.jpg')}" 
+                     style="width: 100px; height: 70px; object-fit: cover; border-radius: 4px; border: 1px solid var(--card-border);"
+                     onerror="this.src='${isResidence ? 'images/default-house.jpg' : 'images/default-car.jpg'}'">
+                <div style="flex: 1;">
+                    <h4 style="color: var(--text-primary); margin-bottom: 5px;">${item.titre || 'Sans titre'}</h4>
+                    <p style="color: var(--accent-color); font-weight: 600; margin-bottom: 5px;">
+                        ${formatPrice(item.prix, isLocation || isResidence)}
+                    </p>
+                    <p style="color: ${item.disponible ? 'var(--success-color)' : 'var(--danger-color)'}; font-weight: 600; margin-bottom: 5px;">
+                        ${item.disponible ? 'Disponible' : 'Non disponible'}
+                    </p>
+                    ${isResidence ? 
+                        `<p><i class="fas fa-map-marker-alt" style="color: var(--text-secondary);"></i> ${item.localisation || 'Non spécifiée'}</p>` :
+                        `<p><i class="fas fa-car" style="color: var(--text-secondary);"></i> ${item.type || 'Non spécifié'}</p>`
+                    }
                 </div>
-            `).join('');
-        }
+                <div class="item-actions-admin">
+                    <button class="btn-admin btn-edit" onclick="editItem(${item.id})">
+                        <i class="fas fa-edit"></i> Modifier
+                    </button>
+                    <button class="btn-admin btn-delete" onclick="deleteItem(${item.id})">
+                        <i class="fas fa-trash"></i> Supprimer
+                    </button>
+                    <button class="btn-admin btn-status" onclick="toggleDisponible(${item.id})">
+                        ${item.disponible ? '<i class="fas fa-times-circle"></i> Indisp.' : '<i class="fas fa-check-circle"></i> Disp.'}
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+}
 
         function loadReservationsAdmin() {
             const container = document.getElementById('reservations-list');
             if (!container) return;
-            
-            // Données de démo
-            const reservations = [
-                { 
-                    id: 1, 
-                    item: 'Mercedes GLE 53', 
-                    nom: 'Jean Dupont', 
-                    email: 'jean@example.com',
-                    telephone: '+225 07 00 00 00',
-                    date: '2024-12-20',
-                    statut: 'pending',
-                    message: 'Je souhaite une démonstration'
-                },
-                { 
-                    id: 2, 
-                    item: 'Villa avec piscine', 
-                    nom: 'Marie Konan', 
-                    email: 'marie@example.com',
-                    telephone: '+225 05 00 00 00',
-                    date: '2024-12-15',
-                    statut: 'confirmed',
-                    message: 'Réservation pour 3 nuits'
-                }
-            ];
             
             container.innerHTML = reservations.map(r => `
                 <div class="reservation-item ${r.statut}">
@@ -1353,39 +1751,100 @@
             modal.style.display = 'flex';
         }
 
-        function saveItem() {
-            const itemId = document.getElementById('item-id').value;
-            const isNew = !itemId;
-            
-            Notification.show(`Item ${isNew ? 'ajouté' : 'modifié'} avec succès`, 'success');
-            
-            document.getElementById('item-modal').style.display = 'none';
-            loadAdminData();
-            updateDashboard();
-            
-            // Déclencher l'événement de mise à jour
-            window.dispatchEvent(new Event('databaseUpdated'));
+        async function saveItem() {
+    const itemId = document.getElementById('item-id').value;
+    const isNew = !itemId;
+    const type = document.getElementById('item-item-type').value;
+    const categorie = document.getElementById('item-categorie').value;
+    
+    const itemData = {
+        titre: document.getElementById('item-titre').value,
+        prix: parseInt(document.getElementById('item-prix').value) || 0,
+        description: document.getElementById('item-description').value,
+        image: document.getElementById('item-image').value || '',
+        caracteristiques: document.getElementById('item-caracteristiques').value.split(',').map(s => s.trim()).filter(s => s),
+        disponible: document.getElementById('item-disponible').checked,
+        type: type === 'residence' ? null : document.getElementById('item-type').value,
+        localisation: type === 'residence' ? document.getElementById('item-localisation').value : null,
+        categorie: categorie
+    };
+    
+    try {
+        if (isNew) {
+            await sharedDB.addItem(type, itemData);
+            Notification.show(`Item ajouté avec succès`, 'success');
+        } else {
+            await sharedDB.updateItem(parseInt(itemId), itemData);
+            Notification.show(`Item modifié avec succès`, 'success');
         }
+        
+        document.getElementById('item-modal').style.display = 'none';
+        loadAdminData();
+        updateDashboard();
+        
+    } catch (error) {
+        console.error('Error saving item:', error);
+        Notification.show('Erreur lors de la sauvegarde', 'error');
+    }
+}
 
         function editItem(id) {
-            const isResidence = id >= 6; // Simple démo
-            openItemModal(isResidence ? 'residence' : 'vehicule', 'vente', id);
-        }
+    const item = sharedDB.getItemById(id);
+    if (!item) {
+        Notification.show('Item non trouvé', 'error');
+        return;
+    }
+    
+    const isResidence = item.localisation !== undefined;
+    const type = isResidence ? 'residence' : 'vehicule';
+    const categorie = item.categorie || (isResidence ? 'location' : 'vente');
+    
+    openItemModal(type, categorie, id);
+    
+    // Remplir le formulaire
+    document.getElementById('item-titre').value = item.titre || '';
+    document.getElementById('item-prix').value = item.prix || '';
+    document.getElementById('item-description').value = item.description || '';
+    document.getElementById('item-image').value = item.image || '';
+    document.getElementById('item-caracteristiques').value = (item.caracteristiques || []).join(', ');
+    document.getElementById('item-disponible').checked = item.disponible !== false;
+    
+    if (isResidence) {
+        document.getElementById('item-localisation').value = item.localisation || '';
+    } else {
+        document.getElementById('item-type').value = item.type || '';
+    }
+}
 
-        function deleteItem(id) {
-            if (confirm('Êtes-vous sûr de vouloir supprimer cet item?')) {
-                Notification.show('Item supprimé avec succès', 'success');
-                loadAdminData();
-                updateDashboard();
-                window.dispatchEvent(new Event('databaseUpdated'));
-            }
+        async function deleteItem(id) {
+    if (confirm('Êtes-vous sûr de vouloir supprimer cet item? Cette action est irréversible.')) {
+        try {
+            await sharedDB.deleteItem(id);
+            Notification.show('Item supprimé avec succès', 'success');
+            loadAdminData();
+            updateDashboard();
+        } catch (error) {
+            console.error('Error deleting item:', error);
+            Notification.show('Erreur lors de la suppression', 'error');
         }
+    }
+}
 
-        function toggleDisponible(id) {
+async function toggleDisponible(id) {
+    const item = sharedDB.getItemById(id);
+    if (item) {
+        try {
+            await sharedDB.updateItem(id, { disponible: !item.disponible });
             Notification.show('Statut modifié avec succès', 'info');
             loadAdminData();
-            window.dispatchEvent(new Event('databaseUpdated'));
+            updateDashboard();
+        } catch (error) {
+            console.error('Error toggling status:', error);
+            Notification.show('Erreur lors de la modification', 'error');
         }
+    }
+}
+
 
         function updateReservationStatus(id, statut) {
             Notification.show(`Réservation ${statut === 'confirmed' ? 'confirmée' : 'annulée'}`, 'success');
@@ -1393,14 +1852,10 @@
             window.dispatchEvent(new Event('databaseUpdated'));
         }
 
-        function exportDatabase() {
-            const data = {
-                vehicules: 12,
-                locations: 8,
-                residences: 6,
-                reservations: 15,
-                export_date: new Date().toISOString()
-            };
+        async function exportDatabase() {
+    const data = sharedDB.getAllData();
+    sharedDB.downloadJSON(data);
+}
             
             const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
@@ -1412,36 +1867,67 @@
             Notification.show('Base exportée avec succès', 'success');
         }
 
-        function importDatabase() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = '.json';
-            
-            input.onchange = function(e) {
-                const file = e.target.files[0];
-                if (file) {
+        async function importDatabase() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json';
+    
+    input.onchange = async function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            try {
+                const text = await file.text();
+                const importedData = JSON.parse(text);
+                
+                if (confirm('Attention ! L\'importation remplacera toutes les données actuelles. Continuer ?')) {
+                    await sharedDB.saveData(importedData);
                     Notification.show('Base importée avec succès', 'success');
-                    updateDashboard();
                     loadAdminData();
-                    window.dispatchEvent(new Event('databaseUpdated'));
+                    updateDashboard();
                 }
-            };
-            
-            input.click();
-        }
-
-        function backupDatabase() {
-            Notification.show('Sauvegarde créée avec succès', 'success');
-        }
-
-        function resetDatabase() {
-            if (confirm('Êtes-vous sûr de vouloir réinitialiser la base de données? Cette action ne peut être annulée.')) {
-                Notification.show('Base réinitialisée avec données de démo', 'success');
-                loadAdminData();
-                updateDashboard();
-                window.dispatchEvent(new Event('databaseUpdated'));
+            } catch (error) {
+                console.error('Error importing data:', error);
+                Notification.show('Erreur lors de l\'importation', 'error');
             }
         }
+    };
+    
+    input.click();
+}
+
+        function backupDatabase() {
+    const data = sharedDB.getAllData();
+    const backupData = {
+        ...data,
+        backup_date: new Date().toISOString(),
+        backup_type: 'manual'
+    };
+              const jsonStr = JSON.stringify(backupData, null, 2);
+    const blob = new Blob([jsonStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    
+    a.href = url;
+    a.download = `grace-auto-backup-${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+    
+    URL.revokeObjectURL(url);
+    Notification.show('Sauvegarde créée avec succès', 'success');
+}
+
+        async function resetDatabase() {
+    if (confirm('ÊTES-VOUS ABSOLUMENT SÛR ? Cette action réinitialisera TOUTES les données aux valeurs par défaut.')) {
+        try {
+            await sharedDB.saveData(sharedDB.getDefaultData());
+            Notification.show('Base réinitialisée', 'success');
+            loadAdminData();
+            updateDashboard();
+        } catch (error) {
+            console.error('Error resetting database:', error);
+            Notification.show('Erreur lors de la réinitialisation', 'error');
+        }
+    }
+}
 
         function updateLastUpdate() {
             const element = document.getElementById('db-last-update');
@@ -1453,3 +1939,4 @@
     </script>
 </body>
 </html>
+
