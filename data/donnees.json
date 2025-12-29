@@ -53,7 +53,7 @@
       "titre": "Renault Kangoo",
       "categorie": "location",
       "prix": 80000000,
-      "image": "images/télécharger.webp",
+      "image": "https://autohub.ma/wp-content/uploads/2024/07/mercedes-benz-classe-a-6.webp",
       "description": "Utilitaire polyvalent pour professionnels. Grand volume de chargement.",
       "caracteristiques": ["Utilitaire", "Manuelle", "Climatisation", "Grand volume", "Sièges rabattables"],
       "disponible": true,
@@ -118,6 +118,7 @@
   "lastUpdate": "2024-01-01T10:00:00.000Z"
 
 }
+
 
 
 
