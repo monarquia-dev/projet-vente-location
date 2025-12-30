@@ -143,7 +143,7 @@
       "prix": 30000,
       "image": "images/photo_2025-12-30_12-08-38.jpg",
       "description": "Disponible, proche de vous ",
-      "caracteristiques": ["Meublé", "Internet", "Lave-linge",],
+      "caracteristiques": ["Meublé", "Internet", "Lave-linge"],
       "disponible": true,
       "localisation": "KOUMASSI",
       "rooms": 2,
@@ -192,5 +192,4 @@
   "lastUpdate": "2024-01-01T10:00:00.000Z"
 
 }
-
 
