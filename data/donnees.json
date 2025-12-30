@@ -2,42 +2,79 @@
   "vehicules": [
     {
       "id": 1,
-      "titre": "Mercedes GLE 53",
+      "titre": "Mercedes GLE 53 2023",
       "categorie":"vente" ,
       "prix": 80000000,
       "image":"https://www.mercedes-benz.fr/content/dam/hq/passengercars/cars/gle/gle-suv-v167-fl-pi/amg/highlights/08-2023/images/mercedes-amg-gle-suv-hybrid-v167-highlights-pluginhybrid-3302x1858-08-2023.jpg?im=Resize,width=1014",
-      "description": "SUV de luxe Mercedes-Benz en excellent état",
-      "caracteristiques": ["Automatique", "Essence", "Toit ouvrant", "Cuir", "Système audio premium"],
+      "description": "SUV de luxe Mercedes- en excellent état",
+      "caracteristiques": ["Automatique", "Essence", "Start", "intérieur Cuir", "toit panoramique", "non immatriculé"],
       "disponible": true,
       "type":"SUV",
       "createdAt": "2024-01-01T10:00:00.000Z"
     },
     {
       "id": 2,
-      "titre": "BMW Série 3",
+      "titre": "Mercedes GLA 250 2016",
       "categorie": "vente",
-      "prix": 80000000,
-      "image": "https://images.unsplash.com/photo-1555212697-194d092e3b8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      "description": "Berline allemande de luxe, performances exceptionnelles. Intérieur cuir, équipements haut de gamme.",
-      "caracteristiques": ["Berline", "Automatique", "Toit ouvrant", "Cuir", "Système audio premium"],
+      "prix": 13200000,
+      "image": "https://images.caradisiac.com/logos-ref/modele/modele--mercedes-gla/S6-modele--mercedes-gla.jpg",
+      "description": "SUV allemande de luxe, performances exceptionnelles. Intérieur cuir, équipements haut de gamme.",
+      "caracteristiques": ["SUV", "Automatique", "Essence", "Cuir", "coffre électrique", "kilométrage 95"],
       "disponible": true,
-      "type": "Berline",
+      "type": "SUV",
       "createdAt": "2024-01-01T10:00:00.000Z"
     },
     {
       "id": 3,
-      "titre": "Peugeot 208",
+      "titre": "Hors taxes 2021",
       "categorie": "vente",
-      "prix": 80000000,
-      "image": "https://im.qccdn.fr/node/actualite-peugeot-208-2019-premieres-impressions-71543/thumbnail_800x480px-136030.jpg",
-      "description": "Citadine économique et moderne. Idéale pour la ville avec une consommation réduite.",
-      "caracteristiques": ["Compacte", "Manuelle", "Climatisation", "Connectivité Bluetooth"],
+      "prix": 18000000,
+      "image": "https://utilitairemagazine.com/wp-content/uploads/2024/04/taxe-pick-up4208-1024x684.jpg",
+      "description": "économique et moderne. Idéale pour la ville.",
+      "caracteristiques": ["Start", "Essence", "V6 full options", "kilométrage 715", "intérieur"],
       "disponible": true,
       "type": "Compacte",
       "createdAt": "2024-01-01T10:00:00.000Z"
     },
     {
       "id": 4,
+      "titre": "RANGE ROVER Sport 2025",
+      "categorie": "vente",
+      "prix": 130000000,
+      "image": "https://img.sm360.ca/images/newcar/ca/2025/land-rover/range-rover-sport-phev/dynamic-se/suv/main/2025_Land-Rover_Ranger-Rover-Sport_Mphev_1-SE_EXT_001_main.png",
+      "description": "économique et moderne. Idéale pour la ville.",
+      "caracteristiques": ["Start", "Diesel", "V6", "kilométrage 715", "Sièges électriques", "coffre auto"],
+      "disponible": true,
+      "type": "SUV",
+      "createdAt": "2024-01-01T10:00:00.000Z"
+    },
+    {
+      "id": 5,
+      "titre": "KIA FORTE 2020",
+      "categorie": "vente",
+      "prix": 12000000,
+      "image": "https://images.dealersync.com/2100/Photos/615808/wm_2487e8330bc242659f15c12200975e7f_615808.jpg?_=5be486870d43536a3adb3b8008e8b07b8a630ce6",
+      "description": "économique et moderne.",
+      "caracteristiques": ["Automatique", "Essence", "clim ", "rétroviseur électronique", "Emprunte sur poignet", "interface google et Apple"],
+      "disponible": true,
+      "type": "SUV",
+      "createdAt": "2024-01-01T10:00:00.000Z"
+    },
+    {
+      "id": 6,
+      "titre": "BMW X3 2025",
+      "categorie": "vente",
+      "prix": 48500000,
+      "image": "https://i.ytimg.com/vi/L4iy611NB1g/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCuxKoFGbeYqD1dncKrsgeqnJVhxg",
+      "description": "SUV familial redessiné, alliant style sportif moderne",
+      "caracteristiques": ["Automatique", "Essence", "toit panoramique", "caméra 360", "2 clés", "kilométrage 2100"],
+      "disponible": true,
+      "type": "SUV",
+      "createdAt": "2024-01-01T10:00:00.000Z"
+    },
+
+    {
+      "id": 7,
       "titre": "Mercedes Classe A",
       "categorie": "location",
       "prix": 80000000,
@@ -118,13 +155,3 @@
   "lastUpdate": "2024-01-01T10:00:00.000Z"
 
 }
-
-
-
-
-
-
-
-
-
-
