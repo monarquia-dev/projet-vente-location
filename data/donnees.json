@@ -1,16 +1,5 @@
 {
   "vehicules": [
-     "id": 1,
-      "titre": "BMW Série 3",
-      "categorie": "vente",
-      "prix": 80000000,
-      "image": "https://images.unsplash.com/photo-1555212697-194d092e3b8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      "description": "Berline allemande de luxe, performances exceptionnelles. Intérieur cuir, équipements haut de gamme.",
-      "caracteristiques": ["Berline", "Automatique", "Toit ouvrant", "Cuir", "Système audio premium"],
-      "disponible": true,
-      "type": "Berline",
-      "createdAt": "2024-01-01T10:00:00.000Z"
-    },
     {
       "id": 2,
       "titre": "BMW Série 3",
@@ -117,6 +106,7 @@
   "lastUpdate": "2024-01-01T10:00:00.000Z"
 
 }
+
 
 
 
