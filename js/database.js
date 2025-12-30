@@ -111,9 +111,10 @@ const dataManager = new DataManager();
 function formatPrice(price, isMonthly = false) {
     if (!price) return 'Prix sur demande';
     const formatted = new Intl.NumberFormat('fr-FR').format(price);
-    return `${formatted} FCFA${isMonthly ? '/mois' : ''}`;
+    return `${formatted} FCFA${isMonthly ? '/jour' : ''}`;
 }
 
 // Exporter pour utilisation globale
 window.dataManager = dataManager;
+
 window.formatPrice = formatPrice;
