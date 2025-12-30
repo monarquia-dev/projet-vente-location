@@ -47,7 +47,7 @@
         }
         
         /* Sidebar Styles */
-        .sidebar {
+        .admin-sidebar {
             width: var(--sidebar-width);
             background: rgba(10, 15, 43, 0.95);
             backdrop-filter: blur(10px);
@@ -61,14 +61,14 @@
             box-shadow: var(--shadow);
         }
         
-        .sidebar-header {
+        .admin-logo {
             padding: 20px;
             text-align: center;
             border-bottom: 1px solid var(--card-border);
             margin-bottom: 20px;
         }
         
-        .sidebar-header h2 {
+        .admin-logo h2 {
             font-size: 1.2rem;
             margin-bottom: 5px;
             background: linear-gradient(90deg, var(--accent-color), var(--primary-color));
@@ -77,20 +77,23 @@
             color: transparent;
         }
         
-        .sidebar-header p {
+        .admin-logo p {
             font-size: 0.8rem;
             color: var(--text-secondary);
         }
         
-        .sidebar-menu {
+        .admin-menu {
             list-style: none;
             padding: 0 15px;
             margin: 0;
         }
         
-        .menu-item {
-            padding: 12px 15px;
+        .admin-menu li {
             margin-bottom: 8px;
+        }
+        
+        .admin-menu a {
+            padding: 12px 15px;
             cursor: pointer;
             transition: all 0.3s;
             display: flex;
@@ -100,13 +103,13 @@
             text-decoration: none;
         }
         
-        .menu-item:hover, .menu-item.active {
+        .admin-menu a:hover, .admin-menu a.active {
             background: rgba(255, 204, 0, 0.1);
             color: var(--accent-color);
             box-shadow: var(--glow);
         }
         
-        .menu-item i {
+        .admin-menu i {
             margin-right: 10px;
             width: 20px;
             text-align: center;
@@ -114,29 +117,44 @@
         }
         
         /* Main Content Styles */
-        .main-content {
+        .admin-main {
             flex: 1;
             margin-left: var(--sidebar-width);
             padding: 20px;
             transition: all 0.3s;
         }
         
-        .content-header {
+        .admin-header {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--card-border);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
         }
         
-        .content-header h1 {
+        .admin-title h1 {
             font-size: 1.8rem;
             font-weight: 600;
             background: linear-gradient(90deg, var(--accent-color), var(--primary-color));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            margin-bottom: 5px;
+        }
+        
+        .admin-title p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .admin-actions {
+            display: flex;
+            gap: 10px;
         }
         
         .user-info {
@@ -172,32 +190,8 @@
             to { opacity: 1; }
         }
         
-        .content-section {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 20px;
-            backdrop-filter: blur(10px);
-            box-shadow: var(--shadow);
-        }
-        
-        .section-title {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--card-border);
-        }
-        
-        .section-title h3 {
-            font-size: 1.4rem;
-            color: var(--text-primary);
-        }
-        
         /* Stats Grid */
-        .stats-grid {
+        .stats-cards {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
@@ -218,69 +212,206 @@
             box-shadow: var(--glow);
         }
         
-        .stat-icon {
+        .stat-card i {
             font-size: 2.5rem;
             margin-bottom: 10px;
             color: var(--accent-color);
         }
         
-        .stat-number {
+        .stat-card h3 {
             font-size: 2rem;
             font-weight: bold;
             margin-bottom: 5px;
             color: var(--accent-color);
         }
         
-        .stat-label {
+        .stat-card p {
             color: var(--text-secondary);
             font-size: 0.9rem;
         }
         
-        /* Form Styles */
-        .form-group {
+        /* Table Container */
+        .admin-table-container {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
             margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            overflow: hidden;
         }
         
-        .form-row {
+        .table-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--card-border);
             display: flex;
-            gap: 20px;
+            justify-content: space-between;
+            align-items: center;
         }
         
-        .form-row .form-group {
-            flex: 1;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
+        .table-header h3 {
             color: var(--text-primary);
+            font-size: 1.4rem;
+            margin: 0;
         }
         
-        .form-control {
-            width: 100%;
-            padding: 12px 15px;
+        .search-box {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .search-input {
+            padding: 8px 12px;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--card-border);
             border-radius: 4px;
-            font-size: 1rem;
-            transition: border 0.3s;
+            color: var(--text-primary);
+            width: 250px;
+        }
+        
+        .search-input:focus {
+            border-color: var(--accent-color);
+            outline: none;
+        }
+        
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--card-border);
+        }
+        
+        td {
+            padding: 15px;
+            border-bottom: 1px solid var(--card-border);
+            color: var(--text-secondary);
+        }
+        
+        tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        
+        .item-image-cell {
+            width: 60px;
+        }
+        
+        .item-image-small {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        
+        /* Status Badges */
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status-available {
+            background: rgba(40, 167, 69, 0.2);
+            color: var(--success-color);
+        }
+        
+        .status-sold, .status-rented {
+            background: rgba(220, 53, 69, 0.2);
+            color: var(--danger-color);
+        }
+        
+        .status-maintenance {
+            background: rgba(255, 193, 7, 0.2);
+            color: var(--warning-color);
+        }
+        
+        .item-type {
+            display: inline-block;
+            padding: 4px 8px;
+            background: rgba(255, 204, 0, 0.1);
+            color: var(--accent-color);
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .item-type.vehicule {
+            background: rgba(39, 174, 96, 0.1);
+            color: #27ae60;
+        }
+        
+        .item-type.residence {
+            background: rgba(230, 126, 34, 0.1);
+            color: #e67e22;
+        }
+        
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .btn-icon {
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            border: 1px solid var(--card-border);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-icon:hover {
+            background: rgba(255, 255, 255, 0.1);
             color: var(--text-primary);
         }
         
-        .form-control:focus {
+        .btn-icon.edit:hover {
+            color: var(--accent-color);
             border-color: var(--accent-color);
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(255, 204, 0, 0.2);
         }
         
-        textarea.form-control {
-            min-height: 120px;
-            resize: vertical;
+        .btn-icon.delete:hover {
+            color: var(--danger-color);
+            border-color: var(--danger-color);
         }
         
-        select.form-control {
+        .btn-icon.eye:hover {
+            color: var(--success-color);
+            border-color: var(--success-color);
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--card-border);
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 12px 20px;
             cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            color: var(--text-secondary);
+        }
+        
+        .tab.active {
+            border-bottom-color: var(--accent-color);
+            color: var(--accent-color);
+            font-weight: 500;
         }
         
         /* Button Styles */
@@ -348,135 +479,53 @@
             transform: translateY(-2px);
         }
         
-        .btn-sm {
-            padding: 8px 16px;
-            font-size: 0.8rem;
+        /* Form Styles */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            padding: 20px;
         }
         
-        /* Item List Styles */
-        .item-list {
-            margin-top: 15px;
-        }
-        
-        .item-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--card-border);
-            border-radius: 8px;
-            padding: 15px;
+        .form-group {
             margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s;
         }
         
-        .item-card:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: var(--accent-color);
+        .form-group.full-width {
+            grid-column: 1 / -1;
         }
         
-        .item-info h4 {
-            margin-bottom: 5px;
-            color: var(--text-primary);
-        }
-        
-        .item-info p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-        
-        .item-actions {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .action-btn {
-            width: 36px;
-            height: 36px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 6px;
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-secondary);
-            border: 1px solid var(--card-border);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .action-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--text-primary);
-        }
-        
-        .action-btn.edit:hover {
-            color: var(--accent-color);
-            border-color: var(--accent-color);
-        }
-        
-        .action-btn.delete:hover {
-            color: var(--danger-color);
-            border-color: var(--danger-color);
-        }
-        
-        .action-btn.sync:hover {
-            color: var(--info-color);
-            border-color: var(--info-color);
-        }
-        
-        /* Status Badges */
-        .status-badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.8rem;
+        label {
+            display: block;
+            margin-bottom: 8px;
             font-weight: 500;
-        }
-        
-        .status-available {
-            background: rgba(40, 167, 69, 0.2);
-            color: var(--success-color);
-        }
-        
-        .status-sold, .status-rented {
-            background: rgba(220, 53, 69, 0.2);
-            color: var(--danger-color);
-        }
-        
-        .status-maintenance {
-            background: rgba(255, 193, 7, 0.2);
-            color: var(--warning-color);
-        }
-        
-        /* Table Styles */
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-        
-        .data-table th {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 12px 15px;
-            text-align: left;
-            font-weight: 600;
             color: var(--text-primary);
-            border-bottom: 1px solid var(--card-border);
         }
         
-        .data-table td {
-            padding: 12px 15px;
-            border-bottom: 1px solid var(--card-border);
-            color: var(--text-secondary);
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border 0.3s;
+            color: var(--text-primary);
         }
         
-        .data-table tr:hover {
-            background: rgba(255, 255, 255, 0.02);
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(255, 204, 0, 0.2);
         }
         
-        .data-table .actions-cell {
-            text-align: right;
-            white-space: nowrap;
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
         }
         
         /* Modal Styles */
@@ -491,6 +540,10 @@
             z-index: 2000;
             justify-content: center;
             align-items: center;
+        }
+        
+        .modal.active {
+            display: flex;
         }
         
         .modal-content {
@@ -518,7 +571,7 @@
             font-size: 1.3rem;
         }
         
-        .close-modal {
+        .modal-close {
             background: none;
             border: none;
             font-size: 1.5rem;
@@ -527,7 +580,7 @@
             transition: color 0.3s;
         }
         
-        .close-modal:hover {
+        .modal-close:hover {
             color: var(--text-primary);
         }
         
@@ -543,36 +596,50 @@
             border-top: 1px solid var(--card-border);
         }
         
-        .image-preview {
-            max-width: 100%;
-            height: auto;
-            margin-top: 10px;
+        /* Status Select */
+        .status-select {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
             border-radius: 4px;
-            display: none;
+            padding: 6px 10px;
+            color: var(--text-primary);
+            cursor: pointer;
         }
         
-        /* Tabs for Content Manager */
-        .tabs {
+        .status-select:focus {
+            border-color: var(--accent-color);
+            outline: none;
+        }
+        
+        /* Sync Section */
+        .sync-section {
+            background: rgba(255, 204, 0, 0.05);
+            border: 1px solid rgba(255, 204, 0, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .sync-info {
             display: flex;
-            border-bottom: 1px solid var(--card-border);
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 4px;
             margin-bottom: 20px;
         }
         
-        .tab {
-            padding: 12px 20px;
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s;
-            color: var(--text-secondary);
-        }
-        
-        .tab.active {
-            border-bottom-color: var(--accent-color);
+        .sync-info i {
             color: var(--accent-color);
-            font-weight: 500;
         }
         
-        /* Notification Styles */
+        .sync-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        /* Notification */
         .notification {
             position: fixed;
             top: 20px;
@@ -582,11 +649,12 @@
             padding: 15px 20px;
             border-radius: 8px;
             box-shadow: var(--shadow);
-            display: none;
+            display: flex;
             align-items: center;
             gap: 10px;
             z-index: 3000;
             animation: slideIn 0.3s;
+            display: none;
         }
         
         .notification.error {
@@ -606,2380 +674,14 @@
             to { transform: translateX(0); opacity: 1; }
         }
         
-        /* Database Status */
-        .db-status {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 16px;
-            background: rgba(40, 167, 69, 0.1);
-            border: 1px solid rgba(40, 167, 69, 0.3);
-            border-radius: 6px;
-            color: var(--success-color);
-        }
-        
-        .db-status.error {
-            background: rgba(220, 53, 69, 0.1);
-            border-color: rgba(220, 53, 69, 0.3);
-            color: var(--danger-color);
-        }
-        
-        .db-status.warning {
-            background: rgba(255, 193, 7, 0.1);
-            border-color: rgba(255, 193, 7, 0.3);
-            color: var(--warning-color);
-        }
-        
-        /* Quick Actions */
-        .quick-actions {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-        
-        /* Sync Status */
-        .sync-status-card {
-            background: rgba(255, 204, 0, 0.05);
-            border: 1px solid rgba(255, 204, 0, 0.2);
-            border-radius: 8px;
-            padding: 15px;
-            margin-top: 20px;
-        }
-        
-        .sync-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        
-        .sync-indicator {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .sync-pulse {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--success-color);
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-        
-        .sync-pulse.inactive {
-            background: var(--danger-color);
-            animation: none;
-        }
-        
-        .sync-pulse.syncing {
-            background: var(--info-color);
-            animation: pulse 1s infinite;
-        }
-        
-        .connected-clients {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-top: 10px;
-        }
-        
-        .client-badge {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--card-border);
-            border-radius: 6px;
-            padding: 8px 12px;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .client-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--success-color);
-        }
-        
-        .client-dot.admin {
-            background: var(--accent-color);
-        }
-        
-        .client-dot.offline {
-            background: var(--danger-color);
-        }
-        
-        /* Client Info in Modal */
-        .client-details {
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 8px;
-        }
-        
-        .client-details h4 {
-            margin-bottom: 10px;
-            color: var(--accent-color);
-        }
-        
-        .client-details ul {
-            list-style: none;
-            padding-left: 0;
-        }
-        
-        .client-details li {
-            margin-bottom: 5px;
-            color: var(--text-secondary);
-        }
-        
-        /* Progress Bar */
-        .progress-bar {
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            overflow: hidden;
-            margin: 10px 0;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent-color), var(--primary-color));
-            transition: width 0.3s ease;
-        }
-        
         /* Responsive Styles */
         @media (max-width: 768px) {
-            .sidebar {
+            .admin-sidebar {
                 width: 70px;
                 overflow: visible;
             }
             
-            .sidebar-header h2, .sidebar-header p, .menu-item span {
-                display: none;
-            }
-            
-            .menu-item {
-                justify-content: center;
-                padding: 15px;
-            }
-            
-            .menu-item i {
-                margin-right: 0;
-                font-size: 1.2rem;
-            }
-            
-            .main-content {
-                margin-left: 70px;
-            }
-            
-            .form-row {
-                flex-direction: column;
-                gap: 0;
-            }
-            
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .data-table {
-                display: block;
-                overflow-x: auto;
-            }
-            
-            .quick-actions {
-                flex-direction: column;
-            }
-        }
-        
-        @media (max-width: 576px) {
-            .section-title {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-            
-            .item-card {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-            
-            .item-actions {
-                align-self: flex-end;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="admin-container">
-        <!-- Sidebar Navigation -->
-        <div class="sidebar">
-            <div class="sidebar-header">
-                <h2>GRÂCE AUTO SERVICE</h2>
-                <p>Administration Complète</p>
-            </div>
-            <ul class="sidebar-menu">
-                <li class="menu-item active" data-tab="overview">
-                    <i class="fas fa-tachometer-alt"></i>
-                    <span>Tableau de Bord</span>
-                </li>
-                <li class="menu-item" data-tab="vehicles">
-                    <i class="fas fa-car"></i>
-                    <span>Véhicules</span>
-                </li>
-                <li class="menu-item" data-tab="residences">
-                    <i class="fas fa-home"></i>
-                    <span>Résidences</span>
-                </li>
-                <li class="menu-item" data-tab="content-manager">
-                    <i class="fas fa-cogs"></i>
-                    <span>Gestion Contenu</span>
-                </li>
-                <li class="menu-item" data-tab="settings">
-                    <i class="fas fa-sliders-h"></i>
-                    <span>Paramètres Site</span>
-                </li>
-                <li class="menu-item" data-tab="database">
-                    <i class="fas fa-database"></i>
-                    <span>Base de Données</span>
-                </li>
-                <li class="menu-item" data-tab="sync">
-                    <i class="fas fa-sync-alt"></i>
-                    <span>Synchronisation</span>
-                </li>
-            </ul>
-        </div>
-        
-        <!-- Main Content Area -->
-        <div class="main-content">
-            <div class="content-header">
-                <h1>Administration GRÂCE AUTO SERVICE</h1>
-                <div class="user-info">
-                    <div class="user-avatar">A</div>
-                    <span>Administrateur</span>
-                </div>
-            </div>
-            
-            <!-- Vue d'ensemble -->
-            <div id="overview" class="tab-content active">
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-car"></i></div>
-                        <div class="stat-number" id="totalVehicles">0</div>
-                        <div class="stat-label">Véhicules</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-home"></i></div>
-                        <div class="stat-number" id="totalResidences">0</div>
-                        <div class="stat-label">Résidences</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-shopping-cart"></i></div>
-                        <div class="stat-number" id="vehiclesForSale">0</div>
-                        <div class="stat-label">À vendre</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-calendar-alt"></i></div>
-                        <div class="stat-number" id="itemsForRent">0</div>
-                        <div class="stat-label">En location</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-users"></i></div>
-                        <div class="stat-number" id="connectedClientsCount">0</div>
-                        <div class="stat-label">Clients connectés</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-sync-alt"></i></div>
-                        <div class="stat-number" id="lastSyncAgo">-</div>
-                        <div class="stat-label">Dernière sync</div>
-                    </div>
-                </div>
-
-                <div class="content-section">
-                    <div class="section-title">
-                        <h3>Actions Rapides</h3>
-                    </div>
-                    <div class="quick-actions">
-                        <button class="btn btn-primary" onclick="openVehicleModal()">
-                            <i class="fas fa-plus"></i> Ajouter un véhicule
-                        </button>
-                        <button class="btn btn-primary" onclick="openResidenceModal()">
-                            <i class="fas fa-plus"></i> Ajouter une résidence
-                        </button>
-                        <button class="btn btn-success" onclick="exportData()">
-                            <i class="fas fa-download"></i> Exporter les données
-                        </button>
-                        <button class="btn btn-secondary" onclick="loadAllData()">
-                            <i class="fas fa-sync"></i> Actualiser
-                        </button>
-                        <button class="btn btn-info" onclick="forceGlobalSync()">
-                            <i class="fas fa-broadcast-tower"></i> Sync toutes pages
-                        </button>
-                    </div>
-                </div>
-
-                <div class="content-section">
-                    <div class="section-title">
-                        <h3>Articles Récents</h3>
-                        <button class="btn btn-secondary" onclick="loadRecentItems()">
-                            <i class="fas fa-sync-alt"></i> Actualiser
-                        </button>
-                    </div>
-                    <div class="item-list" id="recentItems">
-                        <!-- Articles récents -->
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Gestion des Véhicules -->
-            <div id="vehicles" class="tab-content">
-                <div class="content-section">
-                    <div class="section-title">
-                        <h3>Gestion des Véhicules</h3>
-                        <button class="btn btn-primary" onclick="openVehicleModal()">
-                            <i class="fas fa-plus"></i> Nouveau véhicule
-                        </button>
-                    </div>
-                    
-                    <div class="tabs">
-                        <div class="tab active" data-vehicle-tab="all">Tous les véhicules</div>
-                        <div class="tab" data-vehicle-tab="available">Disponibles</div>
-                        <div class="tab" data-vehicle-tab="sold">Vendus</div>
-                        <div class="tab" data-vehicle-tab="rental">À louer</div>
-                    </div>
-                    
-                    <div class="item-list" id="vehiclesList">
-                        <!-- Liste des véhicules -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Gestion des Résidences -->
-            <div id="residences" class="tab-content">
-                <div class="content-section">
-                    <div class="section-title">
-                        <h3>Gestion des Résidences</h3>
-                        <button class="btn btn-primary" onclick="openResidenceModal()">
-                            <i class="fas fa-plus"></i> Nouvelle résidence
-                        </button>
-                    </div>
-                    
-                    <div class="tabs">
-                        <div class="tab active" data-residence-tab="all">Toutes les résidences</div>
-                        <div class="tab" data-residence-tab="available">Disponibles</div>
-                        <div class="tab" data-residence-tab="rented">Louées</div>
-                    </div>
-                    
-                    <div class="item-list" id="residencesList">
-                        <!-- Liste des résidences -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Gestionnaire de contenu -->
-            <div id="content-manager" class="tab-content">
-                <div class="content-section">
-                    <div class="section-title">
-                        <h3>Gestionnaire de Contenu Global</h3>
-                    </div>
-                    
-                    <div class="tabs">
-                        <div class="tab active" data-content-tab="vehicles">Véhicules</div>
-                        <div class="tab" data-content-tab="residences">Résidences</div>
-                        <div class="tab" data-content-tab="pages">Pages du site</div>
-                    </div>
-                    
-                    <div id="vehicles-content" class="tab-content active">
-                        <div class="item-list" id="allVehiclesList">
-                            <!-- Tous les véhicules -->
-                        </div>
-                    </div>
-                    
-                    <div id="residences-content" class="tab-content">
-                        <div class="item-list" id="allResidencesList">
-                            <!-- Toutes les résidences -->
-                        </div>
-                    </div>
-                    
-                    <div id="pages-content" class="tab-content">
-                        <div class="form-group">
-                            <label for="vehiclesPageTitle">Titre de la page Véhicules</label>
-                            <input type="text" id="vehiclesPageTitle" class="form-control" value="Nos Véhicules">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="vehiclesPageDescription">Description de la page Véhicules</label>
-                            <textarea id="vehiclesPageDescription" class="form-control" rows="3">Découvrez notre sélection de véhicules de qualité</textarea>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="rentalPageTitle">Titre de la page Location</label>
-                            <input type="text" id="rentalPageTitle" class="form-control" value="Location de Véhicules">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="rentalPageDescription">Description de la page Location</label>
-                            <textarea id="rentalPageDescription" class="form-control" rows="3">Louez le véhicule de votre choix pour vos déplacements</textarea>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="residencesPageTitle">Titre de la page Résidences</label>
-                            <input type="text" id="residencesPageTitle" class="form-control" value="Nos Résidences">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="residencesPageDescription">Description de la page Résidences</label>
-                            <textarea id="residencesPageDescription" class="form-control" rows="3">Découvrez nos résidences meublées pour vos séjours</textarea>
-                        </div>
-                        
-                        <button class="btn btn-success" onclick="savePageSettings()">
-                            <i class="fas fa-save"></i> Sauvegarder les pages
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Paramètres du site -->
-            <div id="settings" class="tab-content">
-                <div class="content-section">
-                    <div class="section-title">
-                        <h3>Paramètres Généraux du Site</h3>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="siteName">Nom du site</label>
-                        <input type="text" id="siteName" class="form-control" value="GRÂCE AUTO SERVICE-CI-BKT">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="siteDescription">Description du site</label>
-                        <textarea id="siteDescription" class="form-control" rows="3">Vente et location de véhicules, résidences meublées et assurance voyage en Côte d'Ivoire. Service de qualité et professionnel.</textarea>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="contactEmail">Email de contact</label>
-                            <input type="email" id="contactEmail" class="form-control" value="graceautoservice88@gmail.com">
-                        </div>
-                        <div class="form-group">
-                            <label for="contactPhone">Téléphone principal</label>
-                            <input type="text" id="contactPhone" class="form-control" value="+225 0748735115">
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="otherPhones">Autres téléphones (séparés par des virgules)</label>
-                        <input type="text" id="otherPhones" class="form-control" value="+225 0141941694, +225 0544604246">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="businessHours">Horaires d'ouverture</label>
-                            <textarea id="businessHours" class="form-control" rows="3">Ouvert du Lundi au Vendredi de 8 Heure à 18 heure\nSamedi de 8H à 13 heure</textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="homeBannerImage">Image de bannière (URL)</label>
-                        <input type="text" id="homeBannerImage" class="form-control" value="https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80">
-                        <img id="bannerPreview" class="image-preview" src="" alt="Aperçu bannière">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="homeTitle">Titre de la page d'accueil</label>
-                        <input type="text" id="homeTitle" class="form-control" value="GRÂCE AUTO SERVICE-CI-BKT - Vente, Location, Assurance Voyage">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="homeSubtitle">Sous-titre de la page d'accueil</label>
-                        <textarea id="homeSubtitle" class="form-control" rows="2">Découvrez notre sélection exclusive de véhicules et résidences pour tous vos besoins. Qualité, confort et service premium.</textarea>
-                    </div>
-                    
-                    <button class="btn btn-success" onclick="saveSiteSettings()">
-                        <i class="fas fa-save"></i> Sauvegarder les paramètres
-                    </button>
-                </div>
-            </div>
-
-            <!-- Base de données -->
-            <div id="database" class="tab-content">
-                <div class="content-section">
-                    <div class="section-title">
-                        <h3>Gestion de la Base de Données JSON</h3>
-                        <div class="db-status" id="dbStatus">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Connecté</span>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="jsonData">Données JSON complètes</label>
-                        <textarea id="jsonData" class="form-control" rows="12" placeholder="Contenu JSON..." readonly></textarea>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="importFile">Importer depuis un fichier</label>
-                            <input type="file" id="importFile" class="form-control" accept=".json">
-                        </div>
-                    </div>
-                    
-                    <div class="quick-actions">
-                        <button class="btn btn-primary" onclick="exportData()">
-                            <i class="fas fa-download"></i> Exporter les données
-                        </button>
-                        <button class="btn btn-success" onclick="copyJSON()">
-                            <i class="fas fa-copy"></i> Copier le JSON
-                        </button>
-                        <button class="btn btn-secondary" onclick="loadJSONData()">
-                            <i class="fas fa-eye"></i> Voir les données
-                        </button>
-                        <button class="btn btn-danger" onclick="resetDatabase()">
-                            <i class="fas fa-trash"></i> Réinitialiser
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Synchronisation -->
-            <div id="sync" class="tab-content">
-                <div class="content-section">
-                    <div class="section-title">
-                        <h3>Système de Synchronisation</h3>
-                    </div>
-                    
-                    <div class="quick-actions">
-                        <button class="btn btn-success" onclick="forceSync()">
-                            <i class="fas fa-sync-alt"></i> Forcer synchronisation
-                        </button>
-                        <button class="btn btn-secondary" onclick="testConnection()">
-                            <i class="fas fa-wifi"></i> Tester connexion
-                        </button>
-                        <button class="btn btn-info" onclick="clearAllData()">
-                            <i class="fas fa-trash"></i> Effacer tout
-                        </button>
-                    </div>
-                    
-                    <div class="sync-status-card" style="margin-top: 20px;">
-                        <div class="sync-info">
-                            <h4 style="margin: 0;">Statut de synchronisation</h4>
-                        </div>
-                        <div id="pageSyncStatus">
-                            <p>La synchronisation entre pages est désactivée dans cette version simplifiée.</p>
-                            <p>Pour synchroniser entre plusieurs pages, utilisez la fonction d'export/import.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Véhicule -->
-    <div id="vehicleModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="vehicleModalTitle">Ajouter un véhicule</h3>
-                <button class="close-modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id="vehicleForm">
-                    <input type="hidden" id="vehicleId">
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="vehicleModel">Modèle *</label>
-                            <input type="text" id="vehicleModel" class="form-control" required placeholder="Ex: Mercedes GLE 53">
-                        </div>
-                        <div class="form-group">
-                            <label for="vehicleYear">Année *</label>
-                            <input type="number" id="vehicleYear" class="form-control" min="2000" max="2030" required placeholder="2023">
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="vehiclePrice">Prix (FCFA) *</label>
-                            <input type="number" id="vehiclePrice" class="form-control" required placeholder="80000000">
-                        </div>
-                        <div class="form-group">
-                            <label for="vehicleStatus">Statut *</label>
-                            <select id="vehicleStatus" class="form-control" required>
-                                <option value="available">Disponible</option>
-                                <option value="sold">Vendu</option>
-                                <option value="maintenance">En maintenance</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="vehicleImage">URL de l'image</label>
-                        <input type="text" id="vehicleImage" class="form-control" placeholder="https://exemple.com/image.jpg">
-                        <img id="vehicleImagePreview" class="image-preview" src="" alt="Aperçu véhicule">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="vehicleDescription">Description</label>
-                        <textarea id="vehicleDescription" class="form-control" rows="3" placeholder="Description du véhicule..."></textarea>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="vehicleTransmission">Transmission</label>
-                            <input type="text" id="vehicleTransmission" class="form-control" placeholder="Automatique, Manuelle...">
-                        </div>
-                        <div class="form-group">
-                            <label for="vehicleFuel">Carburant</label>
-                            <input type="text" id="vehicleFuel" class="form-control" placeholder="Essence, Diesel, Électrique...">
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="vehicleType">Type de véhicule</label>
-                            <select id="vehicleType" class="form-control">
-                                <option value="SUV">SUV</option>
-                                <option value="Berline">Berline</option>
-                                <option value="4x4">4x4</option>
-                                <option value="Crossover">Crossover</option>
-                                <option value="Luxury">Luxe</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="vehicleUnit">Type de service</label>
-                            <select id="vehicleUnit" class="form-control">
-                                <option value="for_sale">À vendre</option>
-                                <option value="for_rent">À louer</option>
-                                <option value="both">Les deux</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="vehicleFeatured">En vedette</label>
-                            <select id="vehicleFeatured" class="form-control">
-                                <option value="no">Non</option>
-                                <option value="yes">Oui</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="vehicleMileage">Kilométrage</label>
-                            <input type="text" id="vehicleMileage" class="form-control" placeholder="50.000 km">
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeVehicleModal()">Annuler</button>
-                <button class="btn btn-primary" onclick="saveVehicle()">Enregistrer</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Résidence -->
-    <div id="residenceModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="residenceModalTitle">Ajouter une résidence</h3>
-                <button class="close-modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id="residenceForm">
-                    <input type="hidden" id="residenceId">
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="residenceType">Type *</label>
-                            <input type="text" id="residenceType" class="form-control" required placeholder="Ex: Studio, Appartement...">
-                        </div>
-                        <div class="form-group">
-                            <label for="residencePrice">Prix/jour (FCFA) *</label>
-                            <input type="number" id="residencePrice" class="form-control" required placeholder="20000">
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="residenceRooms">Nombre de pièces</label>
-                            <input type="number" id="residenceRooms" class="form-control" min="1" placeholder="1">
-                        </div>
-                        <div class="form-group">
-                            <label for="residenceStatus">Statut *</label>
-                            <select id="residenceStatus" class="form-control" required>
-                                <option value="available">Disponible</option>
-                                <option value="rented">Louée</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="residenceImage">URL de l'image</label>
-                        <input type="text" id="residenceImage" class="form-control" placeholder="https://exemple.com/image.jpg">
-                        <img id="residenceImagePreview" class="image-preview" src="" alt="Aperçu résidence">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="residenceDescription">Description</label>
-                        <textarea id="residenceDescription" class="form-control" rows="3" placeholder="Description de la résidence..."></textarea>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="residenceFeatures">Équipements (séparés par des virgules)</label>
-                            <input type="text" id="residenceFeatures" class="form-control" placeholder="WiFi, Climatisation, Parking...">
-                        </div>
-                        <div class="form-group">
-                            <label for="residenceFeatured">En vedette</label>
-                            <select id="residenceFeatured" class="form-control">
-                                <option value="no">Non</option>
-                                <option value="yes">Oui</option>
-                            </select>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeResidenceModal()">Annuler</button>
-                <button class="btn btn-primary" onclick="saveResidence()">Enregistrer</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Notification -->
-    <div id="notification" class="notification">
-        <i class="fas fa-check-circle"></i> <span id="notificationText">Action effectuée avec succès</span>
-    </div>
-
-    <script>
-        // ========== BASE DE DONNÉES JSON ==========
-        const DB_KEY = 'grace_auto_database';
-        
-        // Structure de la base de données par défaut
-        const DEFAULT_DATABASE = {
-            meta: {
-                version: '1.0.0',
-                created_at: new Date().toISOString(),
-                last_updated: new Date().toISOString(),
-                total_vehicles: 0,
-                total_residences: 0
-            },
-            vehicles: [
-                {
-                    id: 1,
-                    model: "Mercedes GLE 53",
-                    year: 2023,
-                    price: 80000000,
-                    status: "available",
-                    image: "https://images.unsplash.com/photo-1555212697-194d092e3b8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                    description: "SUV de luxe Mercedes-Benz en excellent état",
-                    transmission: "Automatique",
-                    fuel: "Essence",
-                    type: "SUV",
-                    unit: "for_sale",
-                    featured: "yes",
-                    mileage: "20.000 km",
-                    created_at: new Date().toISOString(),
-                    updated_at: new Date().toISOString()
-                },
-                {
-                    id: 2,
-                    model: "Toyota RAV4",
-                    year: 2022,
-                    price: 35000000,
-                    status: "available",
-                    image: "https://images.unsplash.com/photo-1553440569-bcc63803a83d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                    description: "SUV familial fiable et économique",
-                    transmission: "Automatique",
-                    fuel: "Hybride",
-                    type: "SUV",
-                    unit: "for_rent",
-                    featured: "yes",
-                    mileage: "35.000 km",
-                    created_at: new Date().toISOString(),
-                    updated_at: new Date().toISOString()
-                }
-            ],
-            residences: [
-                {
-                    id: 1,
-                    type: "Studio meublé",
-                    price_per_day: 20000,
-                    rooms: 1,
-                    status: "available",
-                    image: "https://images.unsplash.com/photo-1518780664697-55e3ad937233?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                    description: "Studio moderne entièrement meublé avec cuisine équipée",
-                    features: ["WiFi", "Climatisation", "Cuisine équipée", "TV"],
-                    featured: "yes",
-                    created_at: new Date().toISOString(),
-                    updated_at: new Date().toISOString()
-                }
-            ],
-            settings: {
-                name: "GRÂCE AUTO SERVICE-CI-BKT",
-                description: "Vente et location de véhicules, résidences meublées et assurance voyage en Côte d'Ivoire. Service de qualité et professionnel.",
-                contactEmail: "graceautoservice88@gmail.com",
-                contactPhone: "+225 0748735115",
-                otherPhones: ["+225 0141941694", "+225 0544604246"],
-                businessHours: "Ouvert du Lundi au Vendredi de 8 Heure à 18 heure\nSamedi de 8H à 13 heure",
-                homeBannerImage: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-                homeTitle: "GRÂCE AUTO SERVICE-CI-BKT - Vente, Location, Assurance Voyage",
-                homeSubtitle: "Découvrez notre sélection exclusive de véhicules et résidences pour tous vos besoins. Qualité, confort et service premium."
-            },
-            pages: {
-                vehicles: {
-                    title: "Nos Véhicules",
-                    description: "Découvrez notre sélection de véhicules de qualité"
-                },
-                rental: {
-                    title: "Location de Véhicules",
-                    description: "Louez le véhicule de votre choix pour vos déplacements"
-                },
-                residences: {
-                    title: "Nos Résidences",
-                    description: "Découvrez nos résidences meublées pour vos séjours"
-                }
-            }
-        };
-
-        // Base de données actuelle
-        let database = { ...DEFAULT_DATABASE };
-
-        // ========== INITIALISATION ==========
-        function initDatabase() {
-            console.log('🔧 Initialisation de la base de données...');
-            
-            // Charger depuis localStorage ou utiliser la base par défaut
-            const stored = localStorage.getItem(DB_KEY);
-            if (stored) {
-                try {
-                    database = JSON.parse(stored);
-                    console.log('📁 Base de données chargée depuis localStorage');
-                } catch (error) {
-                    console.error('❌ Erreur de chargement, utilisation de la base par défaut:', error);
-                    database = { ...DEFAULT_DATABASE };
-                    saveDatabase();
-                }
-            } else {
-                console.log('🆕 Base de données par défaut créée');
-                saveDatabase();
-            }
-            
-            loadAllData();
-            showNotification('Système d\'administration chargé avec succès', 'success');
-        }
-
-        function saveDatabase() {
-            try {
-                // Mettre à jour les métadonnées
-                database.meta.last_updated = new Date().toISOString();
-                database.meta.total_vehicles = database.vehicles.length;
-                database.meta.total_residences = database.residences.length;
-                
-                // Sauvegarder dans localStorage
-                localStorage.setItem(DB_KEY, JSON.stringify(database));
-                
-                // Notifier les autres pages via BroadcastChannel
-                if (typeof BroadcastChannel !== 'undefined') {
-                    const channel = new BroadcastChannel('grace_auto_sync_channel');
-                    channel.postMessage({
-                        type: 'database-updated',
-                        data: database,
-                        timestamp: new Date().toISOString()
-                    });
-                    channel.close();
-                }
-                
-                // Mettre à jour l'affichage JSON
-                loadJSONData();
-                
-                console.log('💾 Base de données sauvegardée et synchronisée');
-                return true;
-            } catch (e) {
-                console.error('❌ Erreur de sauvegarde:', e);
-                showNotification('Erreur de sauvegarde', 'error');
-                return false;
-            }
-        }
-
-        // ========== FONCTIONS UTILITAIRES ==========
-        function formatPrice(price) {
-            if (!price) return '0 FCFA';
-            return new Intl.NumberFormat('fr-FR').format(price) + ' FCFA';
-        }
-
-        function getStatusText(status) {
-            const statusMap = {
-                'available': 'Disponible',
-                'sold': 'Vendu',
-                'maintenance': 'En maintenance',
-                'rented': 'Louée'
-            };
-            return statusMap[status] || status;
-        }
-
-        function showNotification(message, type = 'success') {
-            const notification = document.getElementById('notification');
-            const notificationText = document.getElementById('notificationText');
-            const icon = notification.querySelector('i');
-            
-            if (!notification || !notificationText) return;
-            
-            notificationText.textContent = message;
-            notification.className = 'notification';
-            
-            switch(type) {
-                case 'error':
-                    notification.classList.add('error');
-                    icon.className = 'fas fa-exclamation-circle';
-                    break;
-                case 'warning':
-                    notification.classList.add('warning');
-                    icon.className = 'fas fa-exclamation-triangle';
-                    break;
-                case 'info':
-                    notification.classList.add('info');
-                    icon.className = 'fas fa-info-circle';
-                    break;
-                default:
-                    icon.className = 'fas fa-check-circle';
-            }
-            
-            notification.style.display = 'flex';
-            
-            setTimeout(() => {
-                notification.style.display = 'none';
-            }, 3000);
-        }
-
-        // ========== FONCTIONS CRUD ==========
-        // Véhicules
-        function getVehicles() {
-            return database.vehicles || [];
-        }
-
-        function getVehicleById(id) {
-            return database.vehicles.find(v => v.id == id);
-        }
-
-        function addVehicle(vehicle) {
-            // Générer un nouvel ID
-            const newId = database.vehicles.length > 0
-                ? Math.max(...database.vehicles.map(v => v.id)) + 1
-                : 1;
-
-            const newVehicle = {
-                ...vehicle,
-                id: newId,
-                created_at: new Date().toISOString(),
-                updated_at: new Date().toISOString()
-            };
-
-            database.vehicles.push(newVehicle);
-            saveDatabase();
-            return newVehicle;
-        }
-
-        function updateVehicle(id, vehicleData) {
-            const index = database.vehicles.findIndex(v => v.id == id);
-            if (index !== -1) {
-                database.vehicles[index] = {
-                    ...database.vehicles[index],
-                    ...vehicleData,
-                    id: parseInt(id),
-                    updated_at: new Date().toISOString()
-                };
-                saveDatabase();
-                return true;
-            }
-            return false;
-        }
-
-        function deleteVehicle(id) {
-            const index = database.vehicles.findIndex(v => v.id == id);
-            if (index !== -1) {
-                database.vehicles.splice(index, 1);
-                saveDatabase();
-                return true;
-            }
-            return false;
-        }
-
-        // Résidences
-        function getResidences() {
-            return database.residences || [];
-        }
-
-        function getResidenceById(id) {
-            return database.residences.find(r => r.id == id);
-        }
-
-        function addResidence(residence) {
-            // Générer un nouvel ID
-            const newId = database.residences.length > 0
-                ? Math.max(...database.residences.map(r => r.id)) + 1
-                : 1;
-
-            const newResidence = {
-                ...residence,
-                id: newId,
-                created_at: new Date().toISOString(),
-                updated_at: new Date().toISOString()
-            };
-
-            database.residences.push(newResidence);
-            saveDatabase();
-            return newResidence;
-        }
-
-        function updateResidence(id, residenceData) {
-            const index = database.residences.findIndex(r => r.id == id);
-            if (index !== -1) {
-                database.residences[index] = {
-                    ...database.residences[index],
-                    ...residenceData,
-                    id: parseInt(id),
-                    updated_at: new Date().toISOString()
-                };
-                saveDatabase();
-                return true;
-            }
-            return false;
-        }
-
-        function deleteResidence(id) {
-            const index = database.residences.findIndex(r => r.id == id);
-            if (index !== -1) {
-                database.residences.splice(index, 1);
-                saveDatabase();
-                return true;
-            }
-            return false;
-        }
-
-        // Paramètres
-        function getSettings() {
-            return database.settings || {};
-        }
-
-        function updateSettings(newSettings) {
-            database.settings = { ...database.settings, ...newSettings };
-            saveDatabase();
-            return true;
-        }
-
-        // Pages
-        function getPages() {
-            return database.pages || {};
-        }
-
-        function updatePages(newPages) {
-            database.pages = { ...database.pages, ...newPages };
-            saveDatabase();
-            return true;
-        }
-
-        // ========== FONCTIONS D'AFFICHAGE ==========
-        function loadAllData() {
-            updateStats();
-            loadVehicles();
-            loadResidences();
-            loadRecentItems();
-            loadContentManager();
-            loadSettingsForm();
-            loadJSONData();
-        }
-
-        function updateStats() {
-            const vehicles = getVehicles();
-            const residences = getResidences();
-            
-            // Total véhicules
-            document.getElementById('totalVehicles').textContent = vehicles.length;
-            
-            // Total résidences
-            document.getElementById('totalResidences').textContent = residences.length;
-            
-            // Véhicules à vendre
-            const vehiclesForSale = vehicles.filter(v => v.unit === 'for_sale' || v.unit === 'both').length;
-            document.getElementById('vehiclesForSale').textContent = vehiclesForSale;
-            
-            // Articles en location
-            const vehiclesForRent = vehicles.filter(v => v.unit === 'for_rent' || v.unit === 'both').length;
-            const availableResidences = residences.filter(r => r.status === 'available').length;
-            document.getElementById('itemsForRent').textContent = vehiclesForRent + availableResidences;
-            
-            // Dernière sync
-            document.getElementById('lastSyncAgo').textContent = 'Maintenant';
-        }
-
-        function loadVehicles() {
-            const container = document.getElementById('vehiclesList');
-            if (!container) return;
-            
-            const vehicles = getVehicles();
-            const activeTab = document.querySelector('[data-vehicle-tab].active')?.getAttribute('data-vehicle-tab') || 'all';
-            
-            let filteredVehicles = vehicles;
-            
-            // Filtrer selon l'onglet actif
-            switch(activeTab) {
-                case 'available':
-                    filteredVehicles = vehicles.filter(v => v.status === 'available');
-                    break;
-                case 'sold':
-                    filteredVehicles = vehicles.filter(v => v.status === 'sold');
-                    break;
-                case 'rental':
-                    filteredVehicles = vehicles.filter(v => v.unit === 'for_rent' || v.unit === 'both');
-                    break;
-            }
-            
-            if (filteredVehicles.length === 0) {
-                container.innerHTML = `
-                    <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
-                        <i class="fas fa-car" style="font-size: 3rem; margin-bottom: 15px;"></i>
-                        <p>Aucun véhicule trouvé</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            container.innerHTML = filteredVehicles.map(vehicle => {
-                const statusClass = `status-${vehicle.status}`;
-                const statusText = getStatusText(vehicle.status);
-                const unitText = vehicle.unit === 'for_sale' ? 'À vendre' : 
-                               vehicle.unit === 'for_rent' ? 'À louer' : 'Les deux';
-                
-                return `
-                    <div class="item-card">
-                        <div class="item-info">
-                            <h4>${vehicle.model} (${vehicle.year})</h4>
-                            <p>${formatPrice(vehicle.price)} • ${vehicle.transmission || 'N/A'} • ${vehicle.fuel || 'N/A'}</p>
-                            <div style="display: flex; gap: 10px; margin-top: 5px;">
-                                <span class="status-badge ${statusClass}">${statusText}</span>
-                                <span style="background: rgba(255, 204, 0, 0.1); color: var(--accent-color); padding: 4px 10px; border-radius: 12px; font-size: 0.8rem;">${unitText}</span>
-                                ${vehicle.featured === 'yes' ? '<span style="background: rgba(255, 51, 153, 0.1); color: #ff3399; padding: 4px 10px; border-radius: 12px; font-size: 0.8rem;">Vedette</span>' : ''}
-                            </div>
-                        </div>
-                        <div class="item-actions">
-                            <button class="action-btn edit" onclick="editVehicle(${vehicle.id})" title="Modifier">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="action-btn delete" onclick="deleteVehicleConfirm(${vehicle.id})" title="Supprimer">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function loadResidences() {
-            const container = document.getElementById('residencesList');
-            if (!container) return;
-            
-            const residences = getResidences();
-            const activeTab = document.querySelector('[data-residence-tab].active')?.getAttribute('data-residence-tab') || 'all';
-            
-            let filteredResidences = residences;
-            
-            switch(activeTab) {
-                case 'available':
-                    filteredResidences = residences.filter(r => r.status === 'available');
-                    break;
-                case 'rented':
-                    filteredResidences = residences.filter(r => r.status === 'rented');
-                    break;
-            }
-            
-            if (filteredResidences.length === 0) {
-                container.innerHTML = `
-                    <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
-                        <i class="fas fa-home" style="font-size: 3rem; margin-bottom: 15px;"></i>
-                        <p>Aucune résidence trouvée</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            container.innerHTML = filteredResidences.map(residence => {
-                const statusClass = `status-${residence.status}`;
-                const statusText = getStatusText(residence.status);
-                const features = Array.isArray(residence.features) 
-                    ? residence.features.join(', ') 
-                    : residence.features || '';
-                
-                return `
-                    <div class="item-card">
-                        <div class="item-info">
-                            <h4>${residence.type}</h4>
-                            <p>${formatPrice(residence.price_per_day)}/jour • ${residence.rooms || 1} pièce(s)</p>
-                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 5px;">${features}</p>
-                            <div style="display: flex; gap: 10px; margin-top: 5px;">
-                                <span class="status-badge ${statusClass}">${statusText}</span>
-                                ${residence.featured === 'yes' ? '<span style="background: rgba(255, 51, 153, 0.1); color: #ff3399; padding: 4px 10px; border-radius: 12px; font-size: 0.8rem;">Vedette</span>' : ''}
-                            </div>
-                        </div>
-                        <div class="item-actions">
-                            <button class="action-btn edit" onclick="editResidence(${residence.id})" title="Modifier">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="action-btn delete" onclick="deleteResidenceConfirm(${residence.id})" title="Supprimer">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function loadRecentItems() {
-            const container = document.getElementById('recentItems');
-            if (!container) return;
-            
-            const allVehicles = getVehicles();
-            const allResidences = getResidences();
-            const allItems = [...allVehicles, ...allResidences]
-                .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-                .slice(0, 5);
-            
-            if (allItems.length === 0) {
-                container.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--text-secondary);"><p>Aucun article récent</p></div>';
-                return;
-            }
-            
-            container.innerHTML = allItems.map(item => `
-                <div class="item-card">
-                    <div class="item-info">
-                        <h4>${item.model ? '🚗' : '🏠'} ${item.model || item.type}</h4>
-                        <p>${formatPrice(item.price || item.price_per_day)} • ${item.model ? 'Véhicule' : 'Résidence'}</p>
-                        <div class="status-badge status-${item.status}">${getStatusText(item.status)}</div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function loadContentManager() {
-            loadAllVehicles();
-            loadAllResidences();
-            loadPageSettings();
-        }
-
-        function loadAllVehicles() {
-            const container = document.getElementById('allVehiclesList');
-            if (!container) return;
-            
-            const vehicles = getVehicles();
-            
-            if (vehicles.length === 0) {
-                container.innerHTML = '<p style="text-align: center; padding: 20px; color: var(--text-secondary);">Aucun véhicule enregistré.</p>';
-                return;
-            }
-            
-            container.innerHTML = vehicles.map(vehicle => {
-                const statusClass = `status-${vehicle.status}`;
-                const statusText = getStatusText(vehicle.status);
-                
-                return `
-                    <div class="item-card">
-                        <div class="item-info">
-                            <h4>${vehicle.model} (${vehicle.year})</h4>
-                            <p>${vehicle.description} - ${formatPrice(vehicle.price)}</p>
-                        </div>
-                        <div class="item-actions">
-                            <span class="status-badge ${statusClass}">${statusText}</span>
-                            <button class="action-btn edit" onclick="editVehicle(${vehicle.id})">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="action-btn delete" onclick="deleteVehicleConfirm(${vehicle.id})">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function loadAllResidences() {
-            const container = document.getElementById('allResidencesList');
-            if (!container) return;
-            
-            const residences = getResidences();
-            
-            if (residences.length === 0) {
-                container.innerHTML = '<p style="text-align: center; padding: 20px; color: var(--text-secondary);">Aucune résidence enregistrée.</p>';
-                return;
-            }
-            
-            container.innerHTML = residences.map(residence => {
-                const statusClass = `status-${residence.status}`;
-                const statusText = getStatusText(residence.status);
-                
-                return `
-                    <div class="item-card">
-                        <div class="item-info">
-                            <h4>${residence.type}</h4>
-                            <p>${residence.description} - ${formatPrice(residence.price_per_day)}/jour</p>
-                        </div>
-                        <div class="item-actions">
-                            <span class="status-badge ${statusClass}">${statusText}</span>
-                            <button class="action-btn edit" onclick="editResidence(${residence.id})">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="action-btn delete" onclick="deleteResidenceConfirm(${residence.id})">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function loadPageSettings() {
-            const pages = getPages();
-            
-            if (document.getElementById('vehiclesPageTitle')) {
-                document.getElementById('vehiclesPageTitle').value = pages.vehicles?.title || '';
-                document.getElementById('vehiclesPageDescription').value = pages.vehicles?.description || '';
-                document.getElementById('rentalPageTitle').value = pages.rental?.title || '';
-                document.getElementById('rentalPageDescription').value = pages.rental?.description || '';
-                document.getElementById('residencesPageTitle').value = pages.residences?.title || '';
-                document.getElementById('residencesPageDescription').value = pages.residences?.description || '';
-            }
-        }
-
-        function loadSettingsForm() {
-            const settings = getSettings();
-            
-            if (document.getElementById('siteName')) {
-                document.getElementById('siteName').value = settings.name || '';
-                document.getElementById('siteDescription').value = settings.description || '';
-                document.getElementById('contactEmail').value = settings.contactEmail || '';
-                document.getElementById('contactPhone').value = settings.contactPhone || '';
-                document.getElementById('otherPhones').value = Array.isArray(settings.otherPhones) 
-                    ? settings.otherPhones.join(', ') 
-                    : settings.otherPhones || '';
-                document.getElementById('businessHours').value = settings.businessHours || '';
-                document.getElementById('homeBannerImage').value = settings.homeBannerImage || '';
-                document.getElementById('homeTitle').value = settings.homeTitle || '';
-                document.getElementById('homeSubtitle').value = settings.homeSubtitle || '';
-                
-                // Mettre à jour la prévisualisation de la bannière
-                const bannerPreview = document.getElementById('bannerPreview');
-                if (bannerPreview && settings.homeBannerImage) {
-                    bannerPreview.src = settings.homeBannerImage;
-                    bannerPreview.style.display = 'block';
-                }
-            }
-        }
-
-        function loadJSONData() {
-            const jsonTextarea = document.getElementById('jsonData');
-            if (jsonTextarea) {
-                jsonTextarea.value = JSON.stringify(database, null, 2);
-            }
-        }
-
-        // ========== GESTION DES MODALS ==========
-        let currentVehicleId = null;
-        let currentResidenceId = null;
-
-        function openVehicleModal() {
-            document.getElementById('vehicleModalTitle').textContent = 'Ajouter un véhicule';
-            document.getElementById('vehicleForm').reset();
-            document.getElementById('vehicleId').value = '';
-            document.getElementById('vehicleImagePreview').style.display = 'none';
-            currentVehicleId = null;
-            document.getElementById('vehicleModal').style.display = 'flex';
-        }
-
-        function closeVehicleModal() {
-            document.getElementById('vehicleModal').style.display = 'none';
-        }
-
-        function editVehicle(id) {
-            const vehicle = getVehicleById(id);
-            if (!vehicle) {
-                showNotification('Véhicule non trouvé', 'error');
-                return;
-            }
-            
-            document.getElementById('vehicleModalTitle').textContent = 'Modifier le véhicule';
-            document.getElementById('vehicleId').value = vehicle.id;
-            document.getElementById('vehicleModel').value = vehicle.model || '';
-            document.getElementById('vehicleYear').value = vehicle.year || '';
-            document.getElementById('vehiclePrice').value = vehicle.price || '';
-            document.getElementById('vehicleStatus').value = vehicle.status || 'available';
-            document.getElementById('vehicleImage').value = vehicle.image || '';
-            document.getElementById('vehicleDescription').value = vehicle.description || '';
-            document.getElementById('vehicleTransmission').value = vehicle.transmission || '';
-            document.getElementById('vehicleFuel').value = vehicle.fuel || '';
-            document.getElementById('vehicleType').value = vehicle.type || 'SUV';
-            document.getElementById('vehicleUnit').value = vehicle.unit || 'for_sale';
-            document.getElementById('vehicleFeatured').value = vehicle.featured || 'no';
-            document.getElementById('vehicleMileage').value = vehicle.mileage || '';
-            
-            const preview = document.getElementById('vehicleImagePreview');
-            if (vehicle.image) {
-                preview.src = vehicle.image;
-                preview.style.display = 'block';
-            }
-            
-            currentVehicleId = id;
-            document.getElementById('vehicleModal').style.display = 'flex';
-        }
-
-        function saveVehicle() {
-            const form = document.getElementById('vehicleForm');
-            if (!form.checkValidity()) {
-                form.reportValidity();
-                return;
-            }
-            
-            const vehicleData = {
-                model: document.getElementById('vehicleModel').value,
-                year: parseInt(document.getElementById('vehicleYear').value),
-                price: parseInt(document.getElementById('vehiclePrice').value),
-                status: document.getElementById('vehicleStatus').value,
-                image: document.getElementById('vehicleImage').value,
-                description: document.getElementById('vehicleDescription').value,
-                transmission: document.getElementById('vehicleTransmission').value,
-                fuel: document.getElementById('vehicleFuel').value,
-                type: document.getElementById('vehicleType').value,
-                unit: document.getElementById('vehicleUnit').value,
-                featured: document.getElementById('vehicleFeatured').value,
-                mileage: document.getElementById('vehicleMileage').value
-            };
-            
-            let success = false;
-            if (currentVehicleId) {
-                success = updateVehicle(currentVehicleId, vehicleData);
-            } else {
-                success = addVehicle(vehicleData);
-            }
-            
-            if (success) {
-                showNotification(`Véhicule ${currentVehicleId ? 'modifié' : 'ajouté'} avec succès`);
-                closeVehicleModal();
-                loadAllData();
-                
-                // Broadcast database update to all pages
-                broadcastDatabaseUpdate();
-            } else {
-                showNotification('Erreur lors de la sauvegarde', 'error');
-            }
-        }
-
-        function deleteVehicleConfirm(id) {
-            if (confirm('Êtes-vous sûr de vouloir supprimer ce véhicule ? Cette action est irréversible.')) {
-                if (deleteVehicle(id)) {
-                    showNotification('Véhicule supprimé avec succès');
-                    loadAllData();
-                    
-                    // Broadcast database update to all pages
-                    broadcastDatabaseUpdate();
-                } else {
-                    showNotification('Erreur lors de la suppression', 'error');
-                }
-            }
-        }
-
-        function openResidenceModal() {
-            document.getElementById('residenceModalTitle').textContent = 'Ajouter une résidence';
-            document.getElementById('residenceForm').reset();
-            document.getElementById('residenceId').value = '';
-            document.getElementById('residenceImagePreview').style.display = 'none';
-            currentResidenceId = null;
-            document.getElementById('residenceModal').style.display = 'flex';
-        }
-
-        function closeResidenceModal() {
-            document.getElementById('residenceModal').style.display = 'none';
-        }
-
-        function editResidence(id) {
-            const residence = getResidenceById(id);
-            if (!residence) {
-                showNotification('Résidence non trouvée', 'error');
-                return;
-            }
-            
-            document.getElementById('residenceModalTitle').textContent = 'Modifier la résidence';
-            document.getElementById('residenceId').value = residence.id;
-            document.getElementById('residenceType').value = residence.type || '';
-            document.getElementById('residencePrice').value = residence.price_per_day || '';
-            document.getElementById('residenceRooms').value = residence.rooms || 1;
-            document.getElementById('residenceStatus').value = residence.status || 'available';
-            document.getElementById('residenceImage').value = residence.image || '';
-            document.getElementById('residenceDescription').value = residence.description || '';
-            document.getElementById('residenceFeatures').value = Array.isArray(residence.features) 
-                ? residence.features.join(', ') 
-                : residence.features || '';
-            document.getElementById('residenceFeatured').value = residence.featured || 'no';
-            
-            const preview = document.getElementById('residenceImagePreview');
-            if (residence.image) {
-                preview.src = residence.image;
-                preview.style.display = 'block';
-            }
-            
-            currentResidenceId = id;
-            document.getElementById('residenceModal').style.display = 'flex';
-        }
-
-        function saveResidence() {
-            const form = document.getElementById('residenceForm');
-            if (!form.checkValidity()) {
-                form.reportValidity();
-                return;
-            }
-            
-            const residenceData = {
-                type: document.getElementById('residenceType').value,
-                price_per_day: parseInt(document.getElementById('residencePrice').value),
-                rooms: parseInt(document.getElementById('residenceRooms').value) || 1,
-                status: document.getElementById('residenceStatus').value,
-                image: document.getElementById('residenceImage').value,
-                description: document.getElementById('residenceDescription').value,
-                features: document.getElementById('residenceFeatures').value
-                    .split(',')
-                    .map(f => f.trim())
-                    .filter(f => f.length > 0),
-                featured: document.getElementById('residenceFeatured').value
-            };
-            
-            let success = false;
-            if (currentResidenceId) {
-                success = updateResidence(currentResidenceId, residenceData);
-            } else {
-                success = addResidence(residenceData);
-            }
-            
-            if (success) {
-                showNotification(`Résidence ${currentResidenceId ? 'modifiée' : 'ajoutée'} avec succès`);
-                closeResidenceModal();
-                loadAllData();
-                
-                // Broadcast database update to all pages
-                broadcastDatabaseUpdate();
-            } else {
-                showNotification('Erreur lors de la sauvegarde', 'error');
-            }
-        }
-
-        function deleteResidenceConfirm(id) {
-            if (confirm('Êtes-vous sûr de vouloir supprimer cette résidence ? Cette action est irréversible.')) {
-                if (deleteResidence(id)) {
-                    showNotification('Résidence supprimée avec succès');
-                    loadAllData();
-                    
-                    // Broadcast database update to all pages
-                    broadcastDatabaseUpdate();
-                } else {
-                    showNotification('Erreur lors de la suppression', 'error');
-                }
-            }
-        }
-
-        function savePageSettings() {
-            const pages = {
-                vehicles: {
-                    title: document.getElementById('vehiclesPageTitle').value,
-                    description: document.getElementById('vehiclesPageDescription').value
-                },
-                rental: {
-                    title: document.getElementById('rentalPageTitle').value,
-                    description: document.getElementById('rentalPageDescription').value
-                },
-                residences: {
-                    title: document.getElementById('residencesPageTitle').value,
-                    description: document.getElementById('residencesPageDescription').value
-                }
-            };
-            
-            if (updatePages(pages)) {
-                showNotification('Paramètres des pages sauvegardés');
-                loadJSONData();
-                
-                // Broadcast database update to all pages
-                broadcastDatabaseUpdate();
-            } else {
-                showNotification('Erreur lors de la sauvegarde', 'error');
-            }
-        }
-
-        function saveSiteSettings() {
-            const settings = {
-                name: document.getElementById('siteName').value,
-                description: document.getElementById('siteDescription').value,
-                contactEmail: document.getElementById('contactEmail').value,
-                contactPhone: document.getElementById('contactPhone').value,
-                otherPhones: document.getElementById('otherPhones').value
-                    .split(',')
-                    .map(p => p.trim())
-                    .filter(p => p.length > 0),
-                businessHours: document.getElementById('businessHours').value,
-                homeBannerImage: document.getElementById('homeBannerImage').value,
-                homeTitle: document.getElementById('homeTitle').value,
-                homeSubtitle: document.getElementById('homeSubtitle').value
-            };
-            
-            if (updateSettings(settings)) {
-                showNotification('Paramètres du site sauvegardés');
-                loadJSONData();
-                
-                // Broadcast database update to all pages
-                broadcastDatabaseUpdate();
-            } else {
-                showNotification('Erreur lors de la sauvegarde', 'error');
-            }
-        }
-
-        // ========== GESTION DE LA BASE DE DONNÉES ==========
-        function exportData() {
-            const dataStr = JSON.stringify(database, null, 2);
-            const dataBlob = new Blob([dataStr], { type: 'application/json' });
-            
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(dataBlob);
-            link.download = `grace-auto-database-${new Date().toISOString().split('T')[0]}.json`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            
-            showNotification('Base de données exportée avec succès');
-        }
-
-        function copyJSON() {
-            const jsonTextarea = document.getElementById('jsonData');
-            jsonTextarea.select();
-            document.execCommand('copy');
-            showNotification('JSON copié dans le presse-papier');
-        }
-
-        function importData() {
-            const fileInput = document.getElementById('importFile');
-            const file = fileInput.files[0];
-            
-            if (!file) {
-                showNotification('Veuillez sélectionner un fichier', 'error');
-                return;
-            }
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const importedData = JSON.parse(e.target.result);
-                    
-                    // Validation basique des données
-                    if (!importedData.vehicles || !importedData.residences || !importedData.settings) {
-                        throw new Error('Format de fichier invalide');
-                    }
-                    
-                    database = importedData;
-                    saveDatabase();
-                    
-                    // Recharger l'interface
-                    loadAllData();
-                    
-                    showNotification('Données importées avec succès');
-                    fileInput.value = '';
-                    
-                } catch (error) {
-                    console.error('Erreur d\'importation:', error);
-                    showNotification('Erreur: Fichier JSON invalide', 'error');
-                }
-            };
-            
-            reader.readAsText(file);
-        }
-
-        function resetDatabase() {
-            if (confirm('⚠️ ATTENTION ! Cette action va supprimer toutes les données et réinitialiser la base de données. Êtes-vous sûr ?')) {
-                database = { ...DEFAULT_DATABASE };
-                saveDatabase();
-                loadAllData();
-                showNotification('Base de données réinitialisée');
-            }
-        }
-
-        // ========== FONCTIONS DE SYNCHRONISATION (simplifiées) ==========
-        function forceGlobalSync() {
-            // Dans cette version simplifiée, on ne fait que sauvegarder
-            saveDatabase();
-            showNotification('Données sauvegardées', 'info');
-        }
-
-        function forceSync() {
-            saveDatabase();
-            showNotification('Synchronisation effectuée', 'success');
-        }
-
-        function testConnection() {
-            showNotification('Connexion au système établie', 'success');
-        }
-
-        function clearAllData() {
-            if (confirm('⚠️ Cette action va effacer toutes les données de localStorage. Continuer?')) {
-                localStorage.clear();
-                initDatabase();
-                showNotification('Toutes les données ont été effacées', 'success');
-            }
-        }
-
-        function broadcastDatabaseUpdate() {
-            if (typeof BroadcastChannel !== 'undefined') {
-                const channel = new BroadcastChannel('grace_auto_sync_channel');
-                channel.postMessage({
-                    type: 'DATABASE_UPDATED',
-                    payload: {
-                        timestamp: new Date().toISOString(),
-                        source: 'admin'
-                    }
-                });
-                channel.close();
-                console.log('📡 Database update broadcasted to all pages');
-            }
-        }
-
-        // ========== GESTION DES ONGLETS ==========
-        function switchTab(tabId) {
-            // Mettre à jour la navigation
-            document.querySelectorAll('.menu-item').forEach(item => {
-                item.classList.toggle('active', item.getAttribute('data-tab') === tabId);
-            });
-            
-            // Mettre à jour le contenu
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.toggle('active', content.id === tabId);
-            });
-            
-            // Charger les données spécifiques à l'onglet
-            switch(tabId) {
-                case 'vehicles':
-                    loadVehicles();
-                    break;
-                case 'residences':
-                    loadResidences();
-                    break;
-                case 'content-manager':
-                    loadContentManager();
-                    break;
-                case 'settings':
-                    loadSettingsForm();
-                    break;
-                case 'database':
-                    loadJSONData();
-                    break;
-            }
-        }
-
-        function switchContentTab(tabId) {
-            document.querySelectorAll('[data-content-tab]').forEach(tab => {
-                tab.classList.toggle('active', tab.getAttribute('data-content-tab') === tabId);
-            });
-            
-            document.querySelectorAll('#content-manager .tab-content').forEach(content => {
-                content.classList.toggle('active', content.id === tabId + '-content');
-            });
-        }
-
-        // ========== ÉVÉNEMENTS ==========
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialisation
-            initDatabase();
-            
-            // Navigation
-            document.querySelectorAll('.menu-item').forEach(item => {
-                item.addEventListener('click', function() {
-                    switchTab(this.getAttribute('data-tab'));
-                });
-            });
-            
-            // Tabs véhicules
-            document.querySelectorAll('[data-vehicle-tab]').forEach(tab => {
-                tab.addEventListener('click', function() {
-                    document.querySelectorAll('[data-vehicle-tab]').forEach(t => {
-                        t.classList.remove('active');
-                    });
-                    this.classList.add('active');
-                    loadVehicles();
-                });
-            });
-            
-            // Tabs résidences
-            document.querySelectorAll('[data-residence-tab]').forEach(tab => {
-                tab.addEventListener('click', function() {
-                    document.querySelectorAll('[data-residence-tab]').forEach(t => {
-                        t.classList.remove('active');
-                    });
-                    this.classList.add('active');
-                    loadResidences();
-                });
-            });
-            
-            // Tabs gestionnaire de contenu
-            document.querySelectorAll('[data-content-tab]').forEach(tab => {
-                tab.addEventListener('click', function() {
-                    switchContentTab(this.getAttribute('data-content-tab'));
-                });
-            });
-            
-            // Prévisualisation images
-            document.getElementById('vehicleImage').addEventListener('input', function() {
-                const preview = document.getElementById('vehicleImagePreview');
-                if (this.value) {
-                    preview.src = this.value;
-                    preview.style.display = 'block';
-                } else {
-                    preview.style.display = 'none';
-                }
-            });
-            
-            document.getElementById('residenceImage').addEventListener('input', function() {
-                const preview = document.getElementById('residenceImagePreview');
-                if (this.value) {
-                    preview.src = this.value;
-                    preview.style.display = 'block';
-                } else {
-                    preview.style.display = 'none';
-                }
-            });
-            
-            document.getElementById('homeBannerImage').addEventListener('input', function() {
-                const preview = document.getElementById('bannerPreview');
-                if (this.value) {
-                    preview.src = this.value;
-                    preview.style.display = 'block';
-                } else {
-                    preview.style.display = 'none';
-                }
-            });
-            
-            // Fermeture des modals
-            document.querySelectorAll('.close-modal').forEach(button => {
-                button.addEventListener('click', function() {
-                    this.closest('.modal').style.display = 'none';
-                });
-            });
-            
-            // Import de fichier
-            document.getElementById('importFile').addEventListener('change', importData);
-            
-            // Fermer modals avec ESC
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    document.querySelectorAll('.modal').forEach(modal => {
-                        modal.style.display = 'none';
-                    });
-                }
-            });
-            
-            // Rafraîchissement automatique des stats
-            setInterval(updateStats, 30000);
-            
-            console.log('✅ Administration GRÂCE AUTO SERVICE chargée avec succès');
-        });
-
-        // Exposer les fonctions globalement
-        window.switchTab = switchTab;
-        window.openVehicleModal = openVehicleModal;
-        window.closeVehicleModal = closeVehicleModal;
-        window.editVehicle = editVehicle;
-        window.saveVehicle = saveVehicle;
-        window.deleteVehicleConfirm = deleteVehicleConfirm;
-        window.openResidenceModal = openResidenceModal;
-        window.closeResidenceModal = closeResidenceModal;
-        window.editResidence = editResidence;
-        window.saveResidence = saveResidence;
-        window.deleteResidenceConfirm = deleteResidenceConfirm;
-        window.savePageSettings = savePageSettings;
-        window.saveSiteSettings = saveSiteSettings;
-        window.exportData = exportData;
-        window.copyJSON = copyJSON;
-        window.loadJSONData = loadJSONData;
-        window.resetDatabase = resetDatabase;
-        window.loadAllData = loadAllData;
-        window.loadRecentItems = loadRecentItems;
-        window.switchContentTab = switchContentTab;
-        window.forceGlobalSync = forceGlobalSync;
-        window.forceSync = forceSync;
-        window.testConnection = testConnection;
-        window.clearAllData = clearAllData;
-    </script>
-
-    <!-- Synchronization scripts -->
-    <script src="database.js"></script>
-    <script src="sync-client.js"></script>
-</body>
-</html><!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - GRÂCE AUTO SERVICE</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* Styles spécifiques à l'admin */
-        .admin-container {
-            display: flex;
-            min-height: 100vh;
-            background: #f5f5f5;
-        }
-
-        .admin-sidebar {
-            width: 250px;
-            background: #2c3e50;
-            color: white;
-            padding: 20px 0;
-            position: fixed;
-            height: 100vh;
-            overflow-y: auto;
-        }
-
-        .admin-main {
-            flex: 1;
-            margin-left: 250px;
-            padding: 20px;
-        }
-
-        .admin-logo {
-            text-align: center;
-            padding: 20px;
-            border-bottom: 1px solid #34495e;
-            margin-bottom: 20px;
-        }
-
-        .admin-logo h2 {
-            color: white;
-            font-size: 1.5rem;
-            margin: 0;
-        }
-
-        .admin-logo p {
-            color: #bdc3c7;
-            font-size: 0.9rem;
-            margin: 5px 0 0;
-        }
-
-        .admin-menu {
-            list-style: none;
-            padding: 0;
-        }
-
-        .admin-menu li {
-            margin-bottom: 5px;
-        }
-
-        .admin-menu a {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            color: #bdc3c7;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-
-        .admin-menu a:hover {
-            background: #34495e;
-            color: white;
-        }
-
-        .admin-menu a.active {
-            background: #3498db;
-            color: white;
-            border-left: 4px solid white;
-        }
-
-        .admin-menu i {
-            width: 25px;
-            text-align: center;
-            margin-right: 10px;
-        }
-
-        .admin-header {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .admin-title h1 {
-            color: #2c3e50;
-            margin: 0;
-            font-size: 1.8rem;
-        }
-
-        .admin-title p {
-            color: #7f8c8d;
-            margin: 5px 0 0;
-        }
-
-        .admin-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .stats-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-
-        .stat-card i {
-            font-size: 2.5rem;
-            color: #3498db;
-            margin-bottom: 10px;
-        }
-
-        .stat-card h3 {
-            font-size: 2rem;
-            color: #2c3e50;
-            margin: 10px 0;
-        }
-
-        .stat-card p {
-            color: #7f8c8d;
-            font-size: 0.9rem;
-        }
-
-        .admin-table-container {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            overflow: hidden;
-            margin-bottom: 30px;
-        }
-
-        .table-header {
-            padding: 20px;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .table-header h3 {
-            margin: 0;
-            color: #2c3e50;
-        }
-
-        .search-box {
-            display: flex;
-            gap: 10px;
-        }
-
-        .search-input {
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            width: 250px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th {
-            background: #f8f9fa;
-            padding: 15px;
-            text-align: left;
-            font-weight: 600;
-            color: #2c3e50;
-            border-bottom: 2px solid #eee;
-        }
-
-        td {
-            padding: 15px;
-            border-bottom: 1px solid #eee;
-            vertical-align: middle;
-        }
-
-        tr:hover {
-            background: #f8f9fa;
-        }
-
-        .item-image-cell {
-            width: 60px;
-        }
-
-        .item-image-small {
-            width: 50px;
-            height: 50px;
-            object-fit: cover;
-            border-radius: 4px;
-        }
-
-        .status-badge {
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .status-available {
-            background: #2ecc71;
-            color: white;
-        }
-
-        .status-sold {
-            background: #e74c3c;
-            color: white;
-        }
-
-        .status-rented {
-            background: #f39c12;
-            color: white;
-        }
-
-        .item-type {
-            display: inline-block;
-            padding: 4px 8px;
-            background: #e8f4fc;
-            color: #3498db;
-            border-radius: 4px;
-            font-size: 0.8rem;
-        }
-
-        .item-type.vehicule {
-            background: #e8f6e8;
-            color: #27ae60;
-        }
-
-        .item-type.residence {
-            background: #f9ebdf;
-            color: #e67e22;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 5px;
-        }
-
-        .btn-icon {
-            padding: 5px 8px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            background: none;
-            color: #7f8c8d;
-            transition: all 0.3s;
-        }
-
-        .btn-icon:hover {
-            background: #f8f9fa;
-        }
-
-        .btn-icon.edit:hover {
-            color: #3498db;
-        }
-
-        .btn-icon.delete:hover {
-            color: #e74c3c;
-        }
-
-        .btn-icon.eye:hover {
-            color: #2ecc71;
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 800px;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .modal-header {
-            padding: 20px;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-header h3 {
-            margin: 0;
-            color: #2c3e50;
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #7f8c8d;
-        }
-
-        .modal-body {
-            padding: 20px;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group.full-width {
-            grid-column: 1 / -1;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-            color: #2c3e50;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 1rem;
-        }
-
-        .form-group textarea {
-            height: 100px;
-            resize: vertical;
-        }
-
-        .modal-footer {
-            padding: 20px;
-            border-top: 1px solid #eee;
-            text-align: right;
-        }
-
-        /* Tabs */
-        .tabs {
-            display: flex;
-            border-bottom: 2px solid #eee;
-            margin-bottom: 20px;
-        }
-
-        .tab {
-            padding: 10px 20px;
-            cursor: pointer;
-            color: #7f8c8d;
-            border-bottom: 2px solid transparent;
-            margin-bottom: -2px;
-        }
-
-        .tab.active {
-            color: #3498db;
-            border-bottom-color: #3498db;
-            font-weight: 600;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* Sync section */
-        .sync-section {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .sync-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px;
-            background: #f8f9fa;
-            border-radius: 4px;
-            margin-bottom: 20px;
-        }
-
-        .sync-info i {
-            color: #3498db;
-        }
-
-        .sync-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        /* Responsive */
-        @media (max-width: 992px) {
-            .admin-sidebar {
-                width: 200px;
-            }
-            
-            .admin-main {
-                margin-left: 200px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .admin-sidebar {
-                width: 60px;
-            }
-            
-            .admin-main {
-                margin-left: 60px;
-            }
-            
-            .admin-logo h2,
-            .admin-menu span {
+            .admin-logo h2, .admin-logo p, .admin-menu span {
                 display: none;
             }
             
@@ -2993,15 +695,61 @@
                 font-size: 1.2rem;
             }
             
+            .admin-main {
+                margin-left: 70px;
+            }
+            
             .form-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .stats-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .search-input {
+                width: 150px;
+            }
+            
+            .admin-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .admin-actions {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .stats-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .table-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .search-box {
+                width: 100%;
+            }
+            
+            .search-input {
+                width: 100%;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
             }
         }
     </style>
 </head>
 <body>
     <div class="admin-container">
-        <!-- Sidebar -->
+        <!-- Sidebar Navigation -->
         <aside class="admin-sidebar">
             <div class="admin-logo">
                 <h2>GRÂCE AUTO SERVICE</h2>
@@ -3019,9 +767,9 @@
             </ul>
         </aside>
 
-        <!-- Main Content -->
+        <!-- Main Content Area -->
         <main class="admin-main">
-            <!-- Dashboard Tab -->
+            <!-- Tableau de Bord -->
             <div id="dashboard" class="tab-content active">
                 <div class="admin-header">
                     <div class="admin-title">
@@ -3038,7 +786,7 @@
                     </div>
                 </div>
 
-                <!-- Stats Cards -->
+                <!-- Statistiques -->
                 <div class="stats-cards">
                     <div class="stat-card">
                         <i class="fas fa-car"></i>
@@ -3062,7 +810,7 @@
                     </div>
                 </div>
 
-                <!-- Recent Items -->
+                <!-- Articles Récents -->
                 <div class="admin-table-container">
                     <div class="table-header">
                         <h3>Articles Récents</h3>
@@ -3089,7 +837,7 @@
                 </div>
             </div>
 
-            <!-- Véhicules Tab -->
+            <!-- Véhicules -->
             <div id="vehicules" class="tab-content">
                 <div class="admin-header">
                     <div class="admin-title">
@@ -3134,7 +882,7 @@
                 </div>
             </div>
 
-            <!-- Résidences Tab -->
+            <!-- Résidences -->
             <div id="residences" class="tab-content">
                 <div class="admin-header">
                     <div class="admin-title">
@@ -3174,7 +922,7 @@
                 </div>
             </div>
 
-            <!-- Réservations Tab -->
+            <!-- Réservations -->
             <div id="reservations" class="tab-content">
                 <div class="admin-header">
                     <div class="admin-title">
@@ -3202,7 +950,7 @@
                 </div>
             </div>
 
-            <!-- Paramètres Tab -->
+            <!-- Paramètres -->
             <div id="settings" class="tab-content">
                 <div class="admin-header">
                     <div class="admin-title">
@@ -3261,7 +1009,7 @@
                 </div>
             </div>
 
-            <!-- Base de données Tab -->
+            <!-- Base de données -->
             <div id="database" class="tab-content">
                 <div class="admin-header">
                     <div class="admin-title">
@@ -3434,99 +1182,206 @@
         </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="js/database.js"></script>
+    <!-- Notification -->
+    <div id="notification" class="notification">
+        <i class="fas fa-check-circle"></i> <span id="notificationText">Action effectuée avec succès</span>
+    </div>
+
     <script>
+        // ========== BASE DE DONNÉES JSON ==========
+        const DB_KEY = 'grace_auto_database';
+        
+        // Structure de la base de données par défaut
+        const DEFAULT_DATABASE = {
+            meta: {
+                version: '1.0.0',
+                created_at: new Date().toISOString(),
+                last_updated: new Date().toISOString(),
+                total_vehicles: 0,
+                total_residences: 0,
+                total_reservations: 0
+            },
+            vehicules: [],
+            residences: [],
+            reservations: [],
+            settings: {
+                name: "GRÂCE AUTO SERVICE-CI-BKT",
+                description: "Vente et location de véhicules, résidences meublées et assurance voyage en Côte d'Ivoire. Service de qualité et professionnel.",
+                contactEmail: "graceautoservice88@gmail.com",
+                contactPhone: "+225 0748735115",
+                otherPhones: ["+225 0141941694", "+225 0544604246"],
+                businessHours: {
+                    weekday: "Lun-Ven: 8h-18h",
+                    saturday: "Samedi: 8h-13h",
+                    sunday: "Dimanche: Fermé"
+                }
+            }
+        };
+
+        // Base de données actuelle
+        let currentData = { ...DEFAULT_DATABASE };
+
         // Variables globales
-        let currentData = null;
         let currentTab = 'dashboard';
         let currentVehicleTab = 'vente';
         let editingItemId = null;
         let pendingAction = null;
 
-        // Initialisation
-        document.addEventListener('DOMContentLoaded', async () => {
-            await loadData();
-            setupEventListeners();
-            showNotification('Bienvenue dans l\'administration !', 'success');
-        });
-
-        // Écouteurs d'événements
-        function setupEventListeners() {
-            // Écouter les mises à jour de données
-            window.addEventListener('dataLoaded', (event) => {
-                currentData = event.detail.data;
-                updateDashboard();
-                updateAllTables();
-            });
-
-            // Écouter la soumission du formulaire modal
-            document.getElementById('item-modal').addEventListener('submit', (e) => {
-                e.preventDefault();
-                saveItem();
-            });
+        // ========== INITIALISATION ==========
+        function initDatabase() {
+            console.log('🔧 Initialisation de la base de données...');
+            
+            // Charger depuis localStorage ou utiliser la base par défaut
+            const stored = localStorage.getItem(DB_KEY);
+            if (stored) {
+                try {
+                    currentData = JSON.parse(stored);
+                    console.log('📁 Base de données chargée depuis localStorage');
+                } catch (error) {
+                    console.error('❌ Erreur de chargement, utilisation de la base par défaut:', error);
+                    currentData = { ...DEFAULT_DATABASE };
+                    saveDatabase();
+                }
+            } else {
+                console.log('🆕 Base de données par défaut créée');
+                saveDatabase();
+            }
+            
+            loadData();
+            showNotification('Système d\'administration chargé avec succès', 'success');
         }
 
-        // Charger les données
-        async function loadData() {
+        function saveDatabase() {
             try {
-                await dataManager.refresh();
-                currentData = dataManager.data;
-                updateDashboard();
-                updateAllTables();
-            } catch (error) {
-                console.error('Erreur de chargement:', error);
-                showNotification('Erreur de chargement des données', 'error');
+                // Mettre à jour les métadonnées
+                currentData.meta.last_updated = new Date().toISOString();
+                currentData.meta.total_vehicles = currentData.vehicules?.length || 0;
+                currentData.meta.total_residences = currentData.residences?.length || 0;
+                currentData.meta.total_reservations = currentData.reservations?.length || 0;
+                
+                // Sauvegarder dans localStorage
+                localStorage.setItem(DB_KEY, JSON.stringify(currentData));
+                
+                console.log('💾 Base de données sauvegardée');
+                return true;
+            } catch (e) {
+                console.error('❌ Erreur de sauvegarde:', e);
+                showNotification('Erreur de sauvegarde', 'error');
+                return false;
             }
         }
 
-        // Mettre à jour le tableau de bord
+        // ========== FONCTIONS UTILITAIRES ==========
+        function formatPrice(price) {
+            if (!price) return '0 FCFA';
+            return new Intl.NumberFormat('fr-FR').format(price) + ' FCFA';
+        }
+
+        function getStatusText(item) {
+            if (!item.disponible) {
+                return item.categorie === 'vente' ? 'Vendu' : 'Loué';
+            }
+            return 'Disponible';
+        }
+
+        function getStatusClass(item) {
+            if (!item.disponible) {
+                if (item.categorie === 'vente') return 'status-sold';
+                return 'status-rented';
+            }
+            return 'status-available';
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'N/A';
+            return new Date(dateString).toLocaleDateString('fr-FR');
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            const icon = notification.querySelector('i');
+            
+            if (!notification || !notificationText) return;
+            
+            notificationText.textContent = message;
+            notification.className = 'notification';
+            
+            switch(type) {
+                case 'error':
+                    notification.classList.add('error');
+                    icon.className = 'fas fa-exclamation-circle';
+                    break;
+                case 'warning':
+                    notification.classList.add('warning');
+                    icon.className = 'fas fa-exclamation-triangle';
+                    break;
+                case 'info':
+                    notification.classList.add('info');
+                    icon.className = 'fas fa-info-circle';
+                    break;
+                default:
+                    icon.className = 'fas fa-check-circle';
+            }
+            
+            notification.style.display = 'flex';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        // ========== FONCTIONS D'AFFICHAGE ==========
+        function loadData() {
+            updateDashboard();
+            updateAllTables();
+        }
+
         function updateDashboard() {
             if (!currentData) return;
 
-            const stats = dataManager.getStats();
-            
-            document.getElementById('stats-vehicules').textContent = stats.vehiculesVente;
-            document.getElementById('stats-locations').textContent = stats.vehiculesLocation;
-            document.getElementById('stats-residences').textContent = stats.totalResidences;
-            document.getElementById('stats-reservations').textContent = stats.totalReservations;
+            // Calculer les statistiques
+            const vehiculesVente = (currentData.vehicules || []).filter(v => v.categorie === 'vente').length;
+            const vehiculesLocation = (currentData.vehicules || []).filter(v => v.categorie === 'location').length;
+            const totalResidences = (currentData.residences || []).length;
+            const totalReservations = (currentData.reservations || []).length;
+
+            document.getElementById('stats-vehicules').textContent = vehiculesVente;
+            document.getElementById('stats-locations').textContent = vehiculesLocation;
+            document.getElementById('stats-residences').textContent = totalResidences;
+            document.getElementById('stats-reservations').textContent = totalReservations;
 
             updateRecentItems();
-        }
-
-        // Mettre à jour les tables
-        function updateAllTables() {
-            updateVehiclesTable();
-            updateResidencesTable();
-            updateReservationsTable();
             updateDatabaseStats();
         }
 
-        // Afficher les items récents
         function updateRecentItems() {
             const container = document.getElementById('recent-items');
-            const allItems = dataManager.getAllItems();
+            const allItems = [
+                ...(currentData.vehicules || []).map(v => ({ ...v, type: 'vehicule' })),
+                ...(currentData.residences || []).map(r => ({ ...r, type: 'residence' }))
+            ];
             
             // Trier par date de création (les plus récents d'abord)
-            const recentItems = [...allItems]
+            const recentItems = allItems
                 .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
                 .slice(0, 10);
 
             container.innerHTML = recentItems.map(item => `
                 <tr>
                     <td class="item-image-cell">
-                        <img src="${item.image || 'images/no-image.jpg'}" 
+                        <img src="${item.image || 'https://via.placeholder.com/50x50?text=No+Image'}" 
                              alt="${item.titre}" 
                              class="item-image-small"
-                             onerror="this.src='images/no-image.jpg'">
+                             onerror="this.src='https://via.placeholder.com/50x50?text=Error'">
                     </td>
                     <td>${item.titre}</td>
                     <td>
-                        <span class="item-type ${item.type ? 'vehicule' : 'residence'}">
-                            ${item.type ? 'Véhicule' : 'Résidence'}
+                        <span class="item-type ${item.type}">
+                            ${item.type === 'vehicule' ? 'Véhicule' : 'Résidence'}
                         </span>
                     </td>
-                    <td>${formatPrice(item.prix)}${item.categorie === 'location' ? '/jour' : ''}</td>
+                    <td>${formatPrice(item.prix)}${item.categorie === 'location' ? '/mois' : ''}</td>
                     <td>
                         <span class="status-badge ${getStatusClass(item)}">
                             ${getStatusText(item)}
@@ -3535,10 +1390,10 @@
                     <td>${formatDate(item.createdAt)}</td>
                     <td>
                         <div class="action-buttons">
-                            <button class="btn-icon edit" onclick="editItem(${item.id})">
+                            <button class="btn-icon edit" onclick="editItem(${item.id}, '${item.type}')">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button class="btn-icon delete" onclick="deleteItem(${item.id})">
+                            <button class="btn-icon delete" onclick="deleteItem(${item.id}, '${item.type}')">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
@@ -3547,24 +1402,23 @@
             `).join('');
         }
 
-        // Mettre à jour la table des véhicules
         function updateVehiclesTable() {
             const container = document.getElementById('vehicles-table');
             let vehicles = currentVehicleTab === 'vente' 
-                ? dataManager.getVehicules()
-                : dataManager.getLocations();
+                ? (currentData.vehicules || []).filter(v => v.categorie === 'vente')
+                : (currentData.vehicules || []).filter(v => v.categorie === 'location');
 
             container.innerHTML = vehicles.map(vehicle => `
                 <tr>
                     <td class="item-image-cell">
-                        <img src="${vehicle.image || 'images/no-image.jpg'}" 
+                        <img src="${vehicle.image || 'https://via.placeholder.com/50x50?text=No+Image'}" 
                              alt="${vehicle.titre}" 
                              class="item-image-small"
-                             onerror="this.src='images/no-image.jpg'">
+                             onerror="this.src='https://via.placeholder.com/50x50?text=Error'">
                     </td>
                     <td>${vehicle.titre}</td>
                     <td>${vehicle.type || 'Non spécifié'}</td>
-                    <td>${formatPrice(vehicle.prix)}${currentVehicleTab === 'location' ? '/jour' : ''}</td>
+                    <td>${formatPrice(vehicle.prix)}${currentVehicleTab === 'location' ? '/mois' : ''}</td>
                     <td>
                         <select class="status-select" data-id="${vehicle.id}" onchange="updateVehicleStatus(${vehicle.id}, this.value)">
                             <option value="available" ${vehicle.disponible ? 'selected' : ''}>Disponible</option>
@@ -3577,10 +1431,10 @@
                     </td>
                     <td>
                         <div class="action-buttons">
-                            <button class="btn-icon edit" onclick="editItem(${vehicle.id})">
+                            <button class="btn-icon edit" onclick="editItem(${vehicle.id}, 'vehicule')">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button class="btn-icon delete" onclick="deleteItem(${vehicle.id})">
+                            <button class="btn-icon delete" onclick="deleteItem(${vehicle.id}, 'vehicule')">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
@@ -3589,22 +1443,21 @@
             `).join('');
         }
 
-        // Mettre à jour la table des résidences
         function updateResidencesTable() {
             const container = document.getElementById('residences-table');
-            const residences = dataManager.getResidences();
+            const residences = currentData.residences || [];
 
             container.innerHTML = residences.map(residence => `
                 <tr>
                     <td class="item-image-cell">
-                        <img src="${residence.image || 'images/no-image.jpg'}" 
+                        <img src="${residence.image || 'https://via.placeholder.com/50x50?text=No+Image'}" 
                              alt="${residence.titre}" 
                              class="item-image-small"
-                             onerror="this.src='images/no-image.jpg'">
+                             onerror="this.src='https://via.placeholder.com/50x50?text=Error'">
                     </td>
                     <td>${residence.titre}</td>
                     <td>${residence.localisation || 'Non spécifiée'}</td>
-                    <td>${formatPrice(residence.prix)}/jour</td>
+                    <td>${formatPrice(residence.prix)}/mois</td>
                     <td>${residence.rooms || 'N/A'}</td>
                     <td>
                         <select class="status-select" data-id="${residence.id}" onchange="updateResidenceStatus(${residence.id}, this.value)">
@@ -3614,10 +1467,10 @@
                     </td>
                     <td>
                         <div class="action-buttons">
-                            <button class="btn-icon edit" onclick="editItem(${residence.id})">
+                            <button class="btn-icon edit" onclick="editItem(${residence.id}, 'residence')">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button class="btn-icon delete" onclick="deleteItem(${residence.id})">
+                            <button class="btn-icon delete" onclick="deleteItem(${residence.id}, 'residence')">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
@@ -3626,17 +1479,16 @@
             `).join('');
         }
 
-        // Mettre à jour la table des réservations
         function updateReservationsTable() {
             const container = document.getElementById('reservations-table');
-            const reservations = dataManager.getReservations();
+            const reservations = currentData.reservations || [];
 
             if (reservations.length === 0) {
                 container.innerHTML = `
                     <tr>
                         <td colspan="6" style="text-align: center; padding: 40px;">
-                            <i class="fas fa-calendar-times" style="font-size: 3rem; color: #ddd; margin-bottom: 10px;"></i>
-                            <p>Aucune réservation pour le moment</p>
+                            <i class="fas fa-calendar-times" style="font-size: 3rem; color: var(--text-secondary); margin-bottom: 10px;"></i>
+                            <p style="color: var(--text-secondary);">Aucune réservation pour le moment</p>
                         </td>
                     </tr>
                 `;
@@ -3667,7 +1519,6 @@
             `).join('');
         }
 
-        // Mettre à jour les statistiques de la base
         function updateDatabaseStats() {
             if (!currentData) return;
 
@@ -3679,7 +1530,7 @@
             document.getElementById('db-size').value = `${(dataSize / 1024).toFixed(2)} KB`;
             
             document.getElementById('last-sync').textContent = 
-                new Date(currentData.lastUpdate || Date.now()).toLocaleString('fr-FR');
+                new Date(currentData.meta?.last_updated || Date.now()).toLocaleString('fr-FR');
             
             // Charger les paramètres
             const settings = currentData.settings || {};
@@ -3694,7 +1545,7 @@
             document.getElementById('setting-hours-sun').value = settings.businessHours?.sunday || '';
         }
 
-        // Gestion des onglets
+        // ========== GESTION DES ONGLETS ==========
         function showTab(tabName) {
             // Masquer tous les onglets
             document.querySelectorAll('.tab-content').forEach(tab => {
@@ -3738,14 +1589,27 @@
             updateVehiclesTable();
         }
 
-        // Modal management
+        // ========== GESTION DES MODALS ==========
         function showAddModal(itemType = null) {
             editingItemId = null;
             const modal = document.getElementById('item-modal');
             const title = document.getElementById('modal-title');
             
             // Réinitialiser le formulaire
-            document.getElementById('item-form').reset();
+            document.getElementById('item-type').value = '';
+            document.getElementById('item-title').value = '';
+            document.getElementById('item-price').value = '';
+            document.getElementById('item-image').value = '';
+            document.getElementById('item-description').value = '';
+            document.getElementById('vehicle-type').value = 'SUV';
+            document.getElementById('vehicle-status').value = 'available';
+            document.getElementById('vehicle-features').value = '';
+            document.getElementById('residence-location').value = '';
+            document.getElementById('residence-rooms').value = '1';
+            document.getElementById('residence-status').value = 'available';
+            document.getElementById('residence-features').value = '';
+            
+            toggleItemFields();
             
             if (itemType) {
                 const typeSelect = document.getElementById('item-type');
@@ -3761,16 +1625,25 @@
             modal.classList.add('active');
         }
 
-        function editItem(id) {
-            const item = dataManager.getItemById(id);
-            if (!item) return;
+        function editItem(id, type) {
+            let item;
+            if (type === 'vehicule') {
+                item = (currentData.vehicules || []).find(v => v.id === id);
+            } else {
+                item = (currentData.residences || []).find(r => r.id === id);
+            }
+            
+            if (!item) {
+                showNotification('Article non trouvé', 'error');
+                return;
+            }
 
             editingItemId = id;
             const modal = document.getElementById('item-modal');
             const title = document.getElementById('modal-title');
             
             // Remplir le formulaire
-            const isVehicle = item.type !== undefined;
+            const isVehicle = type === 'vehicule';
             const typeSelect = document.getElementById('item-type');
             
             if (isVehicle) {
@@ -3781,8 +1654,8 @@
             
             toggleItemFields();
             
-            document.getElementById('item-title').value = item.titre;
-            document.getElementById('item-price').value = item.prix;
+            document.getElementById('item-title').value = item.titre || '';
+            document.getElementById('item-price').value = item.prix || '';
             document.getElementById('item-image').value = item.image || '';
             document.getElementById('item-description').value = item.description || '';
             
@@ -3819,7 +1692,7 @@
             editingItemId = null;
         }
 
-        // Sauvegarder un item
+        // ========== FONCTIONS CRUD ==========
         async function saveItem() {
             const type = document.getElementById('item-type').value;
             const titre = document.getElementById('item-title').value.trim();
@@ -3852,16 +1725,8 @@
                     caracteristiques: features,
                     disponible: status === 'available',
                     type: vehicleType,
-                    createdAt: new Date().toISOString()
+                    createdAt: editingItemId ? undefined : new Date().toISOString()
                 };
-                
-                // Si c'est une modification, conserver la date de création originale
-                if (editingItemId) {
-                    const original = dataManager.getItemById(editingItemId);
-                    if (original) {
-                        itemData.createdAt = original.createdAt;
-                    }
-                }
             } else {
                 const location = document.getElementById('residence-location').value.trim();
                 const rooms = parseInt(document.getElementById('residence-rooms').value);
@@ -3882,19 +1747,12 @@
                     disponible: status === 'available',
                     localisation: location,
                     rooms: rooms || 1,
-                    createdAt: new Date().toISOString()
+                    createdAt: editingItemId ? undefined : new Date().toISOString()
                 };
-                
-                if (editingItemId) {
-                    const original = dataManager.getItemById(editingItemId);
-                    if (original) {
-                        itemData.createdAt = original.createdAt;
-                    }
-                }
             }
             
             try {
-                await saveItemToDatabase(itemData, editingItemId);
+                await saveItemToDatabase(itemData, editingItemId, type.includes('vehicule') ? 'vehicule' : 'residence');
                 closeModal();
                 showNotification(
                     editingItemId ? 'Article modifié avec succès' : 'Article ajouté avec succès',
@@ -3905,9 +1763,8 @@
             }
         }
 
-        // Supprimer un item
-        function deleteItem(id) {
-            pendingAction = { type: 'delete', id };
+        function deleteItem(id, type) {
+            pendingAction = { type: 'delete', id, itemType: type };
             document.getElementById('confirm-message').textContent = 
                 'Êtes-vous sûr de vouloir supprimer cet élément ? Cette action est irréversible.';
             document.getElementById('confirm-modal').classList.add('active');
@@ -3929,7 +1786,7 @@
             if (!pendingAction) return;
             
             if (pendingAction.type === 'delete') {
-                deleteItemFromDatabase(pendingAction.id);
+                deleteItemFromDatabase(pendingAction.id, pendingAction.itemType);
             } else if (pendingAction.type === 'deleteReservation') {
                 deleteReservationFromDatabase(pendingAction.id);
             }
@@ -3939,7 +1796,7 @@
 
         // Mettre à jour les statuts
         function updateVehicleStatus(id, status) {
-            const vehicle = dataManager.getItemById(id);
+            const vehicle = (currentData.vehicules || []).find(v => v.id === id);
             if (!vehicle) return;
             
             vehicle.disponible = status === 'available';
@@ -3952,21 +1809,19 @@
                 vehicle.disponible = false;
             }
             
-            saveItemToDatabase(vehicle, id);
+            saveItemToDatabase(vehicle, id, 'vehicule');
         }
 
         function updateResidenceStatus(id, status) {
-            const residence = dataManager.getItemById(id);
+            const residence = (currentData.residences || []).find(r => r.id === id);
             if (!residence) return;
             
             residence.disponible = status === 'available';
-            saveItemToDatabase(residence, id);
+            saveItemToDatabase(residence, id, 'residence');
         }
 
         function updateReservationStatus(id, status) {
-            if (!currentData.reservations) return;
-            
-            const reservation = currentData.reservations.find(r => r.id === id);
+            const reservation = (currentData.reservations || []).find(r => r.id === id);
             if (!reservation) return;
             
             reservation.statut = status;
@@ -3995,7 +1850,69 @@
             showNotification('Paramètres enregistrés avec succès', 'success');
         }
 
-        // Synchronisation
+        // ========== GESTION DE LA BASE DE DONNÉES ==========
+        async function saveItemToDatabase(itemData, itemId = null, itemType = 'vehicule') {
+            if (!currentData) return;
+            
+            if (itemId) {
+                // Modification
+                const collection = itemType === 'vehicule' ? 'vehicules' : 'residences';
+                const index = (currentData[collection] || []).findIndex(item => item.id === itemId);
+                if (index !== -1) {
+                    currentData[collection][index] = { ...currentData[collection][index], ...itemData };
+                }
+            } else {
+                // Ajout
+                const collection = itemType === 'vehicule' ? 'vehicules' : 'residences';
+                if (!currentData[collection]) currentData[collection] = [];
+                currentData[collection].push(itemData);
+            }
+            
+            await saveToDatabase();
+        }
+
+        async function deleteItemFromDatabase(itemId, itemType) {
+            if (!currentData) return;
+            
+            const collection = itemType === 'vehicule' ? 'vehicules' : 'residences';
+            const index = (currentData[collection] || []).findIndex(item => item.id === itemId);
+            if (index !== -1) {
+                currentData[collection].splice(index, 1);
+                await saveToDatabase();
+                showNotification(`${itemType === 'vehicule' ? 'Véhicule' : 'Résidence'} supprimé(e) avec succès`, 'success');
+                return;
+            }
+            
+            showNotification('Élément non trouvé', 'error');
+        }
+
+        async function deleteReservationFromDatabase(reservationId) {
+            if (!currentData.reservations) return;
+            
+            const index = (currentData.reservations || []).findIndex(r => r.id === reservationId);
+            if (index !== -1) {
+                currentData.reservations.splice(index, 1);
+                await saveToDatabase();
+                showNotification('Réservation supprimée avec succès', 'success');
+            }
+        }
+
+        async function saveToDatabase() {
+            try {
+                currentData.meta.last_updated = new Date().toISOString();
+                saveDatabase();
+                
+                // Mettre à jour l'affichage
+                updateDashboard();
+                updateAllTables();
+                
+            } catch (error) {
+                console.error('Erreur de sauvegarde:', error);
+                showNotification('Erreur de sauvegarde', 'error');
+            }
+        }
+
+        // ========== FONCTIONS DE SYNCHRONISATION ==========
         async function syncData() {
             try {
                 showNotification('Synchronisation en cours...', 'info');
@@ -4006,19 +1923,22 @@
             }
         }
 
-        // Exporter les données
         function exportData() {
             const dataStr = JSON.stringify(currentData, null, 2);
-            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
             
-            const exportFileDefaultName = `grace-auto-service-backup-${new Date().toISOString().split('T')[0]}.json`;
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = `grace-auto-database-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
             
-            const linkElement = document.createElement('a');
-            linkElement.setAttribute('href', dataUri);
-            linkElement.setAttribute('download', exportFileDefaultName);
-            linkElement.click();
-            
-            showNotification('Données exportées avec succès', 'success');
+            showNotification('Base de données exportée avec succès', 'success');
+        }
+
+        function showBackupModal() {
+            showNotification('Fonctionnalité de sauvegarde à implémenter', 'info');
         }
 
         // Déconnexion
@@ -4026,48 +1946,6 @@
             if (confirm('Êtes-vous sûr de vouloir vous déconnecter ?')) {
                 window.location.href = 'index.html';
             }
-        }
-
-        // Fonctions utilitaires
-        function getStatusClass(item) {
-            if (!item.disponible) {
-                if (item.categorie === 'vente') return 'status-sold';
-                return 'status-rented';
-            }
-            return 'status-available';
-        }
-
-        function getStatusText(item) {
-            if (!item.disponible) {
-                return item.categorie === 'vente' ? 'Vendu' : 'Loué';
-            }
-            return 'Disponible';
-        }
-
-        function formatDate(dateString) {
-            if (!dateString) return 'N/A';
-            return new Date(dateString).toLocaleDateString('fr-FR');
-        }
-
-        function showNotification(message, type = 'info') {
-            // Créer la notification
-            const notification = document.createElement('div');
-            notification.className = `notification ${type}`;
-            notification.innerHTML = `
-                <i class="fas fa-${type === 'success' ? 'check-circle' : 
-                               type === 'error' ? 'exclamation-circle' : 
-                               type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
-                <span>${message}</span>
-            `;
-            
-            // Ajouter au document
-            document.body.appendChild(notification);
-            
-            // Supprimer après 3 secondes
-            setTimeout(() => {
-                notification.style.animation = 'slideInRight 0.3s ease reverse';
-                setTimeout(() => notification.remove(), 300);
-            }, 3000);
         }
 
         // Filtres
@@ -4101,99 +1979,56 @@
             });
         }
 
-        // Gestion de la base de données (simulation)
-        async function saveItemToDatabase(itemData, itemId = null) {
-            if (!currentData) return;
+        // ========== ÉVÉNEMENTS ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialisation
+            initDatabase();
             
-            if (itemId) {
-                // Modification
-                const itemType = itemData.type !== undefined ? 'vehicules' : 'residences';
-                const index = currentData[itemType].findIndex(item => item.id === itemId);
-                if (index !== -1) {
-                    currentData[itemType][index] = itemData;
+            // Navigation
+            document.querySelectorAll('.admin-menu a').forEach(link => {
+                if (link.getAttribute('onclick') && link.getAttribute('onclick').includes('showTab')) {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const tabName = this.getAttribute('onclick').match(/'([^']+)'/)[1];
+                        showTab(tabName);
+                    });
                 }
-            } else {
-                // Ajout
-                if (itemData.type !== undefined) {
-                    currentData.vehicules.push(itemData);
-                } else {
-                    currentData.residences.push(itemData);
-                }
-            }
+            });
             
-            await saveToDatabase();
-        }
-
-        async function deleteItemFromDatabase(itemId) {
-            if (!currentData) return;
-            
-            // Chercher dans les véhicules
-            const vehicleIndex = currentData.vehicules?.findIndex(v => v.id === itemId);
-            if (vehicleIndex !== -1 && vehicleIndex !== undefined) {
-                currentData.vehicules.splice(vehicleIndex, 1);
-                await saveToDatabase();
-                showNotification('Véhicule supprimé avec succès', 'success');
-                return;
-            }
-            
-            // Chercher dans les résidences
-            const residenceIndex = currentData.residences?.findIndex(r => r.id === itemId);
-            if (residenceIndex !== -1 && residenceIndex !== undefined) {
-                currentData.residences.splice(residenceIndex, 1);
-                await saveToDatabase();
-                showNotification('Résidence supprimée avec succès', 'success');
-                return;
-            }
-            
-            showNotification('Élément non trouvé', 'error');
-        }
-
-        async function deleteReservationFromDatabase(reservationId) {
-            if (!currentData.reservations) return;
-            
-            const index = currentData.reservations.findIndex(r => r.id === reservationId);
-            if (index !== -1) {
-                currentData.reservations.splice(index, 1);
-                await saveToDatabase();
-                showNotification('Réservation supprimée avec succès', 'success');
-            }
-        }
-
-        async function saveToDatabase() {
-            try {
-                currentData.lastUpdate = new Date().toISOString();
-                
-                // Dans un vrai système, vous enverriez les données à un serveur
-                // Pour cette démo, nous simulons avec un JSON local
-                const response = await fetch('data/donnees.json', {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(currentData)
+            // Tabs véhicules
+            document.querySelectorAll('#vehicules .tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabName = this.getAttribute('onclick').match(/'([^']+)'/)[1];
+                    showVehicleTab(tabName);
                 });
-                
-                if (!response.ok) {
-                    throw new Error('Erreur de sauvegarde');
-                }
-                
-                // Mettre à jour l'affichage
-                updateDashboard();
-                updateAllTables();
-                
-            } catch (error) {
-                console.error('Erreur de sauvegarde:', error);
-                showNotification('Erreur de sauvegarde', 'error');
-                
-                // En cas d'erreur, simuler le succès pour la démo
-                setTimeout(() => {
-                    updateDashboard();
-                    updateAllTables();
-                }, 100);
-            }
-        }
+            });
+            
+            console.log('✅ Administration GRÂCE AUTO SERVICE chargée avec succès');
+        });
+
+        // Exposer les fonctions globalement
+        window.showTab = showTab;
+        window.showVehicleTab = showVehicleTab;
+        window.showAddModal = showAddModal;
+        window.closeModal = closeModal;
+        window.editItem = editItem;
+        window.toggleItemFields = toggleItemFields;
+        window.saveItem = saveItem;
+        window.deleteItem = deleteItem;
+        window.deleteReservation = deleteReservation;
+        window.closeConfirmModal = closeConfirmModal;
+        window.confirmAction = confirmAction;
+        window.updateVehicleStatus = updateVehicleStatus;
+        window.updateResidenceStatus = updateResidenceStatus;
+        window.updateReservationStatus = updateReservationStatus;
+        window.saveSettings = saveSettings;
+        window.syncData = syncData;
+        window.exportData = exportData;
+        window.showBackupModal = showBackupModal;
+        window.logout = logout;
+        window.filterItems = filterItems;
+        window.filterVehicles = filterVehicles;
+        window.filterResidences = filterResidences;
     </script>
 </body>
 </html>
-
-
