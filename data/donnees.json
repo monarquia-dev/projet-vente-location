@@ -1,20 +1,15 @@
 {
   "vehicules": [
      "id": 1,
-      "model": "Mercedes GLE 53",
-      "year": 2023,
-      "price": 80000000,
-      "status": "available",
-      "image": "https://www.mercedes-benz.fr/content/dam/hq/passengercars/cars/gle/gle-suv-v167-fl-pi/amg/highlights/08-2023/images/mercedes-amg-gle-suv-hybrid-v167-highlights-pluginhybrid-3302x1858-08-2023.jpg?im=Resize,width=1014",
-      "description": "SUV de luxe Mercedes-Benz en excellent état",
-      "transmission": "Automatique",
-      "fuel": "Essence",
-      "type": "SUV",
-      "unit": "for_sale",
-      "featured": "yes",
-      "mileage": "20.000 km",
-      "created_at": "2025-12-19T10:15:44.329Z",
-      "updated_at": "2025-12-19T10:15:44.329Z"
+      "titre": "BMW Série 3",
+      "categorie": "vente",
+      "prix": 80000000,
+      "image": "https://images.unsplash.com/photo-1555212697-194d092e3b8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "description": "Berline allemande de luxe, performances exceptionnelles. Intérieur cuir, équipements haut de gamme.",
+      "caracteristiques": ["Berline", "Automatique", "Toit ouvrant", "Cuir", "Système audio premium"],
+      "disponible": true,
+      "type": "Berline",
+      "createdAt": "2024-01-01T10:00:00.000Z"
     },
     {
       "id": 2,
@@ -122,6 +117,7 @@
   "lastUpdate": "2024-01-01T10:00:00.000Z"
 
 }
+
 
 
 
