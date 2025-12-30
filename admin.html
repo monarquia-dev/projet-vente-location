@@ -1002,7 +1002,7 @@
                             ${item.type ? 'Véhicule' : 'Résidence'}
                         </span>
                     </td>
-                    <td>${formatPrice(item.prix)}${item.categorie === 'location' ? '/mois' : ''}</td>
+                    <td>${formatPrice(item.prix)}${item.categorie === 'location' ? '/jour' : ''}</td>
                     <td>
                         <span class="status-badge ${getStatusClass(item)}">
                             ${getStatusText(item)}
@@ -1040,7 +1040,7 @@
                     </td>
                     <td>${vehicle.titre}</td>
                     <td>${vehicle.type || 'Non spécifié'}</td>
-                    <td>${formatPrice(vehicle.prix)}${currentVehicleTab === 'location' ? '/mois' : ''}</td>
+                    <td>${formatPrice(vehicle.prix)}${currentVehicleTab === 'location' ? '/jour' : ''}</td>
                     <td>
                         <select class="status-select" data-id="${vehicle.id}" onchange="updateVehicleStatus(${vehicle.id}, this.value)">
                             <option value="available" ${vehicle.disponible ? 'selected' : ''}>Disponible</option>
@@ -1080,7 +1080,7 @@
                     </td>
                     <td>${residence.titre}</td>
                     <td>${residence.localisation || 'Non spécifiée'}</td>
-                    <td>${formatPrice(residence.prix)}/mois</td>
+                    <td>${formatPrice(residence.prix)}/jour</td>
                     <td>${residence.rooms || 'N/A'}</td>
                     <td>
                         <select class="status-select" data-id="${residence.id}" onchange="updateResidenceStatus(${residence.id}, this.value)">
@@ -1671,3 +1671,4 @@
     </script>
 </body>
 </html>
+
