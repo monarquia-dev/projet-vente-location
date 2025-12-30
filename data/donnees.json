@@ -72,13 +72,37 @@
       "type": "SUV",
       "createdAt": "2024-01-01T10:00:00.000Z"
     },
+   {
+      "id": 7,
+      "titre": "HYUNDAI TUCSON 2020",
+      "categorie": "vente",
+      "prix": 13500000,
+      "image": "https://www.largus.fr/images/styles/max_1300x1300/public/images/all-newhyundaitucson9.jpg?itok=QbYzH7TE",
+      "description": "SUV familial offrant un bon équilibre entre style moderne, technologie et praticité.",
+      "caracteristiques": ["Start", "Essence", "Ordinateur de Bord", "caméra De Recul", "2 clés", "11 CHEvaux"],
+      "disponible": true,
+      "type": "SUV",
+      "createdAt": "2024-01-01T10:00:00.000Z"
+    },
+    {
+      "id": 8,
+      "titre": "",
+      "categorie": "vente",
+      "prix": 80000000,
+      "image": "https://www.largus.fr/images/styles/max_1300x1300/public/images/all-newhyundaitucson9.jpg?itok=QbYzH7TE",
+      "description": "SUV familial offrant un bon équilibre entre style moderne, technologie et praticité.",
+      "caracteristiques": ["Start", "Essence", "Ordinateur de Bord", "caméra De Recul", "2 clés", "11 CHEvaux"],
+      "disponible": true,
+      "type": "SUV",
+      "createdAt": "2024-01-01T10:00:00.000Z"
+    },
 
     {
-      "id": 7,
+      "id": 9,
       "titre": "Mercedes Classe A",
       "categorie": "location",
-      "prix": 80000000,
-      "image": "images/télécharger.webp",
+      "prix": 50000,
+      "image": "https://www.topgear.com/sites/default/files/2023/03/1-Mercedes-A-Class.jpg",
       "description": "Location mensuelle avec option d'achat. Confort et technologie de pointe.",
       "caracteristiques": ["Berline", "Automatique", "Toit ouvrant", "Écran tactile", "Assistance conduite"],
       "disponible": true,
@@ -86,11 +110,11 @@
       "createdAt": "2024-01-01T10:00:00.000Z"
     },
     {
-      "id": 5,
+      "id": 10,
       "titre": "Renault Kangoo",
       "categorie": "location",
-      "prix": 80000000,
-      "image": "https://autohub.ma/wp-content/uploads/2024/07/mercedes-benz-classe-a-6.webp",
+      "prix": 70000,
+      "image": "https://boxio.fr/cdn/shop/articles/Renault_Kangoo_Z.E._Elektroauto_b41c717f-6f31-446d-899c-2a06431d9868.jpg?v=1736441143&width=2048",
       "description": "Utilitaire polyvalent pour professionnels. Grand volume de chargement.",
       "caracteristiques": ["Utilitaire", "Manuelle", "Climatisation", "Grand volume", "Sièges rabattables"],
       "disponible": true,
@@ -100,20 +124,20 @@
   ],
   "residences": [
     {
-      "id": 6,
-      "titre": "Appartement Moderne 3 pièces",
+      "id": 11,
+      "titre": "Studio",
       "categorie": "location",
-      "prix":30000,
+      "prix":20000,
       "image": "data:image/webp;base64,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",
       "description": "Appartement neuf au cœur de Paris, proche de tous les commerces et transports.",
-      "caracteristiques": ["80m²", "3 chambres", "Balcon", "Ascenseur", "Cuisine équipée"],
+      "caracteristiques": ["80m²", "Cuisine équipée"],
       "disponible": true,
       "localisation": "Paris 15ème",
       "rooms": 3,
       "createdAt": "2024-01-01T10:00:00.000Z"
     },
     {
-      "id": 7,
+      "id": 12,
       "titre": "Studio étudiant Lyon",
       "categorie": "location",
       "prix": 25000,
@@ -126,7 +150,7 @@
       "createdAt": "2024-01-01T10:00:00.000Z"
     },
     {
-      "id": 8,
+      "id": 13,
       "titre": "Maison avec jardin",
       "categorie": "location",
       "prix": 25000,
