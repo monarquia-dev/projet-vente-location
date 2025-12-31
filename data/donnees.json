@@ -136,38 +136,38 @@
     },
     {
       "id": 12,
-      "titre":"",
-      "categorie":"",
-      "prix": 30000000,
-      "image": "",
-      "description": "",
-      "caracteristiques": ["",""],
+      "titre":"HYUNDAI KONA 2020",
+      "categorie":"location",
+      "prix": 80000,
+      "image": "https://cdn.jdpower.com/JDPA_2020%20Hyundai%20Kona%20Ultimate%20White%20Front%20View.jpg",
+      "description": "SUV compact stylé, disponible en versions essence",
+      "caracteristiques": ["Boîte automatique","Carrosserie bicolore","Intérieur  multimédia","Conduite agréable, bonne tenue de route, consommation économique"],
       "disponible": true,
       "type": "", 
       "createdAt": "2024-01-01T10:00:00.000Z"
     },
     {
       "id": 13,
-      "titre":"",
-      "categorie":"",
-      "prix": 30000000,
-      "image": "",
-      "description": "",
-      "caracteristiques": ["",""],
+      "titre":"HYUNDAI MINI CAR 25 places",
+      "categorie":"location",
+      "prix": 90000,
+      "image": "images/ko.jpg",
+      "description": "est un minibus robuste idéal pour le transport de passagers",
+      "caracteristiques": ["12 PLACES","boite manuelle","Mini Car Hyundai Country (2020) occasion"],
       "disponible": true,
-      "type": "", 
+      "type": "compacte", 
       "createdAt": "2024-01-01T10:00:00.000Z"
     },
     {
       "id": 14,
-      "titre":"",
-      "categorie":"",
-      "prix": 30000000,
-      "image": "",
-      "description": "",
-      "caracteristiques": ["",""],
+      "titre":"Toyota Prada 2022",
+      "categorie":"location",
+      "prix": 90000,
+      "image": "https://japanesevehicles.com/images/vehicles/279469/L/279469-1.webp?versionId=4TqIANMq9uABcQU609wthq.Y_8o0ovR.",
+      "description": "Héritier de la famille des Toyota Land Cruiser, le nouveau Land Cruiser Prado porte en lui les valeurs de robustesse et de fiabilité",
+      "caracteristiques": ["SUV","SmartKey","robuste, fiable et spacieux","confort et capacités tout-terrain"],
       "disponible": true,
-      "type": "", 
+      "type": "SUV", 
       "createdAt": "2024-01-01T10:00:00.000Z"
     }
   ],
@@ -241,3 +241,4 @@
   "lastUpdate": "2024-01-01T10:00:00.000Z"
 
 }
+
