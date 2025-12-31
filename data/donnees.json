@@ -120,7 +120,7 @@
       "disponible": true,
       "type": "Utilitaire",
       "createdAt": "2024-01-01T10:00:00.000Z"
-    }
+    },
     {
       "id": 11,
       "titre": "KIA Spotage 2020",
@@ -129,7 +129,7 @@
       "image": "https://cfwww.hgregoire.com/photos/by-size/KH7837/3648x2048/7447894.JPG",
       "description": "VUS compact modernisé, offrant un bon rapport qualité-prix avec des mises à jour esthétiques (design, matériaux)",
       "caracteristiques":["écran tactile 8", "sécurisé","siège électrique","climatisé","caméra de recul"],
-      "disponible" true,
+      "disponible": true,
       "type": "SUV",
       "createdAt": "2024-01-01T10:00:00.000Z"
       
@@ -138,11 +138,11 @@
       "id": 12,
       "titre":"",
       "categorie":"",
-      "prix": ,
+      "prix": 30000000,
       "image": "",
-      "description": ,
+      "description": "",
       "caracteristiques": ["",""],
-      "disponible" true,
+      "disponible": true,
       "type": "", 
       "createdAt": "2024-01-01T10:00:00.000Z"
     },
@@ -150,11 +150,11 @@
       "id": 13,
       "titre":"",
       "categorie":"",
-      "prix": ,
+      "prix": 30000000,
       "image": "",
-      "description": ,
+      "description": "",
       "caracteristiques": ["",""],
-      "disponible" true,
+      "disponible": true,
       "type": "", 
       "createdAt": "2024-01-01T10:00:00.000Z"
     },
@@ -162,11 +162,11 @@
       "id": 14,
       "titre":"",
       "categorie":"",
-      "prix": ,
+      "prix": 30000000,
       "image": "",
-      "description": ,
+      "description": "",
       "caracteristiques": ["",""],
-      "disponible" true,
+      "disponible": true,
       "type": "", 
       "createdAt": "2024-01-01T10:00:00.000Z"
     }
@@ -241,12 +241,3 @@
   "lastUpdate": "2024-01-01T10:00:00.000Z"
 
 }
-
-
-
-
-
-
-
-
-
