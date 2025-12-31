@@ -105,7 +105,7 @@
       "image": "https://www.topgear.com/sites/default/files/2023/03/1-Mercedes-A-Class.jpg",
       "description": "Location mensuelle avec option d'achat. Confort et technologie de pointe.",
       "caracteristiques": ["Berline", "Automatique", "Toit ouvrant", "Écran tactile", "Assistance conduite"],
-      "disponible": true,
+      "disponible": false,
       "type": "Berline",
       "createdAt": "2024-01-01T10:00:00.000Z"
     },
@@ -192,4 +192,5 @@
   "lastUpdate": "2024-01-01T10:00:00.000Z"
 
 }
+
 
