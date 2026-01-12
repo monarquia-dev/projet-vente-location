@@ -225,7 +225,7 @@
   ],
   "residences": [
     {
-      "id": 1,
+      "id": 100,
       "titre": "🎙 Studio ",
       "categorie": "location",
       "prix":20000,
@@ -238,7 +238,7 @@
       "createdAt": "2024-01-01T10:00:00.000Z"
     },
     {
-      "id": 2,
+      "id": 101,
       "titre": "🛌Chambre 🛋salon",
       "categorie": "location",
       "prix": 30000,
@@ -251,7 +251,7 @@
       "createdAt": "2024-01-01T10:00:00.000Z"
     },
     {
-      "id": 3,
+      "id": 102,
       "titre": "🛌Chambre 🛋Salon: ",
       "categorie": "location",
       "prix": 30000,
@@ -264,7 +264,7 @@
       "createdAt": "2024-01-01T10:00:00.000Z"
     },
     {
-      "id": 4,
+      "id": 103,
       "titre": "🎙 Studio : ",
       "categorie": "location",
       "prix": 20000,
@@ -293,6 +293,7 @@
   "lastUpdate": "2024-01-01T10:00:00.000Z"
 
 }
+
 
 
 
