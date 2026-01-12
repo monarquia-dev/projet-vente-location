@@ -280,7 +280,7 @@
       "id": 104,
       "titre": "Résidence: 🛌chambre salon",
       "categorie": "location",
-      "prix": 20000,
+      "prix": 30000,
       "image": "images/WhatsApp Image 2026-01-12 at 14.01.26.jpeg",
       "description": "Proche",
       "caracteristiques": ["Terrasse"],
@@ -288,7 +288,60 @@
       "localisation": "ABIDJAN",
       "rooms": 2,
       "createdAt": "2024-01-01T10:00:00.000Z"
+    },
+    {
+      "id": 105,
+      "titre": "Résidence: 🛌chambre salon",
+      "categorie": "location",
+      "prix": 30000,
+      "image": "images/WhatsApp Image 2026-01-12 at 14.01.26.jpeg",
+      "description": "Cité du Port est disponible maintenant.",
+      "caracteristiques": ["Wifi haut débit/ Canal+/ Youtube/IPTV/ Climatisation au top"],
+      "disponible": true,
+      "localisation": "ABIDJAN: Koumassi Remblais",
+      "rooms": 2,
+      "createdAt": "2024-01-01T10:00:00.000Z"
+    },
+    {
+      "id": 106,
+      "titre": "New 🛌chambre salon",
+      "categorie": "location",
+      "prix": 30000,
+      "image": "images/cs.jpeg",
+      "description": "Cité du Port est disponible maintenant.",
+      "caracteristiques": ["Wifi haut débit/ Canal+/ Youtube/IPTV/ Climatisation au top"],
+      "disponible": true,
+      "localisation": "ABIDJAN: Koumassi Remblais",
+      "rooms": 2,
+      "createdAt": "2024-01-01T10:00:00.000Z"
+    },
+    {
+      "id": 107,
+      "titre": "New 🎙 studio ",
+      "categorie": "location",
+      "prix": 20000,
+      "image": "images/st.jpeg",
+      "description": "Cité du Port est disponible maintenant.",
+      "caracteristiques": ["Wifi haut débit/ Canal+/ Youtube/IPTV/ Climatisation au top"],
+      "disponible": true,
+      "localisation": "ABIDJAN: Koumassi Remblais",
+      "rooms": 1,
+      "createdAt": "2024-01-01T10:00:00.000Z"
+    },
+    {
+      "id": 108,
+      "titre": "N 🎙 studio ",
+      "categorie": "location",
+      "prix": 20000,
+      "image": "images/ss.jpeg",
+      "description": "Cité du Port est disponible maintenant.",
+      "caracteristiques": ["Wifi haut débit/ Canal+/ Youtube/IPTV/ Climatisation au top"],
+      "disponible": true,
+      "localisation": "ABIDJAN: Koumassi Remblais",
+      "rooms": 1,
+      "createdAt": "2024-01-01T10:00:00.000Z"
     }
+    
   ],
   "reservations": [],
   "settings": {
@@ -306,6 +359,7 @@
   "lastUpdate": "2024-01-01T10:00:00.000Z"
 
 }
+
 
 
 
