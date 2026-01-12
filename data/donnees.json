@@ -282,19 +282,6 @@
       "categorie": "location",
       "prix": 30000,
       "image": "images/WhatsApp Image 2026-01-12 at 14.01.26.jpeg",
-      "description": "Proche",
-      "caracteristiques": ["Terrasse"],
-      "disponible": true,
-      "localisation": "ABIDJAN",
-      "rooms": 2,
-      "createdAt": "2024-01-01T10:00:00.000Z"
-    },
-    {
-      "id": 105,
-      "titre": "Résidence: 🛌chambre salon",
-      "categorie": "location",
-      "prix": 30000,
-      "image": "images/WhatsApp Image 2026-01-12 at 14.01.26.jpeg",
       "description": "Cité du Port est disponible maintenant.",
       "caracteristiques": ["Wifi haut débit/ Canal+/ Youtube/IPTV/ Climatisation au top"],
       "disponible": true,
@@ -303,7 +290,7 @@
       "createdAt": "2024-01-01T10:00:00.000Z"
     },
     {
-      "id": 106,
+      "id": 105,
       "titre": "New 🛌chambre salon",
       "categorie": "location",
       "prix": 30000,
@@ -359,6 +346,7 @@
   "lastUpdate": "2024-01-01T10:00:00.000Z"
 
 }
+
 
 
 
