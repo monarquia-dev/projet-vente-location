@@ -150,7 +150,7 @@
       "id": 13,
       "titre":"HYUNDAI MINI CAR 25 places",
       "categorie":"location",
-      "prix": 90000,
+      "prix": 120000,
       "image": "images/ko.jpg",
       "description": "est un minibus robuste idéal pour le transport de passagers",
       "caracteristiques": ["12 PLACES","boite manuelle","Mini Car Hyundai Country (2020) occasion"],
@@ -169,7 +169,45 @@
       "disponible": true,
       "type": "SUV", 
       "createdAt": "2024-01-01T10:00:00.000Z"
+    },
+    {
+      "id": 15,
+      "titre":"MINI CAR 12 Places",
+      "categorie":"location",
+      "prix": 80000,
+      "image": "https://enjoytravel.blob.core.windows.net/img/cars-voitures-coches-autos/ford-transit-istabul-12.jpg",
+      "description": "Héritier de la famille des Toyota Land Cruiser, le nouveau Land Cruiser Prado porte en lui les valeurs de robustesse et de fiabilité",
+      "caracteristiques": ["SUV","SmartKey","robuste, fiable et spacieux","confort et capacités tout-terrain"],
+      "disponible": true,
+      "type": "SUV", 
+      "createdAt": "2024-01-01T10:00:00.000Z"
+    },
+    {
+      "id": 16,
+      "titre":"MINI CAR 15 Places",
+      "categorie":"location",
+      "prix": 100000,
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeWN6FM00ett6Qo7bLmX6aMVH_25fxyF2J8Q&s",
+      "description": "Héritier de la famille des Toyota Land Cruiser, le nouveau Land Cruiser Prado porte en lui les valeurs de robustesse et de fiabilité",
+      "caracteristiques": ["SUV","SmartKey","robuste, fiable et spacieux","confort et capacités tout-terrain"],
+      "disponible": true,
+      "type": "SUV", 
+      "createdAt": "2024-01-01T10:00:00.000Z"
+    },
+    {
+      "id": 17,
+      "titre":"HYUNDAI ELANTRA 2023",
+      "categorie":"location",
+      "prix": 50000,
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAROdvwVZrCureKO_bj2IBOEZfDzuisg1zAg&s",
+      "description": "Héritier de la famille des Toyota Land Cruiser, le nouveau Land Cruiser Prado porte en lui les valeurs de robustesse et de fiabilité",
+      "caracteristiques": ["SUV","SmartKey","robuste, fiable et spacieux","confort et capacités tout-terrain"],
+      "disponible": true,
+      "type": "Berline", 
+      "createdAt": "2024-01-01T10:00:00.000Z"
     }
+    
+    
   ],
   "residences": [
     {
@@ -241,5 +279,6 @@
   "lastUpdate": "2024-01-01T10:00:00.000Z"
 
 }
+
 
 
