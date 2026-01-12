@@ -38,40 +38,41 @@
     },
     {
       "id": 4,
-      "titre": "RANGE ROVER Sport 2025",
+      "titre": "LAND ROVER DEFENDER 2024",
       "categorie": "vente",
-      "prix": 130000000,
-      "image": "https://img.sm360.ca/images/newcar/ca/2025/land-rover/range-rover-sport-phev/dynamic-se/suv/main/2025_Land-Rover_Ranger-Rover-Sport_Mphev_1-SE_EXT_001_main.png",
+      "prix": 60000000,
+      "image": "https://images.hgmsites.net/lrg/2024-land-rover-defender-130-p400-s-angular-front-exterior-view_100901275_l.webp",
       "description": "économique et moderne. Idéale pour la ville.",
-      "caracteristiques": ["Start", "Diesel", "V6", "kilométrage 715", "Sièges électriques", "coffre auto"],
+      "caracteristiques": ["Start", "Essence: V4", "Full Options", "kilométrage 5000 km", "Sièges électriques", "Toit Panoramique ouvrant","Transmission: Automatique"],
       "disponible": true,
-      "type": "SUV",
+      "type": "4x4",
       "createdAt": "2024-01-01T10:00:00.000Z"
     },
     {
       "id": 5,
-      "titre": "KIA FORTE 2020",
+      "titre": "HYUNDAI SANTAFE 2020",
       "categorie": "vente",
-      "prix": 12000000,
-      "image": "https://images.dealersync.com/2100/Photos/615808/wm_2487e8330bc242659f15c12200975e7f_615808.jpg?_=5be486870d43536a3adb3b8008e8b07b8a630ce6",
-      "description": "économique et moderne.",
-      "caracteristiques": ["Automatique", "Essence", "clim ", "rétroviseur électronique", "Emprunte sur poignet", "interface google et Apple"],
+      "prix": 20000000,
+      "image": "https://mkt-vehicleimages-prd.autotradercdn.ca/photos/chrome/Expanded/White/2020HYS010034/2020HYS01003401.jpg",
+      "description": "économique et moderne. Idéale pour la ville.",
+      "caracteristiques": ["Start", "Essence: V4", "Full Options", "kilométrage 17000 km", "Sièges électriques", "Toit Panoramique ouvrant","Transmission: Automatique","Caméra 360"],
       "disponible": true,
-      "type": "SUV",
+      "type": "4x4",
       "createdAt": "2024-01-01T10:00:00.000Z"
     },
     {
       "id": 6,
-      "titre": "BMW X3 2025",
+      "titre": "KIA SORENTO 2025",
       "categorie": "vente",
-      "prix": 48500000,
-      "image": "https://i.ytimg.com/vi/L4iy611NB1g/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCuxKoFGbeYqD1dncKrsgeqnJVhxg",
-      "description": "SUV familial redessiné, alliant style sportif moderne",
-      "caracteristiques": ["Automatique", "Essence", "toit panoramique", "caméra 360", "2 clés", "kilométrage 2100"],
+      "prix": 30000000,
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPeK0IQV0ARljZJygw6xgFN4hWMcG7OLwjoA&s",
+      "description": "économique et moderne. Idéale pour la ville.",
+      "caracteristiques": ["Start", "Essence: V4", "Full Options", "kilométrage 34000 km", "Sièges électriques", "Toit Panoramique ouvrant","Transmission: Automatique","Caméra 360"],
       "disponible": true,
-      "type": "SUV",
+      "type": "4x4",
       "createdAt": "2024-01-01T10:00:00.000Z"
-    },
+    },  
+   
    {
       "id": 7,
       "titre": "HYUNDAI TUCSON 2020",
@@ -279,6 +280,7 @@
   "lastUpdate": "2024-01-01T10:00:00.000Z"
 
 }
+
 
 
 
