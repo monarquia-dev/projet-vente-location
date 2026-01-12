@@ -282,7 +282,7 @@
       "categorie": "location",
       "prix": 20000,
       "image": "images/WhatsApp Image 2026-01-12 at 14.01.26.jpeg",
-      "description": ,
+      "description": "Proche",
       "caracteristiques": ["Terrasse"],
       "disponible": true,
       "localisation": "ABIDJAN",
@@ -306,7 +306,6 @@
   "lastUpdate": "2024-01-01T10:00:00.000Z"
 
 }
-
 
 
 
