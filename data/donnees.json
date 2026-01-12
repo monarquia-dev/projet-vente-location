@@ -275,6 +275,19 @@
       "localisation": "COCODY",
       "rooms": 1,
       "createdAt": "2024-01-01T10:00:00.000Z"
+    },
+    {
+      "id": 104,
+      "titre": "Résidence: 🛌chambre salon",
+      "categorie": "location",
+      "prix": 20000,
+      "image": "images/WhatsApp Image 2026-01-12 at 14.01.26.jpeg",
+      "description": ,
+      "caracteristiques": ["Terrasse"],
+      "disponible": true,
+      "localisation": "ABIDJAN",
+      "rooms": 2,
+      "createdAt": "2024-01-01T10:00:00.000Z"
     }
   ],
   "reservations": [],
@@ -293,6 +306,7 @@
   "lastUpdate": "2024-01-01T10:00:00.000Z"
 
 }
+
 
 
 
