@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Réservation - Vente & Location</title>
-    <!-- Pour la page de réservation -->
-<script src="js/reservation.js"></script>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -1314,458 +1312,512 @@
         </div>
     </footer>
 
-   <!-- Dans reservation.html -->
-<script src="js/database.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('📅 Initialisation de la page réservation...');
-    
-    // Mettre à jour l'année en cours
-    document.getElementById('currentYear').textContent = new Date().getFullYear();
-    
-    // Initialiser les paramètres du site
-    function initializeSiteSettings() {
-        const settings = dataManager.getSettings();
-        
-        // Mettre à jour le nom du site
-        document.getElementById('siteName').textContent = settings.name || 'GRÂCE AUTO SERVICE-CI-BKT';
-        document.getElementById('footerSiteName').textContent = settings.name?.split('-')[0] || 'GRÂCE AUTO SERVICE';
-        document.getElementById('copyrightSiteName').textContent = settings.name || 'GRÂCE AUTO SERVICE-CI-BKT';
-        
-        // Mettre à jour la description
-        const descElements = document.querySelectorAll('#footerDescription');
-        descElements.forEach(el => {
-            if (el) el.textContent = settings.description || 'Vente • Location • Assurance';
-        });
-        
-        // Mettre à jour les contacts
-        const phone1 = document.getElementById('footerPhone1');
-        const phone2 = document.getElementById('footerPhone2');
-        const phone3 = document.getElementById('footerPhone3');
-        const email = document.getElementById('footerEmail');
-        const socialEmail = document.getElementById('socialEmail');
-        
-        if (phone1 && settings.contactPhone) {
-            phone1.textContent = settings.contactPhone;
-        }
-        
-        if (phone2 && settings.otherPhones?.[0]) {
-            phone2.textContent = settings.otherPhones[0];
-        }
-        
-        if (phone3 && settings.otherPhones?.[1]) {
-            phone3.textContent = settings.otherPhones[1];
-        }
-        
-        if (email && settings.contactEmail) {
-            email.textContent = settings.contactEmail;
-            email.href = `mailto:${settings.contactEmail}`;
-        }
-        
-        if (socialEmail && settings.contactEmail) {
-            socialEmail.href = `mailto:${settings.contactEmail}`;
-        }
-    }
-    
-    // Fonction pour charger les items pour la réservation
-    function loadItemsForReservation() {
-        console.log('📋 Chargement des items pour réservation...');
-        
-        const select = document.getElementById('item-select');
-        if (!select) return;
-        
-        const items = dataManager.getAllItems();
-        console.log(`🛒 ${items.length} items disponibles pour réservation`);
-        
-        // Vider les options existantes sauf la première
-        while (select.options.length > 1) {
-            select.remove(1);
-        }
-        
-        // Ajouter les items
-        items.forEach(item => {
-            const option = document.createElement('option');
-            option.value = item.id;
+    <!-- Scripts -->
+    <script src="js/database.js"></script>
+    <script>
+        // Fonction utilitaire pour formater les prix
+        function formatPrice(price, isRental = false) {
+            if (!price && price !== 0) return 'Prix sur demande';
             
-            const typeText = item.localisation ? 'Résidence' : 'Véhicule';
-            const categorieText = item.categorie === 'vente' ? 'À vendre' : 'À louer';
-            const prixText = formatPrice(item.prix, item.categorie === 'location');
+            const priceNum = parseFloat(price);
+            if (isNaN(priceNum)) return 'Prix sur demande';
             
-            option.textContent = `${typeText}: ${item.titre} - ${categorieText} - ${prixText}`;
-            select.appendChild(option);
-        });
-        
-        // Charger l'item depuis l'URL si présent
-        const urlParams = new URLSearchParams(window.location.search);
-        const itemId = urlParams.get('item');
-        if (itemId) {
-            const item = dataManager.getItemById(itemId);
-            if (item) {
-                select.value = itemId;
-                showItemDetails(item);
-                updateSummary();
-            }
-        }
-    }
-    
-    function showItemDetails(item) {
-        const detailsDiv = document.getElementById('item-details');
-        if (!detailsDiv) return;
-        
-        document.getElementById('item-title').textContent = item.titre;
-        document.getElementById('item-price').textContent = formatPrice(item.prix, item.categorie === 'location');
-        document.getElementById('item-description').textContent = item.description || 'Pas de description';
-        detailsDiv.style.display = 'block';
-    }
-    
-    function hideItemDetails() {
-        const detailsDiv = document.getElementById('item-details');
-        if (detailsDiv) {
-            detailsDiv.style.display = 'none';
-        }
-    }
-    
-    function updateSummary() {
-        const itemId = document.getElementById('item-select')?.value;
-        const item = itemId ? dataManager.getItemById(itemId) : null;
-        const nom = document.getElementById('nom')?.value || '';
-        const date = document.getElementById('date')?.value || '';
-        
-        // Mettre à jour l'image
-        const summaryImage = document.getElementById('summaryImage');
-        if (summaryImage) {
-            summaryImage.src = item?.image || 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80';
-        }
-        
-        // Mettre à jour les informations
-        if (item) {
-            document.getElementById('summaryItem').textContent = item.titre;
-            document.getElementById('summaryDetails').textContent = 
-                item.description?.substring(0, 80) + '...' || 'Pas de description';
-            document.getElementById('summaryPrice').textContent = formatPrice(item.prix, item.categorie === 'location');
+            const formatter = new Intl.NumberFormat('fr-FR', {
+                style: 'currency',
+                currency: 'XOF',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            });
             
-            const serviceType = item.localisation ? 
-                'Location résidence' : 
-                (item.categorie === 'vente' ? 'Achat véhicule' : 'Location véhicule');
+            const formattedPrice = formatter.format(priceNum);
+            return isRental ? `${formattedPrice} / mois` : formattedPrice;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('📅 Initialisation de la page réservation...');
             
-            document.getElementById('summaryService').textContent = serviceType;
-        } else {
-            document.getElementById('summaryItem').textContent = 'Sélectionnez un Article';
-            document.getElementById('summaryDetails').textContent = '-';
-            document.getElementById('summaryPrice').textContent = '-';
-            document.getElementById('summaryService').textContent = 'Réservation';
-        }
-        
-        // Mettre à jour la date
-        if (date) {
-            const dateObj = new Date(date);
-            const formattedDate = dateObj.toLocaleDateString('fr-FR', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
-            document.getElementById('summaryDate').textContent = formattedDate;
-        } else {
-            document.getElementById('summaryDate').textContent = 'À définir';
-        }
-        
-        // Mettre à jour le client
-        document.getElementById('summaryClient').textContent = nom || 'À remplir';
-    }
-    
-    function initDatePicker() {
-        const dateInput = document.getElementById('date');
-        if (dateInput) {
-            const today = new Date().toISOString().split('T')[0];
-            dateInput.min = today;
-            dateInput.value = today;
-        }
-    }
-    
-    function initEventListeners() {
-        // Sélection d'item
-        const itemSelect = document.getElementById('item-select');
-        if (itemSelect) {
-            itemSelect.addEventListener('change', () => {
-                const item = dataManager.getItemById(itemSelect.value);
-                if (item) {
-                    showItemDetails(item);
-                } else {
-                    hideItemDetails();
-                }
-                updateSummary();
-            });
-        }
-        
-        // Mise à jour du récapitulatif en temps réel
-        const inputs = ['nom', 'email', 'telephone', 'date'];
-        inputs.forEach(id => {
-            const input = document.getElementById(id);
-            if (input) {
-                input.addEventListener('input', updateSummary);
-            }
-        });
-        
-        // Formulaire
-        const form = document.getElementById('reservationForm');
-        if (form) {
-            form.addEventListener('submit', handleSubmit);
-        }
-        
-        // Validation email
-        const emailInput = document.getElementById('email');
-        if (emailInput) {
-            emailInput.addEventListener('blur', function() {
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (this.value && !emailRegex.test(this.value)) {
-                    this.style.borderColor = 'var(--danger)';
-                } else {
-                    this.style.borderColor = '';
-                }
-            });
-        }
-        
-        // Formatage téléphone
-        const telephoneInput = document.getElementById('telephone');
-        if (telephoneInput) {
-            telephoneInput.addEventListener('input', function() {
-                this.value = this.value.replace(/[^\d+]/g, '');
-            });
-        }
-    }
-    
-    async function handleSubmit(e) {
-        e.preventDefault();
-        
-        const submitBtn = e.target.querySelector('button[type="submit"]');
-        const originalText = submitBtn.innerHTML;
-        
-        try {
-            // Validation
-            const validation = validateForm();
-            if (!validation.isValid) {
-                validation.errors.forEach(error => {
-                    showNotification(error, 'error');
+            // Mettre à jour l'année en cours
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            
+            // Initialiser les paramètres du site
+            function initializeSiteSettings() {
+                const settings = dataManager.getSettings();
+                
+                // Mettre à jour le nom du site
+                document.getElementById('siteName').textContent = settings.name || 'GRÂCE AUTO SERVICE-CI-BKT';
+                document.getElementById('footerSiteName').textContent = settings.name?.split('-')[0] || 'GRÂCE AUTO SERVICE';
+                document.getElementById('copyrightSiteName').textContent = settings.name || 'GRÂCE AUTO SERVICE-CI-BKT';
+                
+                // Mettre à jour la description
+                const descElements = document.querySelectorAll('#footerDescription');
+                descElements.forEach(el => {
+                    if (el) el.textContent = settings.description || 'Vente • Location • Assurance';
                 });
-                return;
+                
+                // Mettre à jour les contacts
+                const phone1 = document.getElementById('footerPhone1');
+                const phone2 = document.getElementById('footerPhone2');
+                const phone3 = document.getElementById('footerPhone3');
+                const email = document.getElementById('footerEmail');
+                const socialEmail = document.getElementById('socialEmail');
+                
+                if (phone1 && settings.contactPhone) {
+                    phone1.textContent = settings.contactPhone;
+                }
+                
+                if (phone2 && settings.otherPhones?.[0]) {
+                    phone2.textContent = settings.otherPhones[0];
+                }
+                
+                if (phone3 && settings.otherPhones?.[1]) {
+                    phone3.textContent = settings.otherPhones[1];
+                }
+                
+                if (email && settings.contactEmail) {
+                    email.textContent = settings.contactEmail;
+                    email.href = `mailto:${settings.contactEmail}`;
+                }
+                
+                if (socialEmail && settings.contactEmail) {
+                    socialEmail.href = `mailto:${settings.contactEmail}`;
+                }
             }
             
-            // Préparer les données
-            const reservationData = {
-                itemId: parseInt(document.getElementById('item-select').value),
-                nom: document.getElementById('nom').value.trim(),
-                email: document.getElementById('email').value.trim(),
-                telephone: document.getElementById('telephone').value.trim(),
-                date: document.getElementById('date').value,
-                message: document.getElementById('message').value.trim(),
-                dateReservation: new Date().toISOString()
-            };
-            
-            // Récupérer les détails de l'item
-            const item = dataManager.getItemById(reservationData.itemId);
-            if (!item) {
-                showNotification('Veuillez sélectionner un Article', 'error');
-                return;
+            // Fonction pour charger les items pour la réservation
+            function loadItemsForReservation() {
+                console.log('📋 Chargement des items pour réservation...');
+                
+                const select = document.getElementById('item-select');
+                if (!select) return;
+                
+                const items = dataManager.getAllItems();
+                console.log(`🛒 ${items.length} items disponibles pour réservation`);
+                
+                // Vider les options existantes sauf la première
+                while (select.options.length > 1) {
+                    select.remove(1);
+                }
+                
+                // Ajouter les items
+                items.forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item.id;
+                    
+                    const typeText = item.localisation ? 'Résidence' : 'Véhicule';
+                    const typeIcon = item.localisation ? '🏠' : '🚗';
+                    const categorieText = item.categorie === 'vente' ? 'À vendre' : 'À louer';
+                    const prixText = formatPrice(item.prix, item.categorie === 'location');
+                    
+                    option.textContent = `${typeIcon} ${typeText}: ${item.titre} - ${categorieText} - ${prixText}`;
+                    select.appendChild(option);
+                });
+                
+                // Charger l'item depuis l'URL si présent
+                const urlParams = new URLSearchParams(window.location.search);
+                const itemId = urlParams.get('item');
+                if (itemId) {
+                    const item = dataManager.getItemById(itemId);
+                    if (item) {
+                        select.value = itemId;
+                        showItemDetails(item);
+                        updateSummary();
+                    }
+                }
             }
             
-            // Ajouter les détails de l'item
-            reservationData.item = item.titre;
-            reservationData.itemType = item.localisation ? 'residence' : 'vehicule';
-            reservationData.prix = item.prix;
-            
-            // Bouton en cours de traitement
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Traitement...';
-            submitBtn.disabled = true;
-            
-            // Ici, vous devriez envoyer la réservation à votre backend
-            // Pour l'instant, on simule un envoi réussi
-            setTimeout(() => {
-                // Afficher la confirmation
-                showConfirmation(reservationData, item);
+            function showItemDetails(item) {
+                const detailsDiv = document.getElementById('item-details');
+                if (!detailsDiv) return;
                 
-                // Envoyer la notification WhatsApp
-                sendWhatsAppNotification(reservationData, item);
+                document.getElementById('item-title').textContent = item.titre;
+                document.getElementById('item-price').textContent = formatPrice(item.prix, item.categorie === 'location');
+                document.getElementById('item-description').textContent = item.description || 'Pas de description';
                 
-                // Réinitialiser le formulaire
-                e.target.reset();
-                hideItemDetails();
+                // Ajouter l'image dans les détails si disponible
+                const itemImage = getItemImage(item);
+                if (itemImage) {
+                    let imgElement = document.getElementById('item-image');
+                    if (!imgElement) {
+                        imgElement = document.createElement('img');
+                        imgElement.id = 'item-image';
+                        imgElement.className = 'item-image';
+                        imgElement.style.marginTop = '15px';
+                        imgElement.style.maxWidth = '100%';
+                        imgElement.style.borderRadius = 'var(--radius)';
+                        detailsDiv.querySelector('.selected-item').appendChild(imgElement);
+                    }
+                    imgElement.src = itemImage;
+                }
+                
+                detailsDiv.style.display = 'block';
+            }
+            
+            function hideItemDetails() {
+                const detailsDiv = document.getElementById('item-details');
+                if (detailsDiv) {
+                    detailsDiv.style.display = 'none';
+                }
+            }
+            
+            // Fonction pour obtenir l'image d'un item (gère véhicules et résidences)
+            function getItemImage(item) {
+                if (!item) return null;
+                
+                // Pour les résidences qui ont un tableau d'images
+                if (item.images && item.images.length > 0) {
+                    return item.images[0];
+                }
+                
+                // Pour les véhicules qui ont une image unique
+                if (item.image) {
+                    return item.image;
+                }
+                
+                // Image par défaut si aucune image n'est disponible
+                return 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80';
+            }
+            
+            function updateSummary() {
+                const itemId = document.getElementById('item-select')?.value;
+                const item = itemId ? dataManager.getItemById(itemId) : null;
+                const nom = document.getElementById('nom')?.value || '';
+                const date = document.getElementById('date')?.value || '';
+                
+                // Mettre à jour l'image
+                const summaryImage = document.getElementById('summaryImage');
+                if (summaryImage) {
+                    summaryImage.src = getItemImage(item);
+                }
+                
+                // Mettre à jour les informations
+                if (item) {
+                    document.getElementById('summaryItem').textContent = item.titre;
+                    document.getElementById('summaryDetails').textContent = 
+                        item.description?.substring(0, 80) + (item.description?.length > 80 ? '...' : '') || 'Pas de description';
+                    document.getElementById('summaryPrice').textContent = formatPrice(item.prix, item.categorie === 'location');
+                    
+                    const serviceType = item.localisation ? 
+                        'Location résidence' : 
+                        (item.categorie === 'vente' ? 'Achat véhicule' : 'Location véhicule');
+                    
+                    document.getElementById('summaryService').textContent = serviceType;
+                } else {
+                    document.getElementById('summaryItem').textContent = 'Sélectionnez un bien';
+                    document.getElementById('summaryDetails').textContent = '-';
+                    document.getElementById('summaryPrice').textContent = '-';
+                    document.getElementById('summaryService').textContent = 'Réservation';
+                }
+                
+                // Mettre à jour la date
+                if (date) {
+                    const dateObj = new Date(date);
+                    const formattedDate = dateObj.toLocaleDateString('fr-FR', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+                    document.getElementById('summaryDate').textContent = formattedDate;
+                } else {
+                    document.getElementById('summaryDate').textContent = 'À définir';
+                }
+                
+                // Mettre à jour le client
+                document.getElementById('summaryClient').textContent = nom || 'À remplir';
+            }
+            
+            function initDatePicker() {
+                const dateInput = document.getElementById('date');
+                if (dateInput) {
+                    const today = new Date().toISOString().split('T')[0];
+                    dateInput.min = today;
+                    dateInput.value = today;
+                }
+            }
+            
+            function initEventListeners() {
+                // Sélection d'item
+                const itemSelect = document.getElementById('item-select');
+                if (itemSelect) {
+                    itemSelect.addEventListener('change', () => {
+                        const item = dataManager.getItemById(itemSelect.value);
+                        if (item) {
+                            showItemDetails(item);
+                        } else {
+                            hideItemDetails();
+                        }
+                        updateSummary();
+                    });
+                }
+                
+                // Mise à jour du récapitulatif en temps réel
+                const inputs = ['nom', 'email', 'telephone', 'date'];
+                inputs.forEach(id => {
+                    const input = document.getElementById(id);
+                    if (input) {
+                        input.addEventListener('input', updateSummary);
+                    }
+                });
+                
+                // Formulaire
+                const form = document.getElementById('reservationForm');
+                if (form) {
+                    form.addEventListener('submit', handleSubmit);
+                }
+                
+                // Validation email
+                const emailInput = document.getElementById('email');
+                if (emailInput) {
+                    emailInput.addEventListener('blur', function() {
+                        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        if (this.value && !emailRegex.test(this.value)) {
+                            this.style.borderColor = 'var(--danger)';
+                        } else {
+                            this.style.borderColor = '';
+                        }
+                    });
+                }
+                
+                // Formatage téléphone
+                const telephoneInput = document.getElementById('telephone');
+                if (telephoneInput) {
+                    telephoneInput.addEventListener('input', function() {
+                        this.value = this.value.replace(/[^\d+]/g, '');
+                    });
+                }
+            }
+            
+            async function handleSubmit(e) {
+                e.preventDefault();
+                
+                const submitBtn = e.target.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                
+                try {
+                    // Validation
+                    const validation = validateForm();
+                    if (!validation.isValid) {
+                        validation.errors.forEach(error => {
+                            showNotification(error, 'error');
+                        });
+                        return;
+                    }
+                    
+                    // Préparer les données
+                    const reservationData = {
+                        itemId: parseInt(document.getElementById('item-select').value),
+                        nom: document.getElementById('nom').value.trim(),
+                        email: document.getElementById('email').value.trim(),
+                        telephone: document.getElementById('telephone').value.trim(),
+                        date: document.getElementById('date').value,
+                        message: document.getElementById('message').value.trim(),
+                        dateReservation: new Date().toISOString()
+                    };
+                    
+                    // Récupérer les détails de l'item
+                    const item = dataManager.getItemById(reservationData.itemId);
+                    if (!item) {
+                        showNotification('Veuillez sélectionner un Article', 'error');
+                        return;
+                    }
+                    
+                    // Ajouter les détails de l'item
+                    reservationData.item = item.titre;
+                    reservationData.itemType = item.localisation ? 'residence' : 'vehicule';
+                    reservationData.prix = item.prix;
+                    
+                    // Bouton en cours de traitement
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Traitement...';
+                    submitBtn.disabled = true;
+                    
+                    // Ici, vous devriez envoyer la réservation à votre backend
+                    // Pour l'instant, on simule un envoi réussi
+                    setTimeout(() => {
+                        // Afficher la confirmation
+                        showConfirmation(reservationData, item);
+                        
+                        // Envoyer la notification WhatsApp
+                        sendWhatsAppNotification(reservationData, item);
+                        
+                        // Réinitialiser le formulaire
+                        e.target.reset();
+                        hideItemDetails();
+                        initDatePicker();
+                        updateSummary();
+                        
+                        // Restaurer le bouton
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
+                    }, 1500);
+                    
+                } catch (error) {
+                    console.error('Erreur réservation:', error);
+                    showNotification('Une erreur est survenue. Veuillez réessayer.', 'error');
+                    
+                    // Restaurer le bouton
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }
+            }
+            
+            function validateForm() {
+                const errors = [];
+                const requiredFields = ['nom', 'email', 'telephone', 'date', 'item-select'];
+                
+                requiredFields.forEach(fieldId => {
+                    const field = document.getElementById(fieldId);
+                    if (!field || !field.value.trim()) {
+                        errors.push(`Le champ ${getFieldLabel(fieldId)} est requis`);
+                        field?.classList.add('error');
+                    } else {
+                        field?.classList.remove('error');
+                    }
+                });
+                
+                // Validation email
+                const email = document.getElementById('email');
+                if (email && email.value) {
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(email.value)) {
+                        errors.push('Format d\'email invalide');
+                        email.classList.add('error');
+                    }
+                }
+                
+                return {
+                    isValid: errors.length === 0,
+                    errors: errors
+                };
+            }
+            
+            function getFieldLabel(fieldId) {
+                const labels = {
+                    'nom': 'Nom complet',
+                    'email': 'Email',
+                    'telephone': 'Téléphone',
+                    'date': 'Date',
+                    'item-select': 'Article'
+                };
+                return labels[fieldId] || fieldId;
+            }
+            
+            function showNotification(message, type = 'info') {
+                // Utiliser SweetAlert2 si disponible
+                if (typeof Swal !== 'undefined') {
+                    Swal.fire({
+                        icon: type,
+                        title: message,
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                } else {
+                    alert(message);
+                }
+            }
+            
+            function showConfirmation(reservation, item) {
+                const modal = document.getElementById('confirmationModal');
+                const modalMessage = document.getElementById('modalMessage');
+                
+                if (!modal || !modalMessage) return;
+                
+                const message = `
+                    Votre réservation pour "${item.titre}" a été enregistrée avec succès.<br><br>
+                    <strong>Prix:</strong> ${formatPrice(item.prix, item.categorie === 'location')}<br>
+                    <strong>Date:</strong> ${new Date(reservation.date).toLocaleDateString('fr-FR')}<br><br>
+                    Notre équipe vous contactera au <strong>${reservation.telephone}</strong> dans les plus brefs délais.
+                `;
+                
+                modalMessage.innerHTML = message;
+                modal.style.display = 'flex';
+            }
+            
+            function closeModal() {
+                const modal = document.getElementById('confirmationModal');
+                if (modal) {
+                    modal.style.display = 'none';
+                }
+            }
+            
+            function sendWhatsAppNotification(reservation, item) {
+                try {
+                    const settings = dataManager.getSettings();
+                    const businessName = settings.name || 'GRÂCE AUTO SERVICE-CI-BKT';
+                    const whatsappNumber = '2250748735115';
+                    
+                    const itemType = item.localisation ? 'Résidence' : 'Véhicule';
+                    const serviceType = item.categorie === 'vente' ? 'Achat' : 'Location';
+                    
+                    let message = `🛎️ *NOUVELLE RÉSERVATION - ${businessName}* 🛎️\n\n`;
+                    message += `*📋 SERVICE:* ${serviceType} ${itemType}\n`;
+                    message += `*${itemType === 'Résidence' ? '🏠' : '🚗'} ÉLÉMENT:* ${item.titre}\n`;
+                    message += `*💰 MONTANT:* ${formatPrice(item.prix, item.categorie === 'location')}\n\n`;
+                    message += `*👤 INFORMATIONS CLIENT:*\n`;
+                    message += `• *Nom:* ${reservation.nom}\n`;
+                    message += `• *Email:* ${reservation.email || 'Non fourni'}\n`;
+                    message += `• *Téléphone:* ${reservation.telephone}\n`;
+                    message += `• *Date souhaitée:* ${new Date(reservation.date).toLocaleDateString('fr-FR')}\n\n`;
+                    
+                    if (reservation.message) {
+                        message += `*💬 MESSAGE:*\n${reservation.message}\n\n`;
+                    }
+                    
+                    message += `---\n`;
+                    message += `*📧 Contact:* ${settings.contactEmail || 'graceautoservice88@gmail.com'}\n`;
+                    message += `*📞 Téléphone:* ${settings.contactPhone || '+225 0748735115'}\n`;
+                    message += `*🕒 Date:* ${new Date().toLocaleString('fr-FR')}`;
+                    
+                    const encodedMessage = encodeURIComponent(message);
+                    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+                    
+                    // Ouvrir dans un nouvel onglet
+                    window.open(whatsappUrl, '_blank');
+                    
+                } catch (error) {
+                    console.error('Erreur WhatsApp:', error);
+                    // Fallback simple
+                    window.open(`https://wa.me/2250748735115`, '_blank');
+                }
+            }
+            
+            // Gestionnaire d'événements pour les données
+            window.addEventListener('dataLoaded', function() {
+                console.log('🔄 Données chargées pour reservation.html');
+                loadItemsForReservation();
+                initializeSiteSettings();
+                initEventListeners();
                 initDatePicker();
                 updateSummary();
-                
-                // Restaurer le bouton
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-            }, 1500);
-            
-        } catch (error) {
-            console.error('Erreur réservation:', error);
-            showNotification('Une erreur est survenue. Veuillez réessayer.', 'error');
-            
-            // Restaurer le bouton
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-        }
-    }
-    
-    function validateForm() {
-        const errors = [];
-        const requiredFields = ['nom', 'email', 'telephone', 'date', 'item-select'];
-        
-        requiredFields.forEach(fieldId => {
-            const field = document.getElementById(fieldId);
-            if (!field || !field.value.trim()) {
-                errors.push(`Le champ ${getFieldLabel(fieldId)} est requis`);
-                field?.classList.add('error');
-            } else {
-                field?.classList.remove('error');
-            }
-        });
-        
-        // Validation email
-        const email = document.getElementById('email');
-        if (email && email.value) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email.value)) {
-                errors.push('Format d\'email invalide');
-                email.classList.add('error');
-            }
-        }
-        
-        return {
-            isValid: errors.length === 0,
-            errors: errors
-        };
-    }
-    
-    function getFieldLabel(fieldId) {
-        const labels = {
-            'nom': 'Nom complet',
-            'email': 'Email',
-            'telephone': 'Téléphone',
-            'date': 'Date',
-            'item-select': 'Article'
-        };
-        return labels[fieldId] || fieldId;
-    }
-    
-    function showNotification(message, type = 'info') {
-        // Utiliser SweetAlert2 si disponible
-        if (typeof Swal !== 'undefined') {
-            Swal.fire({
-                icon: type,
-                title: message,
-                showConfirmButton: false,
-                timer: 3000
             });
-        } else {
-            alert(message);
-        }
-    }
-    
-    function showConfirmation(reservation, item) {
-        const modal = document.getElementById('confirmationModal');
-        const modalMessage = document.getElementById('modalMessage');
-        
-        if (!modal || !modalMessage) return;
-        
-        const message = `
-            Votre réservation pour "${item.titre}" a été enregistrée avec succès.<br><br>
-            <strong>Prix:</strong> ${formatPrice(item.prix, item.categorie === 'location')}<br>
-            <strong>Date:</strong> ${new Date(reservation.date).toLocaleDateString('fr-FR')}<br><br>
-            Notre équipe vous contactera au <strong>${reservation.telephone}</strong> dans les plus brefs délais.
-        `;
-        
-        modalMessage.innerHTML = message;
-        modal.style.display = 'flex';
-    }
-    
-    function closeModal() {
-        const modal = document.getElementById('confirmationModal');
-        if (modal) {
-            modal.style.display = 'none';
-        }
-    }
-    
-    function sendWhatsAppNotification(reservation, item) {
-        try {
-            const settings = dataManager.getSettings();
-            const businessName = settings.name || 'GRÂCE AUTO SERVICE-CI-BKT';
-            const whatsappNumber = '2250748735115';
             
-            const itemType = item.localisation ? 'Résidence' : 'Véhicule';
-            const serviceType = item.categorie === 'vente' ? 'Achat' : 'Location';
-            
-            let message = `🛎️ *NOUVELLE RÉSERVATION - ${businessName}* 🛎️\n\n`;
-            message += `*📋 SERVICE:* ${serviceType} ${itemType}\n`;
-            message += `*${itemType === 'Résidence' ? '🏠' : '🚗'} ÉLÉMENT:* ${item.titre}\n`;
-            message += `*💰 MONTANT:* ${formatPrice(item.prix, item.categorie === 'location')}\n\n`;
-            message += `*👤 INFORMATIONS CLIENT:*\n`;
-            message += `• *Nom:* ${reservation.nom}\n`;
-            message += `• *Email:* ${reservation.email || 'Non fourni'}\n`;
-            message += `• *Téléphone:* ${reservation.telephone}\n`;
-            message += `• *Date souhaitée:* ${new Date(reservation.date).toLocaleDateString('fr-FR')}\n\n`;
-            
-            if (reservation.message) {
-                message += `*💬 MESSAGE:*\n${reservation.message}\n\n`;
+            // Si les données sont déjà chargées
+            if (dataManager.data) {
+                console.log('📦 Données déjà disponibles pour reservation.html');
+                loadItemsForReservation();
+                initializeSiteSettings();
+                initEventListeners();
+                initDatePicker();
+                updateSummary();
             }
             
-            message += `---\n`;
-            message += `*📧 Contact:* ${settings.contactEmail || 'graceautoservice88@gmail.com'}\n`;
-            message += `*📞 Téléphone:* ${settings.contactPhone || '+225 0748735115'}\n`;
-            message += `*🕒 Date:* ${new Date().toLocaleString('fr-FR')}`;
+            // Fermer avec ESC
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeModal();
+                }
+            });
             
-            const encodedMessage = encodeURIComponent(message);
-            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+            // Fermer en cliquant à l'extérieur
+            window.onclick = (e) => {
+                const modal = document.getElementById('confirmationModal');
+                if (e.target === modal) {
+                    closeModal();
+                }
+            };
             
-            // Ouvrir dans un nouvel onglet
-            window.open(whatsappUrl, '_blank');
-            
-        } catch (error) {
-            console.error('Erreur WhatsApp:', error);
-            // Fallback simple
-            window.open(`https://wa.me/2250748735115`, '_blank');
-        }
-    }
-    
-    // Gestionnaire d'événements pour les données
-    window.addEventListener('dataLoaded', function() {
-        console.log('🔄 Données chargées pour reservation.html');
-        loadItemsForReservation();
-        initializeSiteSettings();
-        initEventListeners();
-        initDatePicker();
-        updateSummary();
-    });
-    
-    // Si les données sont déjà chargées
-    if (dataManager.data) {
-        console.log('📦 Données déjà disponibles pour reservation.html');
-        loadItemsForReservation();
-        initializeSiteSettings();
-        initEventListeners();
-        initDatePicker();
-        updateSummary();
-    }
-    
-    // Fermer avec ESC
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            closeModal();
-        }
-    });
-    
-    // Fermer en cliquant à l'extérieur
-    window.onclick = (e) => {
-        const modal = document.getElementById('confirmationModal');
-        if (e.target === modal) {
-            closeModal();
-        }
-    };
-    
-    // Exposer closeModal globalement
-    window.closeModal = closeModal;
-});
-</script>
+            // Exposer closeModal globalement
+            window.closeModal = closeModal;
+        });
+    </script>
 </body>
 </html>
