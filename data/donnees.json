@@ -97,6 +97,19 @@
       "type": "SUV",
       "createdAt": "2024-01-01T10:00:00.000Z"
     },
+    {
+      "id": 40,
+      "titre": "RANGE ROVER VOGUE 2019",
+      "categorie": "vente",
+      "prix": 22000000,
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaXN3v-XzAvRMCJ7_TSbkx_gkFfLDJP3rsbg&s",
+      "description": "SUV familial offrant un bon équilibre entre style moderne, technologie et praticité.",
+      "caracteristiques": ["Start", "Essence: V8", "Kilomètrage: 62644 km", "Caméra De Recul", "Volant multifonctions", "Toit panoramique","rétroviseur électronique" ],
+      "disponible": true,
+      "type": "4x4",
+      "createdAt": "2024-01-01T10:00:00.000Z"
+    },
+    
 
     {
       "id": 9,
@@ -280,6 +293,7 @@
   "lastUpdate": "2024-01-01T10:00:00.000Z"
 
 }
+
 
 
 
